@@ -1,0 +1,38 @@
+<div class="block-menu">
+    <div class="block-menu-title">{{ .text }}</div>
+    {{ if .options }}
+    {{ range .options }}
+    {{ if eq .hidden false }}
+    <div class="block-menu-items">
+        <div class="group-menu">
+            <div class="group-menu-title">{{ .text }}</div>
+            {{ if .options }}
+            {{ range .options }}
+            {{ if eq .hidden false }}
+            <div class="group-menu-items">
+                {{ if .link }}
+                <a href="{{ .link }}" data-submenu-id="subitems-group-0100" class="item-menu-title ">{{ .text }}</a>
+                {{ else }}
+                <a href="" data-submenu-id="subitems-group-0101" class="item-menu-title  has-subitems ">{{ .text }}</a>
+                {{ if .options }}
+                {{ range .options }}
+                <div class="item-menu-subitems" id="subitems-group-0101" data-items="3">
+                    {{ if .link }}
+                    <a href="{{ .link }}" class="subitem-menu-title">{{ .text }}</a>
+                    {{ else }}
+                    <a href="" class="subitem-menu-title">{{ .text }}</a>
+                    {{ end }}
+                </div>
+                {{ end }}
+                {{ end }}
+                {{ end }}
+            </div>
+            {{ end }}
+            {{ end }}
+            {{ end }}
+        </div>
+    </div>
+    {{ end }}
+    {{ end }}
+    {{ end }}
+</div>

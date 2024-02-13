@@ -1,0 +1,29 @@
+RewriteEngine on
+RewriteBase /
+Header set Strict-Transport-Security "max-age=31536000"
+Header set X-Frame-Options "SAMEORIGIN"
+{{$privateCond := ""}}{{$templateUrl:= ""}}
+{{ if and .Site.Params.readRedirects (eq .Site.Params.readRedirects true) }}{{ readFile "redirects.htaccess" }}{{ end }}
+{{ $redirectTo := "" }}{{ range $p := .Site.Pages -}}{{ $length := .Aliases | len }}{{if .Params.redirectTo }}{{$redirectTo = .Params.redirectTo }}
+RewriteRule ^{{ replaceRE "/?(.*)" "$1" $p.RelPermalink }}?$ {{ $redirectTo }} [L,R=301]{{else}}{{ range $index, $item := .Aliases }}{{ if not (eq $index 0) }}
+RewriteRule ^{{ replaceRE "/?(.*)" "$1" . }}?$ {{ $p.Permalink }} [L,R=301]{{ end }}{{ end }}{{ end }}{{ if and .Params.Private (eq .Params.Private true) }}{{ $templateUrl = replaceRE "\\/" "" .URL }}{{ $privateCond = print $privateCond "\nRewriteCond %{REQUEST_URI} !" $templateUrl ".*$" }}{{ end }}{{ end }}
+
+{{ if eq .Site.Params.enablePrivatePages true }} 
+AuthType Basic
+AuthName "Restricted Files"
+AuthBasicProvider file
+AuthUserFile "/var/www/conf/.htpasswd"
+Require valid-user
+
+Order allow,deny
+Allow from env=ALLOW_AUTHORIZATION
+Satisfy any
+
+RewriteCond %{REQUEST_URI} !/private-.*${{ $privateCond }}
+RewriteRule .*$ - [E=ALLOW_AUTHORIZATION:1]
+{{ end }}
+RewriteCond $1 [A-Z]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?(.*)$ {{.Site.BaseURL}}${lowercase:$1} [R=301,L]
+#lowercase rewrite map added in litespeed configs (Configuration -> Virtual hosts -> Rewrite)
+ErrorDocument 404 /application-platform-docs/404.html

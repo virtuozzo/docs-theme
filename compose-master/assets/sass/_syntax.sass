@@ -1,0 +1,131 @@
+code
+  min-width: 100%
+  max-width: 100%
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+  &.noClass
+    color: #0075df
+    white-space: normal
+
+.highlight
+  display: grid
+  margin: 1.25rem 0
+  border-radius: 10px
+  box-shadow: rgba(94, 108, 158, 0.3) 0 0 10px 0
+
+  @media (max-width: 899.98px)
+    overflow: auto
+  table
+    margin: 0 !important
+    border-spacing: 0
+
+  & &
+    margin: 0
+
+
+  pre
+    @media (min-width: 900px)
+      display: grid
+      padding: 0
+      overflow-x: auto
+
+  .lntd
+    min-width: auto
+    &:first-child
+      background: #CB333B
+      font-size: 100%
+      color: #fff
+      letter-spacing: -1px
+      height: 100%
+      border-radius: 10px 0 0 10px
+      padding: 0 7px
+      text-align: right
+      @media (max-width: 899.98px)
+        padding-left: 10px
+        padding-right: 10px
+      @media (min-width: 900px)
+        min-width: 30px
+      @media (max-width: 576px)
+        padding-left: 5px
+        padding-right: 5px
+      pre
+        padding: 0
+        overflow: visible
+        display: block
+    &:last-child
+      width: 100%
+      padding-left: 15px
+      background: #fff
+      border-radius: 0 10px 10px 0
+
+.chroma
+
+  .x, .err
+
+
+  .lntable
+    border-spacing: 0
+    padding: 0
+    margin: 0
+    border: 0
+    width: auto
+    overflow: auto
+    display: block
+    font-size: 14px
+
+  .hl
+    display: block
+    width: 100%
+    background-color: #ffffcc
+
+  .ln
+    margin-right: 0.4em
+    padding: 0 0.4em 0 0.4em
+    color: #7f7f7f
+
+  .k, .kc, .kd, .kn, .kp, .kr
+    color: #0787fb
+
+  .kt
+    color: #2b91af
+
+  .na, .nb, .bp
+    color: #E85858
+
+  .nc
+    color: #2b91af
+
+  .no, .nd, .ni, .ne, .nf, .fm, .nl, .nn, .nx, .py, .nt, .nv, .vc, .vg, .vi, .vm, .l, .ld
+    color: #905
+
+  .s, .sa, .sb, .sc, .dl, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss
+    color: #00BEA7
+
+  .m, .mb, .mf, .mh, .mi, .il, .mo, .o
+
+  .ow
+    color: #0000ff
+
+  .p
+
+  .c, .ch, .cm, .c1, .cs
+    color: #b3b3b3
+
+  .cp, .cpf
+    color: #0000ff
+
+  .g, .gd
+
+  .ge
+    font-style: italic
+
+  .gr
+
+  .gh
+    font-weight: bold
+
+  .gi, .go
+
+  .gp, .gs, .gu
+    font-weight: bold
+
+  .gt, .gl, .w

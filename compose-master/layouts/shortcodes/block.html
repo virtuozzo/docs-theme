@@ -1,0 +1,14 @@
+<div id="doc_" class="block">
+    {{ $title := (replaceRE ".span.*<span>(.*)</span></span>" "$1" .Params.title) }}
+{{ if eq .Ordinal 0 }}
+    <h1 class="title">
+        <span>{{ $title }}</span>
+    </h1>
+{{ else }}
+    <h2>{{ replaceRE ".span.*>(.*)</span>" "$1" $title }}</h2>
+{{ end }}
+
+    <div class="text">
+        {{ safeHTML (replace .Inner "table" "table class=\"table table-bordered table-condensed\"") }}
+    </div>
+</div>

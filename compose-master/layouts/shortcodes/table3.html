@@ -1,0 +1,22 @@
+{{ $_hugo_config := `{ "version": 1 }` }}
+<div class="table-default">
+    <table class="table3 title">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <tbody>
+        <tr>
+            <th colspan="3">
+                {{safeHTML .Params.title}}
+            </th>
+        </tr>
+        <tr>
+            <th colspan="3">
+                {{.Inner}}
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,6 @@
+{{ $store := index .Site.Data.content .Params.name }}
+{{ range $item := $store.content }}
+    {{ $path := printf "%s" $item }}
+    {{ partial $path }}
+{{ end }}
+

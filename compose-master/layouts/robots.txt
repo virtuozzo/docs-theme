@@ -1,0 +1,6 @@
+User-Agent: *
+Sitemap: https://{{ .Site.Params.hostName }}/sitemap.xml
+Disallow: /private-*{{ $disallow := "" }}{{ $privateCond := "" }}{{range .Pages}}{{ if and .Params.Private (eq .Params.Private true) }}
+Disallow: {{.RelPermalink}}
+{{ end }}{{ end }}
+Allow: /private-registry-inside-paas/

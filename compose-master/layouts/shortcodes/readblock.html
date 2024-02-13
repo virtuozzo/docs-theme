@@ -1,0 +1,6 @@
+{{ $file := .Get "file" }}
+{{ with .Site.GetPage $file }}
+    {{ if not (eq .Params.hidden "true") }}
+        {{ .Content }}
+    {{ end }}
+{{ end }}

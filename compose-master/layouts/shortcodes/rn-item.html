@@ -1,0 +1,4 @@
+{{ $_hugo_config := `{ "version": 1 }` }}
+<div>
+    {{ replaceRE "id=\"[^\"].*\"" "" .Inner | markdownify }}<a class="changes-more" href="{{safeHTML .Params.url }}">Learn more</a>
+</div>

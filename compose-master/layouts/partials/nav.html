@@ -1,0 +1,36 @@
+{{ $headerMenu := getJSON "https://www.virtuozzo.com/wp-json/menus/v1/menus/external-menu" }}
+<div class="jlc-container">
+    <div class="menu-content">
+        <div class="logo-part">
+            <div class="left-header">
+                <a class="jelastic-logo" href="{{ .Site.BaseURL }}">
+                    {{ if .Site.Params.logo }}
+                    <img class="main-logo nolaz {{ .Site.Params.logoClass }}" alt="{{ .Site.Params.pageSeoTitle }}"
+                         width="{{ .Site.Params.logoWidth }}" height="{{ .Site.Params.logoHeight }}"
+                         src="{{ .Site.BaseURL }}images/{{ .Site.Params.logo }}">
+                    {{ end }}
+                    <img class="mobile-logo nolaz" alt="Jelastic" width="180" height="35"
+                         src="{{ .Site.BaseURL }}images/VZ_Logo.svg">
+                </a>
+                <span class="sidebar-menu">Docs menu</span>
+            </div>
+            <span class="menu-mobile"><span>MENU</span></span>
+        </div>
+        <div class="menu-container">
+            <div class="menu header-menu">
+                <ul>
+                    {{ $current_link := print "https://" .Page.Site.Params.hostName }}
+                    {{ if .Page.Params.menu.docs.url }}
+                    {{ $current_link = print $current_link .Page.Params.menu.docs.url }}
+                    {{ else }}
+                    {{ $current_link = print $current_link "/" }}
+                    {{ end }}
+
+                    {{ range $elem_key, $elem_val := $headerMenu.items }}
+                    {{ template "menu-element" (dict "item" $elem_val "current_link" $current_link) }}
+                    {{ end }}
+                </ul>
+            </div>
+        </div>
+    </div><!--/menu-content-->
+</div><!--/container-->

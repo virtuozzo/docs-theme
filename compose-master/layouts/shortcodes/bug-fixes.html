@@ -1,0 +1,21 @@
+{{ $_hugo_config := `{ "version": 1 }` }}
+<div class="table-default">
+    <table class="bug-fixes title">
+        <colgroup>
+            <col width="130">
+            <col width="600">
+        </colgroup>
+        <tbody>
+        <tr>
+            <th colspan="2">
+                {{.Params.title}}
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+                {{.Inner}}
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>

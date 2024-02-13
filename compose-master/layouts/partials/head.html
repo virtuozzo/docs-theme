@@ -1,0 +1,73 @@
+{{ define "menu-element" }}
+
+{{ $childs := false }}
+{{ $classes := .item.classes }}
+{{ $target := "" }}
+{{ $icon := "" }}
+{{ $rel := "" }}
+{{ $uniqClass := print "menu-item-" .item.ID }}
+{{ $classes = $classes | append "menu-item" "menu-item-type-custom" "menu-item-object-custom" $uniqClass }}
+
+{{ if and (isset .item "child_items") (.item.child_items) }}
+{{ $childs = true }}
+{{ $classes = $classes | append "menu-item-has-children" "menu-dropdown-icon" }}
+{{ end }}
+
+
+{{ $current_link := .current_link }}
+{{ if eq $current_link .item.url }}
+{{ $classes = $classes | append "highlighted-menu-item" }}
+{{ end }}
+
+{{ if .item.target }}
+{{ $target = "target='_blank'" }}
+{{ $rel = "rel='noopener'" }}
+{{ end}}
+
+{{ if eq "subscribe-to-our-newsletter" .item.post_name }}
+{{ $icon = "<span class='menu-icon'>»</span>" }}
+{{ end }}
+
+<li id="menu-item-{{ .item.ID }}" class="{{ delimit $classes " " }}">
+
+{{ if .item.url }}
+<a href="{{ .item.url }}" {{ printf "%s" $target | safeHTMLAttr }} {{ printf "%s" $rel | safeHTMLAttr }}>{{ safeHTML $icon }}{{ safeHTML .item.title }}</a>
+{{ else }}
+<a>{{ safeHTML $icon }}{{ safeHTML .item.title }}</a>
+{{ end }}
+
+{{ if $childs }}
+<ul class="sub-menu">
+    {{ range $elem_val := .item.child_items }}
+    {{ template "menu-element" (dict "item" $elem_val "current_link" $current_link) }}
+    {{ end }}
+</ul>
+{{ end }}
+</li>
+{{ end }}
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{- hugo.Generator }}
+{{- $iconsPath := print .Site.BaseURL "favicons/" }}
+<link rel="apple-touch-icon" sizes="180x180" href='{{ absURL (printf "%sapple-touch-icon.png" $iconsPath) }}'>
+<link rel="icon" type="image/png" sizes="32x32" href='{{ absURL (printf "%sfavicon-32x32.png" $iconsPath) }}'>
+<link rel="icon" type="image/png" sizes="16x16" href='{{ absURL (printf "%sfavicon-16x16.png" $iconsPath) }}'>
+<link rel="manifest" href='{{ absURL (printf "%ssite.webmanifest" $iconsPath) }}'>
+<link rel="mask-icon" href='{{ absURL (printf "%ssafari-pinned-tab.svg" $iconsPath) }}' color="#004750">
+<link rel="shortcut icon" href='{{ absURL (printf "%sfavicon.ico" $iconsPath) }}'>
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-config" content='{{ absURL (printf "%sbrowserconfig.xml" $iconsPath) }}'>
+<meta name="theme-color" content="#ffffff">
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ with .Params.Seotitle }}{{ . }} | {{ end }}{{ .Page.Site.Params.pageSeoTitle }}{{ end }}</title>
+
+<meta name="description" content="{{ .Params.Seodesc }}">
+<meta name="keywords" content="{{ .Params.Seokeywords }}">
+<meta name="robots" content="{{ .Params.Seoindex }}"/>
+{{- partial "opengraph" . }}
+{{- $options := (dict "targetPath" "css/styles.css" "outputStyle" "compressed" "enableSourceMap" "true") -}}
+{{- $styles := resources.Get "/sass/main.sass" | resources.ExecuteAsTemplate "main.sass" . | resources.ToCSS $options }}
+
+<link rel='stylesheet' href='{{ $styles.Permalink }}'>
+
+{{ template "partials/ga.html" . }}

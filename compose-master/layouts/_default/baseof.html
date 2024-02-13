@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="{{ .Site.Language.Lang }}">
+<head>
+  {{- partial "head" . }}
+</head>
+<body class="line-numbers page-{{ .Kind }}">
+
+{{ define "menu-element" }}
+
+{{ $childs := false }}
+{{ $classes := .item.classes }}
+{{ $uniqClass := print "menu-item-" .item.ID }}
+{{ $classes = $classes | append "menu-item" "menu-item-type-custom" "menu-item-object-custom" $uniqClass }}
+
+{{ if and (isset .item "child_items") (.item.child_items) }}
+{{ $childs = true }}
+{{ $classes = $classes | append "menu-item-has-children" "menu-dropdown-icon" }}
+{{ end }}
+
+
+<li id="menu-item-{{ .item.ID }}" class="{{ delimit $classes " " }}">
+{{ if .item.url }}
+<a href="{{ .item.url }}">{{ safeHTML .item.title }}</a>
+{{ else }}
+<a>{{ safeHTML .item.title }}</a>
+{{ end }}
+
+{{ if $childs }}
+<ul class="sub-menu">
+  {{ range $elem_val := .item.child_items }}
+  {{ template "menu-element" (dict "item" $elem_val) }}
+  {{ end }}
+</ul>
+{{ end }}
+</li>
+{{ end }}
+<div class="page-wrapper">
+  <header class="header" id="top">
+
+    {{- partial "nav" . }}
+
+  </header>
+  <div class="main-content-wrapper">
+    <div class="banner">
+      <div class="jlc-container">
+        This is a documentation portal for Virtuozzo PaaS solutions, previously known as <a href="https://jelastic.com" target="_blank">Jelastic</a>.
+      </div>
+    </div>
+    <div class="container">
+
+  {{- partial "sidebar" . }}
+  <main class="main">
+    {{- if eq .Section "docs" }}
+    {{- partial "document" . }}
+    {{- else }}
+    {{- block "main" . }}{{ end }}
+    {{- end }}
+  </main>
+  <div id="footer"></div>
+</div>
+</div>
+  {{- partial "footer" . }}
+  {{- partial "scripts" . }}
+</div>
+</body>
+</html>

@@ -1,0 +1,190 @@
+code[class*="language-"],
+pre[class*="language-"] 
+	color: #333
+	background: none
+	text-shadow: 0 1px white
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+	font-size: 14px
+	text-align: left
+	white-space: pre
+	word-spacing: normal
+	word-break: normal
+	word-wrap: normal
+	line-height: 1.5
+	background-color: rgb(255, 255, 255)
+	box-shadow: 0 0 10px 0 rgba(94, 108, 158, 0.3)
+	border-radius: 10px
+
+	-moz-tab-size: 4
+	-o-tab-size: 4
+	tab-size: 4
+
+	-webkit-hyphens: none
+	-moz-hyphens: none
+	-ms-hyphens: none
+	hyphens: none 
+
+pre[class*="language-"] code[class*="language-"] 
+	box-shadow: none 
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection 
+	text-shadow: none
+	background: #b3d4fc 
+
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection 
+	text-shadow: none
+	background: #b3d4fc 
+
+
+@media print 
+code[class*="language-"],
+pre[class*="language-"] 
+	text-shadow: none 
+
+
+
+pre[class*="language-"] 
+	padding: 1em
+	margin: 0
+	overflow: auto 
+
+
+//:not(pre) > code[class*="language-"],
+//pre[class*="language-"]
+//	background: #f5f2f0
+//
+//
+//:not(pre) > code[class*="language-"]
+//	padding: .1em
+//	border-radius: .3em
+//	white-space: normal
+
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata 
+	color: slategray 
+
+
+.token.punctuation 
+	color: #999 
+
+
+.token.namespace 
+	opacity: .7 
+
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted 
+	color: #905 
+
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted 
+	color: #00BEA7
+
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string 
+	color: #9a6e3a
+	/* This background color was intended by the author of this theme. */
+	background: hsla(0, 0%, 100%, .5) 
+
+
+.token.atrule,
+.token.attr-value,
+.token.keyword 
+	color: #0088FB
+
+
+.token.function,
+.token.class-name 
+	color: #E85858
+
+
+.token.regex,
+.token.important,
+.token.variable 
+	color: #e90 
+
+
+.token.important,
+.token.bold 
+	font-weight: bold 
+
+.token.italic 
+	font-style: italic 
+
+
+.token.entity 
+	cursor: help 
+
+
+pre[class*="language-"].line-numbers 
+	position: relative
+	padding-left: 50px
+	counter-reset: linenumber
+	@media (min-width: 900px)
+		transform: translateZ(0)
+
+ul, ol
+	pre[class*="language-"].line-numbers
+		margin: 1em 0
+
+
+pre[class*="language-"].line-numbers > code 
+	white-space: inherit
+	border-radius: 0
+	@media (min-width: 900px)
+		position: relative
+		overflow: auto
+
+
+.line-numbers .line-numbers-rows
+	pointer-events: none
+	font-size: 100%
+	width: 30px
+	letter-spacing: -1px
+	-webkit-user-select: none
+	-moz-user-select: none
+	-ms-user-select: none
+	user-select: none
+	height: 100%
+	top: 0
+	left: 0
+	padding: 16px 0
+	background: #CB333B
+	border-radius: 10px 0 0 10px
+	position: absolute
+	@media (min-width: 900px)
+		position: fixed
+		transform: translateX(-50%)
+		left: 15px
+
+.line-numbers-rows > span 
+	display: block
+	counter-increment: linenumber 
+
+
+.line-numbers-rows > span:before 
+	content: counter(linenumber)
+	color: #fff
+	display: block
+	padding-right: 6px
+	text-align: right 

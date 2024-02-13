@@ -1,0 +1,107 @@
+{{- define "main" }}
+
+{{- .Content }}
+
+{{ if .Params.video }}
+
+
+<div class="youtube-lazy" data-embed="{{ .Params.video }}" data-alt="Virtuozzo Multi-Cloud PaaS Admin Panel Guide">
+    <div class="play-button"></div>
+</div>
+
+{{ else }}
+
+<ul class="logolinks">
+    <li><a href="/java-center/">
+        <div class="img-wrap"><img width="49" height="62" src="{{ .Site.BaseURL }}images/java-active.svg" alt="java"></div>
+        Java</a></li>
+    <li><a href="/php-center/">
+        <div class="img-wrap"><img width="60" height="43" src="{{ .Site.BaseURL }}images/php-active.svg" alt="php"></div>
+        PHP</a></li>
+    <li><a href="/nodejs-center/">
+        <div class="img-wrap"><img width="43" height="49" src="{{ .Site.BaseURL }}images/node-active.svg" alt="node"></div>
+        Node.js</a></li>
+    <li><a href="/python-center/">
+        <div class="img-wrap"><img width="47" height="47" src="{{ .Site.BaseURL }}images/python-active.svg" alt="python"></div>
+        Python</a></li>
+    <li><a href="/go-center/">
+        <div class="img-wrap"><img width="84" height="31" src="{{ .Site.BaseURL }}images/go-active.svg" alt="go"></div>
+        Go Lang</a></li>
+    <li><a href="/ruby-center/">
+        <div class="img-wrap"><img width="42" height="42" src="{{ .Site.BaseURL }}images/ruby-active.svg" alt="ruby"></div>
+        Ruby</a></li>
+    <li><a href="/net-core/">
+        <div class="img-wrap"><img width="70" height="28" src="{{ .Site.BaseURL }}images/dotnet.svg" alt="NET"></div>
+        .NET</a></li>
+    <li><a href="/container-types/">
+        <div class="img-wrap"><img width="26" height="19" src="{{ .Site.BaseURL }}images/container.svg" alt="container"></div>
+        Containers</a></li>
+    <li><a href="/kubernetes-cluster/">
+        <div class="img-wrap"><img width="64" height="62" src="{{ .Site.BaseURL }}images/kubernetes-icon-b.svg" alt="ruby"></div>
+        Kubernetes</a></li>
+    <li><a href="/database-hosting/">
+        <div class="img-wrap"><img width="40" height="43" src="{{ .Site.BaseURL }}images/databases.svg" alt="ruby"></div>
+        Databases</a></li>
+    <li><a href="/load-balancing/">
+        <div class="img-wrap"><img width="52" height="42" src="{{ .Site.BaseURL }}images/lb-b.svg" alt="ruby"></div>
+        Load Balancer</a></li>
+    <li><a href="/vps/">
+        <div class="img-wrap"><img width="96" height="99" src="{{ .Site.BaseURL }}images/hosting-b.svg" alt="ruby"></div>
+        Elastic VPS</a></li>
+    <li><a href="/shared-storage-container/">
+        <div class="img-wrap"><img width="30" height="40" src="{{ .Site.BaseURL }}images/storage-b.svg" alt="ruby"></div>
+        Storage</a></li>
+    <li><a href="/memcached/">
+        <div class="img-wrap"><img width="40" height="43" src="{{ .Site.BaseURL }}images/cache.svg" alt="ruby"></div>
+        Cache</a></li>
+</ul>
+{{ end }}
+
+
+{{ if .Params.links }}
+{{ $quickstart :=  .Params.links.quickstart }}
+{{ $recommended :=  .Params.links.recommended }}
+{{ $gettinginfo :=  .Params.links.gettinginfo }}
+<div class="frontbottom-menu">
+    <div class="frontbottom-menu-item">
+        <h2 class="frontbottom-menu-title">Quick Start</h2>
+        <ul>
+            {{ range $index, $elem_val := $quickstart }}
+            {{ range $title, $link := $elem_val }}
+            <li><a href="{{ $link }}">{{ $title }}</a></li>
+            {{ end }}
+            {{ end }}
+        </ul>
+    </div>
+    <div class="frontbottom-menu-item">
+        <h2 class="frontbottom-menu-title">Recommended</h2>
+        <ul>
+            {{ range $index, $elem_val := $recommended }}
+            {{ range $title, $link := $elem_val }}
+            <li><a href="{{ $link }}">{{ $title }}</a></li>
+            {{ end }}
+            {{ end }}
+        </ul>
+    </div>
+    <div class="frontbottom-menu-item">
+        <h2 class="frontbottom-menu-title">Getting Info</h2>
+        <ul>
+            {{ range $index, $elem_val := $gettinginfo }}
+            {{ range $title, $link := $elem_val }}
+            <li><a href="{{ $link }}">{{ $title }}</a></li>
+            {{ end }}
+            {{ end }}
+        </ul>
+    </div>
+</div>
+{{- end }}
+
+{{ if .Params.gethosted }}
+<div class="text-center">
+    <a class="btn" href="{{ .Params.gethosted }}" target="_blank" rel="noopener">get
+        started now</a>
+</div>
+{{- end }}
+
+
+{{- end }}

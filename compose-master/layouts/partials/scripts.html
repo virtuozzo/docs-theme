@@ -1,0 +1,29 @@
+{{- $jqueryScriptPath := "js/jquery-3.5.1.min.js" }}
+{{- $jquery := resources.Get $jqueryScriptPath | resources.ExecuteAsTemplate $jqueryScriptPath . }}
+
+{{- $fuseScriptPath := "js/fuse.min.js" }}
+{{- $fuse := resources.Get $fuseScriptPath | resources.ExecuteAsTemplate $fuseScriptPath . }}
+
+{{- $markScriptPath := "js/jquery.mark.min.js" }}
+{{- $mark := resources.Get $markScriptPath | resources.ExecuteAsTemplate $markScriptPath . }}
+
+{{- $lunrPath := "js/lunr.js" }}
+{{- $lunr := resources.Get $lunrPath | resources.ExecuteAsTemplate $lunrPath . }}
+
+{{- $searchPath := "js/search.js" }}
+{{- $search := resources.Get $searchPath | resources.ExecuteAsTemplate $searchPath . }}
+
+{{- $youtubelazyPath := "js/component-youtube-lazy.js" }}
+{{- $youtubelazy := resources.Get $youtubelazyPath | resources.ExecuteAsTemplate $youtubelazyPath . }}
+
+{{- $mainScriptPath := "js/index.js" }}
+{{- $main := resources.Get $mainScriptPath | resources.ExecuteAsTemplate $mainScriptPath . }}
+
+{{- $bundle := slice $jquery $fuse $mark $lunr $search $youtubelazy $main | resources.Concat "js/bundle.js" | resources.Minify | resources.Fingerprint "sha512" }}
+
+<!--<script src="{{ $jquery.Permalink }}"></script>-->
+<script async src = '{{ $bundle.Permalink }}'></script>
+
+
+
+
