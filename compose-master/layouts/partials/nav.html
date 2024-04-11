@@ -1,4 +1,4 @@
-{{ $headerMenu := getJSON "https://www.virtuozzo.com/wp-json/menus/v1/menus/external-menu" }}
+{{ $headerMenu := getJSON "http://185.209.82.198/get_menu.php" }}
 {{ $logoLink := .Site.BaseURL }}
 {{ if .Site.Params.logoLink }}
     {{ $logoLink = .Site.Params.logoLink }}
