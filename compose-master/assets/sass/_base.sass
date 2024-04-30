@@ -299,7 +299,7 @@ input
   padding-top: 4px
   padding-bottom: 10px
   background: #fff
-  div
+  .expandable, .subitem-expandable
     &:after
       content: ""
       border: solid #afb6c9
@@ -315,6 +315,10 @@ input
       margin: 15px 0
       height: 1px
       transition: transform .2s
+
+    > a
+      display: inline-block
+      padding-right: 40px
 
     &.open
       &:after
@@ -417,9 +421,6 @@ input
     li
       position: relative
 
-      div
-        padding-right: 40px
-
     .sub-menu-item_has-child
       cursor: pointer
     .sub-menu-item_has-child:hover, .sub-menu-item_has-child.active
@@ -433,11 +434,11 @@ input
 
 
 
-    li.subitem-expandable div:after
+    li.subitem-expandable:after
       padding: 3px
       height: 0
 
-    li.subitem-expandable div.open:after
+    li.subitem-expandable.open:after
       transform: rotate(45deg)
       -webkit-transform: rotate(225deg)
 
@@ -473,11 +474,9 @@ input
       background: #F8F9FF
 
       a
-        position: absolute
-        width: 80%
-        height: 100%
-        top: 0
-        left: 0
+        display: inline-block
+        color: #333
+        text-decoration: none
 
     .menu-item-title:before
       content: ''

@@ -33,131 +33,145 @@
                 {{ $SiteUrl := .Site.BaseURL }}
 
                 {{ range $docIndex, $doc := .Site.Menus.docs }}
-                    {{ $identifier := printf "%s" .Identifier }}
-                    {{ if and $identifier .Weight }}
+                {{ $identifier := printf "%s" .Identifier }}
+                {{ if and $identifier .Weight }}
+                {{ if eq $identifier $parent}}
+                {{ $expanded_current = "expanded" }}
+                {{ else }}
+                {{ $expanded_current = "" }}
+                {{ end }}
+
+
+                {{ $topParent = replace $currentPage.Parent "Page(/" "" }}
+                {{ $topParent = replace $topParent ")" "" }}
+                {{ if in $topParent $identifier }}
+                {{ $expanded = "open" }}
+                {{ else }}
+                {{ $expanded = "" }}
+                {{ end }}
+
+
+                <div class="menu-item {{ $expanded_current }} {{$expanded}}">
+                    <div class="menu-item-title {{.Identifier}} {{$expanded}}">
+                        {{ if .Params.link }}
+                        <a href="{{.Params.link}}">{{ .Title}}1</a>
+                        {{ else }}
+                        {{ .Title}}
+                        {{ end }}
+                    </div>
+                    <ul>
+                        {{ range $index, $item := .Children }}
+                        {{ $block_identifier := printf "%s" $item.Identifier }}
+                        {{ $expanded_current = "" }}
+                        {{ $expanded = "" }}
+                        {{ $identifier = $item.Identifier}}
                         {{ if eq $identifier $parent}}
-                            {{ $expanded_current = "expanded" }}
-                        {{ else }}
-                            {{ $expanded_current = "" }}
+                        {{ $expanded_current = "expanded" }}
                         {{ end }}
 
-
-                        {{ $topParent = replace $currentPage.Parent "Page(/" "" }}
-                        {{ $topParent = replace $topParent ")" "" }}
-                        {{ if in $topParent $identifier }}
-                            {{ $expanded = "open" }}
-                        {{ else }}
-                            {{ $expanded = "" }}
+                        {{ if in $parent $identifier }}
+                        {{ $expanded = "open" }}
                         {{ end }}
 
+                        {{ if $item.HasChildren }}
+                        {{ range $tmpIndex, $tmpItem := $item.Children }}
+                        {{ if $tmpItem.Children }}
+                        {{ range $tmpTmpIndex, $tmpTmpItem := $tmpItem.Children }}
+                        {{ if not $subItemInItem }}
+                        {{ if eq $tmpTmpItem.URL $currentPage.URL }}
+                        {{ $tmpCurrentNeedExpand = $tmpTmpItem.URL }}
+                        {{ $subItemInItem = "expanded" }}
+                        {{ $open = "open" }}
+                        {{ end }}
+                        {{ end }}
+                        {{ end }}
+                        {{ else }}
+                        {{ if eq $tmpItem.URL $currentPage.URL}}
+                        {{ $tmpCurrentNeedExpand = $tmpItem.URL }}
+                        {{ $subItemInItem = "expanded" }}
+                        {{ $open = "open" }}
+                        {{ end }}
+                        {{ end }}
+                        {{ end }}
+                        {{ end }}
 
-                        <div class="menu-item {{ $expanded_current }} {{$expanded}}">
-                            <div class="menu-item-title {{.Identifier}} {{$expanded}}">{{ .Title}}</div>
-                            <ul>
-                                {{ range $index, $item := .Children }}
-                                    {{ $block_identifier := printf "%s" $item.Identifier }}
-                                    {{ $expanded_current = "" }}
-                                    {{ $expanded = "" }}
-                                    {{ $identifier = $item.Identifier}}
-                                    {{ if eq $identifier $parent}}
-                                        {{ $expanded_current = "expanded" }}
+                        <li {{ if .HasChildren }}class="expandable {{$expanded_current}} {{$subItemInItem}} {{if eq $tmpCurrentNeedExpand $currentPage.URL }}{{$open}}{{end}}"{{ end }}>
+                            {{ if .HasChildren }}
+
+                            {{ if .Params.link }}
+                            <a href="{{.Params.link}}">{{ .Title}}2</a>
+                            {{ else }}
+                            <div>{{.Title}}</div>
+                            {{ end }}
+
+                            {{ $open = "" }}
+                            <ul class="{{$expanded_current}} {{$subItemInItem}}">
+                                {{$subItemInItem = ""}}
+                                {{ if $item.HasChildren }}
+                                {{ range $subIndex, $subItem := $item.Children }}
+                                {{ if and .Parent .Weight }}
+                                {{ range $subSubIndex, $subSubItem := $subItem.Children }}
+                                {{ if eq $subSubItem.URL $currentPage.URL}}
+                                {{ $subItemInItem = "expanded" }}
+                                {{ $open = "open" }}
+                                {{ $tmpCurrentNeedExpand = $subSubItem.URL }}
+                                {{ end }}
+                                {{ end }}
+                                <li {{ if .HasChildren }}class="subitem-expandable {{if eq $tmpCurrentNeedExpand $currentPage.URL }}{{$open}}{{end}}"{{ end }}>
+                                    {{ if $subItem.HasChildren }}
+
+                                    {{ if .Params.link }}
+                                    <a href="{{.Params.link}}">{{ .Title}}3</a>
+                                    {{ else }}
+                                    <div>{{.Title}}</div>
                                     {{ end }}
-
-                                    {{ if in $parent $identifier }}
-                                        {{ $expanded = "open" }}
-                                    {{ end }}
-
-                                    {{ if $item.HasChildren }}
-                                        {{ range $tmpIndex, $tmpItem := $item.Children }}
-                                            {{ if $tmpItem.Children }}
-                                                {{ range $tmpTmpIndex, $tmpTmpItem := $tmpItem.Children }}
-                                                    {{ if not $subItemInItem }}
-                                                        {{ if eq $tmpTmpItem.URL $currentPage.URL }}
-                                                            {{ $tmpCurrentNeedExpand = $tmpTmpItem.URL }}
-                                                            {{ $subItemInItem = "expanded" }}
-                                                            {{ $open = "open" }}
-                                                        {{ end }}
-                                                    {{ end }}
-                                                {{ end }}
-                                            {{ else }}
-                                                {{ if eq $tmpItem.URL $currentPage.URL}}
-                                                    {{ $tmpCurrentNeedExpand = $tmpItem.URL }}
-                                                    {{ $subItemInItem = "expanded" }}
-                                                    {{ $open = "open" }}
-                                                {{ end }}
-                                            {{ end }}
+                                    <ul {{if eq $tmpCurrentNeedExpand $currentPage.URL }}class="{{$subItemInItem}}"{{end}}>
+                                        {{$subItemInItem = ""}}
+                                        {{$open = ""}}
+                                        {{ range $subSubIndex, $subSubItem := $subItem.Children }}
+                                        {{ if eq $subSubItem.URL $currentPage.URL }}
+                                        {{ $submenu_menu_item_current = "menu-item-current" }}
                                         {{ end }}
-                                    {{ end }}
-
-                                    <li {{ if .HasChildren }}class="expandable {{$expanded_current}} {{$subItemInItem}}"{{ end }}>
-                                        {{ if .HasChildren }}
-
-                                            <div class="{{if eq $tmpCurrentNeedExpand $currentPage.URL }}{{$open}}{{end}}">{{.Title}}</div>
-                                            {{ $open = "" }}
-                                            <ul class="{{$expanded_current}} {{$subItemInItem}}">
-                                                {{$subItemInItem = ""}}
-                                                {{ if $item.HasChildren }}
-                                                    {{ range $subIndex, $subItem := $item.Children }}
-                                                        {{ if and .Parent .Weight }}
-                                                            <li {{ if .HasChildren }}class="subitem-expandable"{{ end }}>
-                                                                {{ if $subItem.HasChildren }}
-
-                                                                {{ range $subSubIndex, $subSubItem := $subItem.Children }}
-                                                                    {{ if eq $subSubItem.URL $currentPage.URL}}
-                                                                        {{ $subItemInItem = "expanded" }}
-                                                                        {{ $open = "open" }}
-                                                                        {{ $tmpCurrentNeedExpand = $subSubItem.URL }}
-                                                                    {{ end }}
-                                                                {{ end }}
-
-                                                                    <div {{if eq $tmpCurrentNeedExpand $currentPage.URL }}class="{{$open}}"{{end}}>{{.Title}}</div>
-                                                                    <ul {{if eq $tmpCurrentNeedExpand $currentPage.URL }}class="{{$subItemInItem}}"{{end}}>
-                                                                        {{$subItemInItem = ""}}
-                                                                        {{$open = ""}}
-                                                                        {{ range $subSubIndex, $subSubItem := $subItem.Children }}
-                                                                            {{ if eq $subSubItem.URL $currentPage.URL }}
-                                                                                {{ $submenu_menu_item_current = "menu-item-current" }}
-                                                                            {{ end }}
-                                                                            {{ $external := findRE "://" .URL }}
-                                                                            <li><a class="menu-item-text tx-overflow 2 {{$submenu_menu_item_current}}{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} href="{{ .URL }}">{{ .Title }} {{ if findRE .URL "localhost" }}found{{ end }}</a></li>
-                                                                            {{ $submenu_menu_item_current = "" }}
-                                                                        {{ end }}
-                                                                    </ul>
-                                                                {{ else }}
-                                                                    {{ if eq $subItem.URL $currentPage.URL }}
-                                                                        {{ $submenu_menu_item_current = "menu-item-current" }}
-                                                                    {{ end }}
-                                                                    {{ $external := findRE "://" .URL }}
-                                                                    <a class="menu-item-text tx-overflow {{$submenu_menu_item_current}}{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} href="{{ .URL }}">{{ .Title }}</a>
-                                                                    {{ $submenu_menu_item_current = ""}}
-                                                                {{ end }}
-                                                            </li>
-                                                        {{ end }}
-                                                    {{ end }}
-                                                {{ else }}
-                                                {{ $external := findRE "://" .URL }}
-                                                    <li><a class="menu-item-text tx-overflow{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} href="{{ .URL }}">{{ $item.Title }}</a></li>
-                                                {{ end }}
-                                            </ul>
-                                            {{ $subItemInItem = "" }}
-                                        {{ else }}
-                                            {{ if eq $item.URL $currentPage.URL }}
-                                                {{ $submenu_menu_item_current = "menu-item-current" }}
-                                            {{ end }}
-                                            {{ $external := findRE "://" .URL }}
-                                            {{ $private := findRE "/private-" .URL }}
-                                            <a class="{{$submenu_menu_item_current}}{{ if $external }}external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} {{ if $private }} rel="noindex nofollow"{{ end }} href="{{.URL}}">{{.Title}}</a>
-                                            {{ $submenu_menu_item_current = "" }}
+                                        {{ $external := findRE "://" .URL }}
+                                        <li><a class="menu-item-text tx-overflow 2 {{$submenu_menu_item_current}}{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} href="{{ .URL }}">{{ .Title }} {{ if findRE .URL "localhost" }}found{{ end }}</a></li>
+                                        {{ $submenu_menu_item_current = "" }}
                                         {{ end }}
-                                    </li>
+                                    </ul>
+                                    {{ else }}
+                                    {{ if eq $subItem.URL $currentPage.URL }}
+                                    {{ $submenu_menu_item_current = "menu-item-current" }}
+                                    {{ end }}
+                                    {{ $external := findRE "://" .URL }}
+                                    <a class="menu-item-text tx-overflow {{$submenu_menu_item_current}}{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} href="{{ .URL }}">{{ .Title }}</a>
+                                    {{ $submenu_menu_item_current = ""}}
+                                    {{ end }}
+                                </li>
+                                {{ end }}
+                                {{ end }}
+                                {{ else }}
+                                {{ $external := findRE "://" .URL }}
+                                <li><a class="menu-item-text tx-overflow{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} href="{{ .URL }}">{{ $item.Title }}</a></li>
                                 {{ end }}
                             </ul>
-                        </div>
-                        {{ if eq $sidebarValue $identifier }}
-                            {{ $sectionDefine = true }}
-        <!--                INSERT-->
+                            {{ $subItemInItem = "" }}
+                            {{ else }}
+                            {{ if eq $item.URL $currentPage.URL }}
+                            {{ $submenu_menu_item_current = "menu-item-current" }}
+                            {{ end }}
+                            {{ $external := findRE "://" .URL }}
+                            {{ $private := findRE "/private-" .URL }}
+                            <a class="{{$submenu_menu_item_current}}{{ if $external }}external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} {{ if $private }} rel="noindex nofollow"{{ end }} href="{{.URL}}">{{.Title}}</a>
+                            {{ $submenu_menu_item_current = "" }}
+                            {{ end }}
+                        </li>
                         {{ end }}
-                    {{ end }}
+                    </ul>
+                </div>
+                {{ if eq $sidebarValue $identifier }}
+                {{ $sectionDefine = true }}
+                <!--                INSERT-->
+                {{ end }}
+                {{ end }}
                 {{ end }}
             </div>
         </div>

@@ -2,7 +2,7 @@
 jQuery(document).ready(function ($) {
 
     $(document).on('click', '.collapsible .hwrap', function () {
-       $(this).siblings('.bwrap').slideToggle();
+        $(this).siblings('.bwrap').slideToggle();
     });
 
     $("code[class*='language-']").addClass('line-numbers');
@@ -447,7 +447,7 @@ $(document).ready(function () {
 
     var expandedEl = $("div.menu-item.open"),
         nextAfterExanded;
-    
+
 
     $('.aside .menu-item-title').click(function () {
         $(this).toggleClass('open');
@@ -476,7 +476,7 @@ $(document).ready(function () {
 
 (function() {
     var EXPANDED = "expanded";
-    
+
     $(".sub-menu-item_has-child span").click(function () {
         $(this).next('ul').slideToggle(200);
     });
@@ -487,7 +487,7 @@ $(document).ready(function () {
             $('body').removeClass('menu-open');
         }
     };
-    
+
     $(document).on('click', '.sidebar-menu', function (e) {
         $('body').addClass('menu-open');
         $('.aside').addClass('aside-mob');
@@ -501,21 +501,16 @@ $(document).ready(function () {
         $('body').removeClass('menu-open');
         $('.aside-mob').removeClass('aside-mob');
     });
-    
+
     $(".aside .menu-item ul li.subitem-expandable").click(function (event) {
-
-        if ($(event.target).is('a')) return;
-
-        $(this).find(">:nth-child(2)").toggleClass(EXPANDED);
-        $(this).toggleClass(EXPANDED);
+        $(this).toggleClass("open");
+        $(this).find("ul").toggleClass(EXPANDED);
         event.stopPropagation();
     });
-    
-    $(".aside .menu-item ul li.expandable div").click(function (event) {
-        // console.log(32);
-        // return false;
+
+    $(".aside .menu-item ul li.expandable").click(function (event) {
         $(this).toggleClass("open");
-        $(this).next(null,"ul:first-child").toggleClass(EXPANDED);
+        $(this).find("ul").toggleClass(EXPANDED);
         event.stopPropagation();
     });
 })();
