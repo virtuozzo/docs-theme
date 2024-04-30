@@ -54,7 +54,7 @@
                 <div class="menu-item {{ $expanded_current }} {{$expanded}}">
                     <div class="menu-item-title {{.Identifier}} {{$expanded}}">
                         {{ if .Params.link }}
-                        <a href="{{.Params.link}}">{{ .Title}}1</a>
+                        <a href="{{.Params.link}}">{{ .Title}}</a>
                         {{ else }}
                         {{ .Title}}
                         {{ end }}
@@ -99,7 +99,7 @@
                             {{ if .HasChildren }}
 
                             {{ if .Params.link }}
-                            <a href="{{.Params.link}}">{{ .Title}}2</a>
+                            <a href="{{.Params.link}}">{{ .Title}}</a>
                             {{ else }}
                             <div>{{.Title}}</div>
                             {{ end }}
@@ -121,7 +121,7 @@
                                     {{ if $subItem.HasChildren }}
 
                                     {{ if .Params.link }}
-                                    <a href="{{.Params.link}}">{{ .Title}}3</a>
+                                    <a href="{{.Params.link}}">{{ .Title}}</a>
                                     {{ else }}
                                     <div>{{.Title}}</div>
                                     {{ end }}
