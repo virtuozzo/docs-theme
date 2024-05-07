@@ -53,10 +53,10 @@
 
                 <div class="menu-item {{ $expanded_current }} {{$expanded}}">
                     <div class="menu-item-title {{.Identifier}} {{$expanded}}">
-                        {{ if .Params.link }}
-                        <a href="{{.Params.link}}">{{ .Title}}</a>
+                        {{ if .URL }}
+                        <a href="{{.URL}}">{{ .Title}}</a>
                         {{ else }}
-                        {{ .Title}}
+                        <div>{{.Title}}</div>
                         {{ end }}
                     </div>
                     <ul>
@@ -98,8 +98,8 @@
                         <li {{ if .HasChildren }}class="expandable {{$expanded_current}} {{$subItemInItem}} {{if eq $tmpCurrentNeedExpand $currentPage.URL }}{{$open}}{{end}}"{{ end }}>
                             {{ if .HasChildren }}
 
-                            {{ if .Params.link }}
-                            <a href="{{.Params.link}}">{{ .Title}}</a>
+                            {{ if .URL }}
+                            <a href="{{.URL}}">{{ .Title}}</a>
                             {{ else }}
                             <div>{{.Title}}</div>
                             {{ end }}
