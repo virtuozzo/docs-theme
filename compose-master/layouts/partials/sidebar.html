@@ -120,8 +120,8 @@
                                 <li {{ if .HasChildren }}class="subitem-expandable {{if eq $tmpCurrentNeedExpand $currentPage.URL }}{{$open}}{{end}}"{{ end }}>
                                     {{ if $subItem.HasChildren }}
 
-                                    {{ if .Params.link }}
-                                    <a href="{{.Params.link}}">{{ .Title}}</a>
+                                    {{ if .URL }}
+                                    <a href="{{.URL}}">{{ .Title}}</a>
                                     {{ else }}
                                     <div>{{.Title}}</div>
                                     {{ end }}
