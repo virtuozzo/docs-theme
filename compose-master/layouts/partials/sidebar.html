@@ -133,7 +133,8 @@
                                         {{ $submenu_menu_item_current = "menu-item-current" }}
                                         {{ end }}
                                         {{ $external := findRE "://" .URL }}
-                                        <li><a class="menu-item-text tx-overflow 2 {{$submenu_menu_item_current}}{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} href="{{ .URL }}">{{ .Title }} {{ if findRE .URL "localhost" }}found{{ end }}</a></li>
+                                        {{ $private := findRE "/private-" .URL }}
+                                        <li><a class="menu-item-text tx-overflow 2 {{$submenu_menu_item_current}}{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} {{ if $private }} rel="noindex nofollow"{{ end }} href="{{ .URL }}">{{ .Title }} {{ if findRE .URL "localhost" }}found{{ end }}</a></li>
                                         {{ $submenu_menu_item_current = "" }}
                                         {{ end }}
                                     </ul>
@@ -142,7 +143,8 @@
                                     {{ $submenu_menu_item_current = "menu-item-current" }}
                                     {{ end }}
                                     {{ $external := findRE "://" .URL }}
-                                    <a class="menu-item-text tx-overflow {{$submenu_menu_item_current}}{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} href="{{ .URL }}">{{ .Title }}</a>
+                                    {{ $private := findRE "/private-" .URL }}
+                                    <a class="menu-item-text tx-overflow {{$submenu_menu_item_current}}{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} {{ if $private }} rel="noindex nofollow"{{ end }} href="{{ .URL }}">{{ .Title }}</a>
                                     {{ $submenu_menu_item_current = ""}}
                                     {{ end }}
                                 </li>
@@ -150,7 +152,8 @@
                                 {{ end }}
                                 {{ else }}
                                 {{ $external := findRE "://" .URL }}
-                                <li><a class="menu-item-text tx-overflow{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} href="{{ .URL }}">{{ $item.Title }}</a></li>
+                                {{ $private := findRE "/private-" .URL }}
+                                <li><a class="menu-item-text tx-overflow{{ if $external }} external{{ end }}" {{ if $external }}target="_blank" rel="noopener"{{ end }} {{ if $private }} rel="noindex nofollow"{{ end }} href="{{ .URL }}">{{ $item.Title }}</a></li>
                                 {{ end }}
                             </ul>
                             {{ $subItemInItem = "" }}
