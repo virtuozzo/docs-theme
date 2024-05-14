@@ -16,6 +16,27 @@
                     <img class="mobile-logo nolaz" alt="Jelastic" width="180" height="35"
                          src="{{ .Site.BaseURL }}images/VZ_Logo.svg">
                 </a>
+                <div class="versions">
+                    {{ $current_version_key := "" }}
+                    {{ range last 1 .Site.Params.versions }}
+                        {{ range $latest_version_key, $latest_version_value := . }}
+                            <span class="current">{{ $latest_version_value }}</span>
+                        {{ $current_version_key := $latest_version_key }}
+                        {{ end }}
+                    {{ end }}
+                    <div class="versions-list">
+                        {{ range $key, $value := .Site.Params.versions }}
+                            {{ range $version_key, $version_value := $value }}
+                                {{ if eq $.Site.Params.version $version_key }}
+                                    <a href="/">{{ $version_value }}</a>
+                                {{ else }}
+                                    {{ $result := replaceRE "^(https?://.*com/[^/]+/).*" "$1" $.Site.BaseURL }}
+                                    <a href="{{ $result }}{{ $version_key }}">{{ $version_value }}</a>
+                                {{ end }}
+                            {{ end }}
+                        {{ end }}
+                    </div>
+                </div>
                 <span class="sidebar-menu">Docs menu</span>
             </div>
             <span class="menu-mobile"><span>MENU</span></span>

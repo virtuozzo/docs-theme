@@ -377,9 +377,11 @@ input
 
 .hide-sidebar-menu, .clear-search
   width: 50px
-  position: relative
+  height: 40px
+  position: absolute
   cursor: pointer
-  right: -15px
+  right: 0
+  top: 5px
   display: none
   &:before, &:after
     position: absolute
@@ -736,6 +738,8 @@ input
   position: relative
   display: flex
   background: #EDF1FE
+  flex-direction: column
+  align-items: flex-start
 
 
   form
@@ -862,6 +866,10 @@ input
 
 @media (max-width: 1024px)
 
+  .search-box-side
+    padding-top: 40px
+    padding-bottom: 10px
+
   .hide-sidebar-menu
     display: block
 
@@ -905,6 +913,8 @@ input
       width: 100%
       max-width: 300px
       top: 0
+      min-height: 100%;
+      display: flex;
 
     .aside
       z-index: 99
@@ -934,7 +944,6 @@ input
     padding-right: 15px
 
   .search-box-side
-    padding-top: 10px
     padding-bottom: 10px
 
   .aside.aside-mob
@@ -973,3 +982,74 @@ div.menu-item ul li.expandable div::selection
 
 mark
   background: #f1f1f1
+
+.versions
+  display: inline-block
+  width: auto
+  font-size: 12px
+  font-weight: 600
+  margin-bottom: 10px
+  position: relative
+  width: 100px
+  &.active
+    span
+      border-radius: 15px 15px 0 0
+      &:after
+        transform: rotate(225deg) !important
+        top: 15px !important
+    .versions-list
+      display: block
+  .versions-list
+    width: 100%
+    border: 1px solid #E3E7F4
+    margin-top: -1px
+    background: #f8f9ff
+    display: none
+    position: absolute
+    z-index: 2
+    top: 100%
+    border-radius: 0 0 15px 15px
+    border-top: 0
+    overflow: hidden
+  span, a
+    padding: 5px 35px 5px 15px
+    display: block
+  span
+    border: 1px solid #E3E7F4
+    border-radius: 20px
+    background: #F8F9FF
+    cursor: pointer
+    &:after
+      display: block
+      content: ''
+      padding: 3px
+      height: 0
+      width: 0
+      border: 1px solid #8BA1E7
+      border-left: 0
+      border-top: 0
+      transform: rotate(45deg)
+      position: absolute
+      right: 15px
+      top: 10px
+  a
+    padding-top: 5px
+    padding-bottom: 5px
+    display: block
+    color: #000
+    text-decoration: none
+    &:hover
+      background: #EDF1FE
+
+.logo-part
+  .versions
+    margin: 2px 0 0 15px
+    @media (max-width: 1024px)
+      display: none
+
+aside
+  .versions
+    display: none
+    @media (max-width: 1024px)
+      display: block
+
