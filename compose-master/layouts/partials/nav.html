@@ -17,30 +17,15 @@
                          src="{{ .Site.BaseURL }}images/VZ_Logo.svg">
                 </a>
                 <div class="versions">
-                    {{ $current_version_key := "" }}
-                    {{ range last 1 .Site.Params.versions }}
-                        {{ range $latest_version_key, $latest_version_value := . }}
-                            <span class="current">{{ $latest_version_value }}</span>
-                        {{ $current_version_key := $latest_version_key }}
-                        {{ end }}
-                    {{ end }}
+                    <span class="current">{{ .Site.Params.version }}</span>
                     <div class="versions-list">
-                        {{ range $key, $value := .Site.Params.versions }}
-                            {{ range $version_key, $version_value := $value }}
-                                {{ $hasLetters := findRE "[^0-9.]" $version_value }}
-                                {{ if eq $.Site.Params.version $version_key }}
-                                    <a href="/">{{ $version_value }}</a>
-                                {{ else }}
-                                    {{/*  {{ $result := replaceRE "^(https?://.*com/[^/]+/).*" "$1" $.Site.BaseURL }}  */}}
-                                    {{/*  <a href="{{ $result }}{{ $version_key }}">{{ $version_value }}</a>  */}}
-                                    {{/*  {{ $result := replaceRE "^(https?://.*com/[^/]+/).*" "$1" $.Site.BaseURL }}  */}}
-                                    {{/*  <a href="{{ $result }}{{ $version_key }}">{{ $version_value }}</a>  */}}
-                                    {{ if (not $hasLetters) }}
-                                        <a href="{{ printf "%.1f" (float $version_key) }}">{{ printf "%.1f" (float $version_value) }}</a>
-                                    {{ else }}
-                                        <a href="{{ $version_key }}">{{ $version_value }}</a>
-                                    {{ end }}
-                                {{ end }}
+                        {{ range $version := .Site.Params.versions }}
+                            {{ if eq $.Site.Params.version $version }}
+                                <a href="/">{{ $version }}</a>
+                            {{ else }}
+                                {{/*  {{ $result := replaceRE "^(https?://.*com/[^/]+/).*" "$1" $.Site.BaseURL }}  */}}
+                                {{/*  <a href="{{ $result }}{{ $version_key }}">{{ $version_value }}</a>  */}}
+                                <a href="{{ $version }}">{{ $version }}</a>
                             {{ end }}
                         {{ end }}
                     </div>
