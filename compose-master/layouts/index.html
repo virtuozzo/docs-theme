@@ -11,6 +11,14 @@
 
 {{ else }}
 
+{{ $current_version_key := "" }}
+{{ range last 1 .Site.Params.versions }}
+{{ range $latest_version_key, $latest_version_value := . }}
+{{ $current_version_key := $latest_version_key }}
+{{ end }}
+{{ end }}
+
+
 <ul class="logolinks">
     <li><a href="/java-center/">
         <div class="img-wrap"><img width="49" height="62" src="{{ .Site.BaseURL }}images/java-active.svg" alt="java"></div>

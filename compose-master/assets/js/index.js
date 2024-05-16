@@ -5,6 +5,18 @@ jQuery(document).ready(function ($) {
         $(this).siblings('.bwrap').slideToggle();
     });
 
+    $('.versions span').click(function (e) {
+        $(this).closest('.versions').toggleClass('active');
+    });
+
+    $(document).click(function(event) {
+        var $target = $(event.target);
+        if(!$target.closest('.versions').length &&
+            $('.versions-list').is(":visible")) {
+            $('.versions').removeClass('active')
+        }
+    });
+
     $("code[class*='language-']").addClass('line-numbers');
 
     $('iframe[src*="youtube"]').wrap('<div class="youtube-responsive"></div>');
