@@ -200,6 +200,8 @@ table
 .content
   ul, ol
     word-break: break-word
+    ol
+      padding-left: 2rem
     li
       p
         display: block
@@ -212,6 +214,9 @@ table
   ol
     list-style: decimal
     list-style-position: inside
+    li 
+      p:first-child
+        display: inline
 
 ::placeholder
   font-size: 1rem
