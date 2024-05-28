@@ -205,6 +205,8 @@ table
     li
       p
         display: block
+        &:first-child
+        display: inline
   ul
     padding-left: 2rem
     list-style: initial
@@ -214,9 +216,6 @@ table
   ol
     list-style: decimal
     list-style-position: inside
-    li 
-      p:first-child
-        display: inline
 
 ::placeholder
   font-size: 1rem
