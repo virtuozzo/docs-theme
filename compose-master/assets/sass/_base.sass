@@ -200,11 +200,15 @@ table
 .content
   ul, ol
     word-break: break-word
+    ol, ul
+      padding-left: 2rem
     li
       p
         display: block
+        &:first-child
+        display: inline
   ul
-    padding-left: 2rem
+    padding-left: 1rem
     list-style: initial
     list-style-position: outside
     ul
