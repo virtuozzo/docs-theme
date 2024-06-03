@@ -130,7 +130,12 @@
                             {{ if .HasChildren }}
 
                             {{ if .URL }}
-                            <a href="{{.URL}}">{{ .Title}}</a>
+                                {{ if eq .URL $currentPage.URL }}
+                                    {{ $submenu_menu_item_current = "menu-item-current" }}
+                                {{ else }}
+                                    {{ $submenu_menu_item_current = "" }}
+                                {{ end }}
+                                <a href="{{.URL}}" class="{{$submenu_menu_item_current}}">{{ .Title}}</a>
                             {{ else }}
                             <div>{{.Title}}</div>
                             {{ end }}
@@ -150,9 +155,13 @@
                                 {{ end }}
                                 <li {{ if .HasChildren }}class="subitem-expandable {{if eq $tmpCurrentNeedExpand $currentPage.URL }}{{$open}}{{end}}"{{ end }}>
                                     {{ if $subItem.HasChildren }}
-
                                     {{ if .URL }}
-                                    <a href="{{.URL}}">{{ .Title}}</a>
+                                        {{ if eq $subItem.URL $currentPage.URL }}
+                                            {{ $submenu_menu_item_current = "menu-item-current" }}
+                                        {{ else }}
+                                            {{ $submenu_menu_item_current = "" }}
+                                        {{ end }}
+                                        <a href="{{.URL}}" class="{{$submenu_menu_item_current}}">{{ .Title}}</a>
                                     {{ else }}
                                     <div>{{.Title}}</div>
                                     {{ end }}
@@ -161,7 +170,9 @@
                                         {{$open = ""}}
                                         {{ range $subSubIndex, $subSubItem := $subItem.Children }}
                                         {{ if eq $subSubItem.URL $currentPage.URL }}
-                                        {{ $submenu_menu_item_current = "menu-item-current" }}
+                                            {{ $submenu_menu_item_current = "menu-item-current" }}
+                                        {{ else }}
+                                            {{ $submenu_menu_item_current = "" }}
                                         {{ end }}
                                         {{ $external := findRE "://" .URL }}
                                         {{ $private := findRE "/private-" .URL }}
@@ -170,8 +181,11 @@
                                         {{ end }}
                                     </ul>
                                     {{ else }}
+                                    
                                     {{ if eq $subItem.URL $currentPage.URL }}
                                     {{ $submenu_menu_item_current = "menu-item-current" }}
+                                    {{ else }}
+                                    {{ $submenu_menu_item_current = "" }}
                                     {{ end }}
                                     {{ $external := findRE "://" .URL }}
                                     {{ $private := findRE "/private-" .URL }}
