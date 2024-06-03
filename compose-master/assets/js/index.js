@@ -462,20 +462,23 @@ $(document).ready(function () {
 
 
     $('.aside .menu-item-title').click(function () {
-        $(this).toggleClass('open');
-        $(this).next('ul').slideToggle(200);
 
-        var those = $(this),
-            parent = this.parentNode;
-        setTimeout(function () {
-            // if last child
-            if (parent === parent.parentNode.children[parent.parentNode.children.length-1]) {
-                if(those.length && those.position().top){
-                    $(".menu-items-wrapp").animate({ scrollTop: $(".menu-items-wrapp").scrollTop()+those.offset().top }, { duration: 'medium', easing: 'swing' });
+        if(!$(event.target).is('a')) { 
+            $(this).toggleClass('open');
+            $(this).next('ul').slideToggle(200);
 
+            var those = $(this),
+                parent = this.parentNode;
+            setTimeout(function () {
+                // if last child
+                if (parent === parent.parentNode.children[parent.parentNode.children.length-1]) {
+                    if(those.length && those.position().top){
+                        $(".menu-items-wrapp").animate({ scrollTop: $(".menu-items-wrapp").scrollTop()+those.offset().top }, { duration: 'medium', easing: 'swing' });
+
+                    }
                 }
-            }
-        }, 300);
+            }, 300);
+        }
     });
 
     if (expandedEl.length) {
@@ -514,15 +517,11 @@ $(document).ready(function () {
         $('.aside-mob').removeClass('aside-mob');
     });
 
-    $(".aside .menu-item ul li.subitem-expandable").click(function (event) {
-        $(this).toggleClass("open");
-        $(this).find("ul").toggleClass(EXPANDED);
-        event.stopPropagation();
-    });
-
-    $(".aside .menu-item ul li.expandable").click(function (event) {
-        $(this).toggleClass("open");
-        $(this).find("ul").toggleClass(EXPANDED);
-        event.stopPropagation();
+    $(".aside .menu-item ul li.subitem-expandable, .aside .menu-item ul li.expandable").click(function (event) {
+        if(!$(event.target).is('a')) { 
+            $(this).toggleClass("open");
+            $(this).find("ul").toggleClass(EXPANDED);
+            event.stopPropagation();
+        }
     });
 })();
