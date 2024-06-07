@@ -1,0 +1,32 @@
+{{ $currentPage := .currentPage }}
+{{ $level := .level }}
+{{ $level = math.Add $level 1 }}
+<ul class="menu-level-{{ $level}}">
+    {{ range $index, $element := .data }}      
+        {{ $currentPageClass := "" }}
+        {{ $hasChildrenClass := "" }}
+    
+        {{ if eq $element.URL $currentPage.RelPermalink }}
+            {{ $currentPageClass = "current-page" }}
+        {{ end }}
+        {{ if $element.Children }}
+            {{ $hasChildrenClass = "has-children" }}
+        {{ end }}
+
+        <li id="{{ .Identifier }}-menu" class="{{ $currentPageClass }} {{ $hasChildrenClass }}">
+            <span class="aside-menu-item">
+                {{ if $element.Params.img }}
+                    <img src="/images/sidebar/{{ $element.Params.img }}" alt="">
+                {{ end }}
+                {{ if $element.URL }}
+                    <a href="{{ $element.URL }}">{{ $element.Name }}</a>
+                {{ else }}
+                    <span>{{ $element.Name }}</span>
+                {{ end }}
+            </span>
+            {{ if $element.Children }}
+                {{ partial "recursive-nav.html" (dict "currentPage" $currentPage "level" $level "data" $element.Children) }}
+            {{ end }}
+        </li>
+    {{ end }}
+</ul>
