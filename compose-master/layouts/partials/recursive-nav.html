@@ -6,7 +6,6 @@
         {{ if $element.Weight }}  
             {{ $currentPageClass := "" }}
             {{ $hasChildrenClass := "" }}
-        
             {{ if eq $element.URL $currentPage.RelPermalink }}
                 {{ $currentPageClass = "current-page" }}
             {{ end }}
@@ -18,17 +17,15 @@
                 <span class="aside-menu-item">
                     {{ if eq $level 1 }}
                         {{ if $element.Params.img }}
-                            {{ $folder := replace  $element.URL "/" "" }}
-                            {{ $img := printf "/content/%s/%s/%s" $folder  $folder $element.Params.img }}
+                            {{ $img := printf "/content/%s/%s" $element.Identifier $element.Params.img }}
                             {{ if fileExists $img }}
-                                {{ $img = printf "/%s/%s" $folder $element.Params.img }}
+                                {{ $img = printf "/%s/%s" $element.Identifier $element.Params.img }}
                                 <img src="{{ $img }}" alt=""> 
                             {{ else }} 
                                 <img src="/images/sidebar/{{ $element.Params.img }}" alt="{{ $element.Title }}">
                             {{ end }}
                         {{ end }} 
-                    {{ end }}
-
+                    {{ end }} 
                     {{ if $element.URL }}
                         <a href="{{ $element.URL }}">{{ $element.Title }}</a>
                     {{ else }}
