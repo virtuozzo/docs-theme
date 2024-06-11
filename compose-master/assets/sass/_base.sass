@@ -1077,21 +1077,11 @@ aside
             color: #86A2ED 
       li
         padding: 0
-        &.expanded
-          > ul
-            display: block
-          &.has-children
-            > .aside-menu-item
-              &:after
-                transform: rotate(225deg)
-                -webkit-transform: rotate(225deg)
-                border: solid #87a1ec
-                border-width: 0 1px 1px 0
-                top: 5px
         &.has-children
           > .aside-menu-item
             position: relative
             display: block
+            cursor: pointer
             &:after
               content: "";
               border: solid #87a1ec;
@@ -1107,6 +1097,17 @@ aside
               margin: auto;
               height: 1px;
               transition: .2s;
+        &.expanded
+          > ul
+            display: block
+          &.has-children
+            > .aside-menu-item
+              &:after
+                transform: rotate(225deg)
+                -webkit-transform: rotate(225deg)
+                border: solid #87a1ec
+                border-width: 0 1px 1px 0
+                top: 5px
       ul 
         display: none  
         padding-left: 50px
