@@ -1,0 +1,44 @@
+{{ $currentPage := .currentPage }}
+{{ $level := .level }}
+{{ $level = math.Add $level 1 }}
+<ul class="menu-level-{{ $level}}">
+    {{ range $index, $element := .data }}    
+        {{ if $element.Weight }}  
+            {{ $currentPageClass := "" }}
+            {{ $hasChildrenClass := "" }}
+        
+            {{ if eq $element.URL $currentPage.RelPermalink }}
+                {{ $currentPageClass = "current-page" }}
+            {{ end }}
+            {{ if $element.Children }}
+                {{ $hasChildrenClass = "has-children" }}
+            {{ end }}
+
+            <li id="{{ .Identifier }}-menu" class="{{ $currentPageClass }} {{ $hasChildrenClass }}">
+                <span class="aside-menu-item">
+                    {{ if eq $level 1 }}
+                        {{ if $element.Params.img }}
+                            {{ $folder := replace  $element.URL "/" "" }}
+                            {{ $img := printf "/content/%s/%s/%s" $folder  $folder $element.Params.img }}
+                            {{ if fileExists $img }}
+                                {{ $img = printf "/%s/%s" $folder $element.Params.img }}
+                                <img src="{{ $img }}" alt=""> 
+                            {{ else }} 
+                                <img src="/images/sidebar/{{ $element.Params.img }}" alt="{{ $element.Title }}">
+                            {{ end }}
+                        {{ end }} 
+                    {{ end }}
+
+                    {{ if $element.URL }}
+                        <a href="{{ $element.URL }}">{{ $element.Title }}</a>
+                    {{ else }}
+                        <span>{{ $element.Title }}</span>
+                    {{ end }}
+                </span>
+                {{ if $element.Children }}
+                    {{ partial "recursive-nav.html" (dict "currentPage" $currentPage "level" $level "data" $element.Children) }}
+                {{ end }}
+            </li>
+        {{ end }}
+    {{ end }}
+</ul>
