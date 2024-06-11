@@ -2,21 +2,10 @@
     <div class="menu-items-wrap sticky">
         <div class="aside-menu">
             <div class="search-box-side" id="search-box-side">
+                {{ if .Site.Params.versions }}
                 <div class="versions">
                     <span class="current">
-                        {{ $u := urls.Parse .Permalink }}
-                        {{ $currentPath := split $u.Path "/" }}
-                        {{ $currentVersion := index $currentPath 2 }}
-                        {{ $versionFound := false }}
-                        {{ range $version := .Site.Params.versions }}
-                            {{ if eq $version $currentVersion }}
-                                {{ $version }}
-                                {{ $versionFound = true }}
-                            {{ end }}
-                        {{ end }}
-                        {{ if eq $versionFound false}}
-                            {{ .Site.Params.version }}
-                        {{ end }}
+                        {{ .Site.Params.version }}
                     </span>
                     <div class="versions-list">
                         {{ range $version := .Site.Params.versions }}
@@ -29,6 +18,7 @@
                         {{ end }}
                     </div>
                 </div>
+                {{ end }}
                 <form action="/search/" class="">
                     <label for="docs-search" class="sr-only">Search</label>
                     <button type="submit" aria-label="search"></button>
