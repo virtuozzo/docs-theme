@@ -524,6 +524,25 @@ $(document).ready(function () {
     });
 
     // NEW SIDEBAR END
+
+    // ImagePopup
+    var modal = document.getElementById("imgPopupModal");
+    var modalImg = modal.querySelector(".imgPopupInner");
+    var modalClose = modal.querySelector(".close");
+    $('.imagePopup').on('click', function(event){
+        modalImg.src = $(this).attr('href');
+        modal.style.display = "block";
+        return false;
+    });
+    $(modal).on('click', function(event){
+        if(event.target == this) {
+            modal.style.display = "none";
+        }
+    });
+    $(modalClose).on('click', function(event){
+            modal.style.display = "none";
+    });
+    // ImagePopup END
 });
 
 (function() {
