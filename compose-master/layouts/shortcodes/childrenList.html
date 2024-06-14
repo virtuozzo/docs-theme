@@ -1,1 +1,18 @@
-{{ $.Page.Permalink }}
+{{ $_hugo_config := `{ "version": 1 }` }}
+{{ $currentID := replace .Page.RelPermalink "/" "" }}
+{{ template "childrenList" (dict "data" site.Menus.docs "currentID" $currentID ) }}
+<ul> 
+{{ define "childrenList" }} 
+{{ $currentID := .currentID}}
+    {{ range $index, $element := .data }}    
+        {{ if eq $element.Parent $currentID }}
+            <li>
+                <a href="{{ .URL }}">{{ .Title }}</a>
+            </li> 
+        {{ end }}
+        {{ if $element.Children }}
+            {{ template "childrenList" (dict "data" $element.Children "currentID" $currentID ) }}
+        {{ end }}
+    {{ end }}  
+{{ end }} 
+</ul>
