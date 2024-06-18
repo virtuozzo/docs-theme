@@ -14,12 +14,12 @@
                 {{ $title = $element.Name }}
             {{ end }}
         
-            {{ if eq $element.URL $currentPage.RelPermalink }}
-                {{ $classList = math.Add $classList "current-page" }}
-            {{ end }} 
             {{ if $element.Children }}
-                {{ $classList = math.Add $classList " has-children" }}
+                {{ $classList = math.Add $classList "has-children" }}
             {{ end }}
+            {{ if eq $element.URL $currentPage.RelPermalink }}
+                {{ $classList = math.Add $classList " current-page" }}
+            {{ end }} 
             {{ if $element.URL }}
                 {{ if strings.Contains $element.URL "://" }}
                     {{ $classList = math.Add $classList " external" }}
@@ -29,7 +29,7 @@
             {{ end }}
             
             <li id="{{ .Identifier }}-menu" class="{{ $classList }}">
-                <span class="aside-menu-item">
+                <span class="aside-menu-item"> 
                     {{ if eq $level 1 }}
                         {{ if $element.Params.img }}
                             {{ $img := printf "/content/%s/%s/%s" $element.Identifier $element.Identifier $element.Params.img }}
