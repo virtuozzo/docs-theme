@@ -1078,6 +1078,22 @@ aside
             color: #86A2ED 
       li
         padding: 0
+        &.external
+          > .aside-menu-item
+            display: block
+            padding-right: 40px
+            position: relative
+            &:after
+              display: block
+              content: ''
+              width: 13px
+              height: 13px
+              background: no-repeat center/13px url("data:image/svg+xml,%3Csvg id='b1395bc4-23f4-4f7b-91b7-14c26227d8c9' data-name='group arrow' xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 13 13'%3E%3Cpath id='fff102eb-92d4-491a-b86c-2cdb4d25e639' data-name='contur1' d='M13,.4h0V.23h0A.38.38,0,0,0,12.67,0H9A.45.45,0,1,0,9,.89h2.43l-8,8a.44.44,0,0,0,0,.62.52.52,0,0,0,.65,0l8.08-8.08V4a.45.45,0,0,0,.45.45h0A.45.45,0,0,0,13,4Z' fill='%235f6d94'/%3E%3Cpath id='aa1e9c64-1011-4f5f-a8f8-6ec8e8a424c2' data-name='contur2' d='M10.44,12.35H.65V2.6H8.58l.65-.66H.33A.33.33,0,0,0,0,2.27H0v10.4A.33.33,0,0,0,.33,13H10.77a.33.33,0,0,0,.33-.32h0V3.74l-.66.65Z' fill='%235f6d94'/%3E%3C/svg%3E")
+              position: absolute
+              right: 18px
+              top: 5px
+              @media (max-width: 900px)
+                right: 15px
         &.has-children
           > .aside-menu-item
             position: relative
@@ -1098,6 +1114,8 @@ aside
               margin: auto
               height: 1px
               transition: .2s
+              @media (max-width: 900px)
+                right: 15px
         &.expanded
           > ul
             display: block

@@ -4,9 +4,10 @@
 <ul class="menu-level-{{ $level}}">
     {{ range $index, $element := .data }}     
         {{ if $element.Weight }} 
-            {{ $currentPageClass := "" }}
-            {{ $hasChildrenClass := "" }}
             {{ $title := "" }}
+            {{ $classList := "" }}
+            {{ $isPrivate := "" }}
+            {{ $isExternal := false }}
             {{ if $element.Name }}
                 {{ $title = $element.Name }}
             {{ else }}
@@ -14,13 +15,20 @@
             {{ end }}
         
             {{ if eq $element.URL $currentPage.RelPermalink }}
-                {{ $currentPageClass = "current-page" }}
-            {{ end }}
+                {{ $classList = math.Add $classList "current-page" }}
+            {{ end }} 
             {{ if $element.Children }}
-                {{ $hasChildrenClass = "has-children" }}
+                {{ $classList = math.Add $classList " has-children" }}
             {{ end }}
-
-            <li id="{{ .Identifier }}-menu" class="{{ $currentPageClass }} {{ $hasChildrenClass }}">
+            {{ if $element.URL }}
+                {{ if strings.Contains $element.URL "://" }}
+                    {{ $classList = math.Add $classList " external" }}
+                    {{ $isExternal = true }}
+                {{ end }}
+                {{ $isPrivate = strings.Contains $element.URL "/private-" }}
+            {{ end }}
+            
+            <li id="{{ .Identifier }}-menu" class="{{ replaceRE "(\\s)" "" $classList }}">
                 <span class="aside-menu-item">
                     {{ if eq $level 1 }}
                         {{ if $element.Params.img }}
@@ -35,7 +43,7 @@
                     {{ end }}
 
                     {{ if $element.URL }}
-                        <a href="{{ $element.URL }}">
+                        <a href="{{ $element.URL }}"{{ if $isPrivate }} rel="noindex nofollow"{{ end }}{{ if $isExternal }} target="_blank" rel="noopener"{{ end }}>
                             {{ $title }}
                         </a>
                     {{ else }}
