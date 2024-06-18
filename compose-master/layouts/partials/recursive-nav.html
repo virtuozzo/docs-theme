@@ -28,7 +28,7 @@
                 {{ $isPrivate = strings.Contains $element.URL "/private-" }}
             {{ end }}
             
-            <li id="{{ .Identifier }}-menu" class="{{ replaceRE "(\\s)" "" $classList }}">
+            <li id="{{ .Identifier }}-menu" class="{{ $classList }}">
                 <span class="aside-menu-item">
                     {{ if eq $level 1 }}
                         {{ if $element.Params.img }}
