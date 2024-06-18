@@ -8,10 +8,10 @@
             {{ $classList := "" }}
             {{ $isPrivate := "" }}
             {{ $isExternal := false }}
-            {{ if $element.Name }}
-                {{ $title = $element.Name }}
-            {{ else }}
+            {{ if $element.Title }}
                 {{ $title = $element.Title }}
+            {{ else }}
+                {{ $title = $element.Name }}
             {{ end }}
         
             {{ if eq $element.URL $currentPage.RelPermalink }}
