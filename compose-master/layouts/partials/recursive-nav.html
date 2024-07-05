@@ -8,6 +8,7 @@
             {{ $classList := "" }}
             {{ $isPrivate := "" }}
             {{ $isExternal := false }}
+            {{ $hasPDF := false }}
             {{ if $element.Title }}
                 {{ $title = $element.Title }}
             {{ else }}
@@ -26,6 +27,10 @@
                     {{ $isExternal = true }}
                 {{ end }}
                 {{ $isPrivate = strings.Contains $element.URL "/private-" }}
+            {{ end }}
+            {{ if and ($element.Params.pdf) ($element.URL) }}
+                {{ $classList = math.Add $classList " has-pdf" }}
+                {{ $hasPDF = printf "%s%s" $element.URL $element.Params.pdf }}
             {{ end }}
             
             <li id="{{ .Identifier }}-menu" class="{{ $classList }}">
@@ -46,6 +51,9 @@
                         <a href="{{ $element.URL }}"{{ if $isPrivate }} rel="noindex nofollow"{{ end }}{{ if $isExternal }} target="_blank" rel="noopener"{{ end }}>
                             {{ $title }}
                         </a>
+                        {{ if $hasPDF}} 
+                            <a href="{{ $hasPDF }}" class="menu-pdf"></a>
+                        {{ end }}
                     {{ else }}
                         <span>{{ $title }}</span>
                     {{ end }}
