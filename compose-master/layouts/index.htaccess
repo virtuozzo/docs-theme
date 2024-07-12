@@ -26,4 +26,4 @@ RewriteCond $1 [A-Z]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?(.*)$ {{.Site.BaseURL}}${lowercase:$1} [R=301,L]
 #lowercase rewrite map added in litespeed configs (Configuration -> Virtual hosts -> Rewrite)
-ErrorDocument 404 /application-platform-docs/404.html
+ErrorDocument 404 /application-platform-ops-docs/404.html
