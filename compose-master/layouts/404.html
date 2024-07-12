@@ -1,0 +1,7 @@
+{{- define "main" }}
+
+{{ with site.GetPage "/404" }}
+    {{ .Content }}
+{{ end }}
+
+{{- end }}
