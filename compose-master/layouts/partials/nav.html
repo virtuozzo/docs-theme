@@ -1,4 +1,4 @@
-{{ $headerMenu := getJSON "http://185.209.82.198/get_menu.php" }}
+{{ $headerMenu := getJSON "http://185.209.82.198/get_menu.php?v=123" }}
 {{ $logoLink := .Site.BaseURL }}
 {{ if .Site.Params.logoLink }}
     {{ $logoLink = .Site.Params.logoLink }}

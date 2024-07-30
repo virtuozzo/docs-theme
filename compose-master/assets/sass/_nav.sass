@@ -177,14 +177,27 @@ header
     cursor: default
     text-decoration: none
 
-  .btn
-    margin-bottom: 10px
-    padding: 6px 10px
-    width: 100%
-    &:last-child
-      margin: 0
-    a
-      color: #fff !important
+  .btn 
+    background: none !important
+    width: auto
+    a  
+      background: none
+      height: 40px
+      line-height: 40px
+      color: #cb333b !important
+      border: 1px solid #cb333b
+      border-radius: 5px
+      margin-top: 8px
+      padding: 0 20px
+      font-weight: 600
+      font-size: 15px
+      transition: .2s
+      &:hover
+        color: #fff !important
+        background: #cb333b
+
+
+
 
 
     // first level
@@ -214,7 +227,8 @@ header
         opacity: 0
         background: #fff
         box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 12px rgba(0, 0, 0, 0.12)
-
+        transform: translate(-50%, 0)
+        margin-left: 50%
         a
           color: #353535
           font-size: 14px
@@ -243,53 +257,7 @@ header
           opacity: 1
 
 
-  #menu-item-14952
-    > .sub-menu
-      width: 500px
-      margin-left: -350px
-      display: flex
-      flex-wrap: wrap
-      padding-bottom: 0
-
-      > li
-        width: 50%
-        margin-bottom: 30px
-
-        > a
-          text-transform: uppercase
-          font-size: 16px
-          font-weight: 400
-          margin-bottom: 10px
-          display: inline-block
-
-  #menu-item-14886
-    > .sub-menu
-      width: 500px
-      margin-left: -175px
-      display: flex
-      flex-wrap: wrap
-      padding-bottom: 0
-
-      > li
-        width: 50%
-        margin-bottom: 30px
-
-        > a
-          text-transform: uppercase
-          font-size: 16px
-          font-weight: 400
-          margin-bottom: 10px
-          display: inline-block
-
-
-  #menu-item-14888
-    > .sub-menu
-      width: 200px
-      left: auto
-      right: 0
-
-
-
+  
 
 .main-content-wrapper
   padding-top: 57px
@@ -316,13 +284,12 @@ header
 @media (max-width: 1024px)
 
   .menu .btn
-    width: 250px !important
-    display: block
-    margin-left: 0
-    a
-      width: 100%
-      padding: 0
-      display: block
+    display: inline-block
+    padding-left: 40px !important
+    margin-top: 20px
+    a 
+      margin: 0
+  
 
   .menu-item--opened
     .sub-menu
@@ -557,6 +524,10 @@ header
       padding-bottom: 10px
 
 @media (max-width: 450px)
+
+  .menu .btn
+      padding-left: 25px !important
+    
   header
     .menu-content
       .logo-part
