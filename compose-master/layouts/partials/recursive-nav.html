@@ -3,6 +3,7 @@
 {{ $level = math.Add $level 1 }}
 <ul class="menu-level-{{ $level}}">
     {{ range $index, $element := .data }}     
+    {{ $element }}
         {{ if $element.Weight }} 
             {{ $title := "" }}
             {{ $classList := "" }}
