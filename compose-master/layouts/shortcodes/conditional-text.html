@@ -1,0 +1,15 @@
+{{- $include_if := lower (.Get "include-if") -}}
+{{- $include_if = split $include_if "=" -}}
+{{ $include_key := index ($include_if) 0}}
+{{ $include_value := index ($include_if) 1}} 
+
+{{- if and ($include_key) ($include_value) -}}
+    {{- if isset $.Params "include-if" -}} 
+        {{- if isset .Site.Params.conditions $include_key -}}    
+            {{ $condition := lower (index .Site.Params.conditions $include_key) }}
+            {{- if eq $condition $include_value -}}
+                {{ .Inner }}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}  
+{{- end -}} 
