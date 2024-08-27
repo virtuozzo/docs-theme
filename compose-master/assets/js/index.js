@@ -490,8 +490,9 @@ $(document).ready(function () {
 
 
     // NEW SIDEBAR
-
-    $('.aside-menu-wrapp .current-page').parents('li').addClass('expanded');
+    if($('.aside-menu-wrapp .current-page').length) {
+        $($('.aside-menu-wrapp .current-page')[0]).parents('li').addClass('expanded');
+    }
  
     expandedEl = $('.menu-level-1 > .expanded');
     

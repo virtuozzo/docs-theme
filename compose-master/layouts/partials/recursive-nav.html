@@ -9,6 +9,10 @@
             {{ $isPrivate := "" }}
             {{ $isExternal := false }}
             {{ $hasPDF := false }}
+            {{ $URL := $element.URL }}
+            {{ if $element.ConfiguredURL }}
+                {{ $URL = $element.ConfiguredURL }}
+            {{ end }}
             {{ if $element.Title }}
                 {{ $title = $element.Title }}
             {{ else }}
@@ -18,19 +22,19 @@
             {{ if $element.Children }}
                 {{ $classList = math.Add $classList "has-children" }}
             {{ end }}
-            {{ if eq $element.URL $currentPage.RelPermalink }}
+            {{ if eq $URL $currentPage.RelPermalink }}
                 {{ $classList = math.Add $classList " current-page" }}
             {{ end }} 
-            {{ if $element.URL }}
-                {{ if strings.Contains $element.URL "://" }}
+            {{ if $URL }}
+                {{ if strings.Contains $URL "://" }}
                     {{ $classList = math.Add $classList " external" }}
                     {{ $isExternal = true }}
                 {{ end }}
-                {{ $isPrivate = strings.Contains $element.URL "/private-" }}
+                {{ $isPrivate = strings.Contains $URL "/private-" }}
             {{ end }}
-            {{ if and ($element.Params.pdf) ($element.URL) }}
+            {{ if and ($element.Params.pdf) ($URL) }}
                 {{ $classList = math.Add $classList " has-pdf" }}
-                {{ $hasPDF = printf "%s%s" $element.URL $element.Params.pdf }}
+                {{ $hasPDF = printf "%s%s" $URL $element.Params.pdf }}
             {{ end }}
             
             <li id="{{ .Identifier }}-menu" class="{{ $classList }}">
@@ -47,8 +51,8 @@
                         {{ end }} 
                     {{ end }}
 
-                    {{ if $element.URL }}
-                        <a href="{{ $element.URL }}"{{ if $isPrivate }} rel="noindex nofollow"{{ end }}{{ if $isExternal }} target="_blank" rel="noopener"{{ end }}>
+                    {{ if $URL }}
+                        <a href="{{ $URL }}"{{ if $isPrivate }} rel="noindex nofollow"{{ end }}{{ if $isExternal }} target="_blank" rel="noopener"{{ end }}>
                             {{ $title }}
                         </a>
                         {{ if $hasPDF}} 
