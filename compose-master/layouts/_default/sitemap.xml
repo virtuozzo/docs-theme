@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">{{ range .Data.Pages }}{{ if and (not (in .Permalink "/private")) (not (eq .Params.Private true)) }}{{ if or (not .Params.Menu.docs.url) (eq .Permalink .Params.Menu.docs.url) }}
     <url>
-        <loc>https://{{.Site.Params.hostName}}{{ .Permalink }}</loc>
+        <loc>{{ .Permalink }}</loc>
         <lastmod>{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" | safeHTML }}</lastmod>
     </url>{{ end }}{{ end }}{{ end }}
 </urlset>
