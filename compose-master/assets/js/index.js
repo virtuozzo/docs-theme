@@ -492,6 +492,10 @@ $(document).ready(function () {
     // NEW SIDEBAR
     if($('.aside-menu-wrapp .current-page').length) {
         $($('.aside-menu-wrapp .current-page')[0]).parents('li').addClass('expanded');
+        // open current parent also
+        if($('.aside-menu-wrapp .current-page').hasClass('has-children')) {
+            $('.aside-menu-wrapp .current-page').addClass('expanded');
+        }
     }
  
     expandedEl = $('.menu-level-1 > .expanded');

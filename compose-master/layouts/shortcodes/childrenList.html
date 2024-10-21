@@ -7,8 +7,12 @@
 {{ $currentID := .currentID}}
     {{ range $index, $element := .data }}    
         {{ if eq $element.Parent $currentID }}
+            {{ $URL := $element.URL }}
+            {{ if $element.ConfiguredURL }}
+                {{ $URL = $element.ConfiguredURL }}
+            {{ end }}
             <li>
-                <a href="{{ .URL }}">{{ .Title }}</a>
+                <a href="{{  $URL }}">{{ .Title }}</a>
             </li> 
         {{ end }}
         {{ if $element.Children }}
