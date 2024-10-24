@@ -7,7 +7,9 @@
             {{ $title := "" }}
             {{ $classList := "" }}
             {{ $isPrivate := "" }}
-            {{ $isExternal := false }}
+            {{ $isRemote := false }}
+            {{ $isDocs := false }}
+            {{ $isVirtuozzoSites := false }}
             {{ $hasPDF := false }}
             {{ $URL := $element.URL }}
             {{ if $element.ConfiguredURL }}
@@ -26,11 +28,14 @@
                 {{ $classList = math.Add $classList " current-page" }}
             {{ end }} 
             {{ if $URL }}
-                {{ if strings.Contains $URL "://" }}
+                {{ $isRemote = strings.HasPrefix $URL "http" }}
+                {{ $isDocs = in $URL .Page.Site.Params.hostName }}
+                {{ $isVirtuozzoSites = in $URL "virtuozzo.com" }}
+                {{ $isPrivate = in $URL "/private-" }}
+                
+                {{ if and (eq $isDocs false) (eq $isRemote true) }}
                     {{ $classList = math.Add $classList " external" }}
-                    {{ $isExternal = true }}
                 {{ end }}
-                {{ $isPrivate = strings.Contains $URL "/private-" }}
             {{ end }}
             {{ if and ($element.Params.pdf) ($URL) }}
                 {{ $classList = math.Add $classList " has-pdf" }}
@@ -52,9 +57,7 @@
                     {{ end }}
 
                     {{ if $URL }}
-                        <a href="{{ $URL }}"{{ if $isPrivate }} rel="noindex nofollow"{{ end }}{{ if $isExternal }} target="_blank" rel="noopener"{{ end }}>
-                            {{ $title }}
-                        </a>
+                        <a href="{{ $URL | safeURL }}" {{ with $title}} title="{{ . }}"{{ end }} {{ if and (eq $isRemote true) (eq $isDocs false) }} target="_blank" {{ end }} {{if (eq $isPrivate true)}} rel="nofollow noindex"{{end}} {{if and (eq $isVirtuozzoSites false) (eq $isRemote true)}} rel="nofollow noopener"{{end}}>{{ $title | safeHTML }}</a>
                         {{ if $hasPDF}} 
                             <a href="{{ $hasPDF }}" class="menu-pdf"></a>
                         {{ end }}
