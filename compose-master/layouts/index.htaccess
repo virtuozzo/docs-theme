@@ -2,6 +2,11 @@ RewriteEngine on
 RewriteBase /
 Header set Strict-Transport-Security "max-age=31536000"
 Header set X-Frame-Options "SAMEORIGIN"
+
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 {{$privateCond := ""}}{{$templateUrl:= ""}}
 {{ if and .Site.Params.readRedirects (eq .Site.Params.readRedirects true) }}{{ readFile "redirects.htaccess" }}{{ end }}
 {{ $redirectTo := "" }}{{ range $p := .Site.Pages -}}{{ $length := .Aliases | len }}{{if .Params.redirectTo }}{{$redirectTo = .Params.redirectTo }}
