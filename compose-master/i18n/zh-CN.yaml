@@ -1,0 +1,87 @@
+search:
+  other: "搜索"
+search-results:
+  other: "搜索结果"
+docs-menu:
+  other: "文档菜单"
+menu:
+  other: "菜单"
+
+products:
+  other: "产品"
+hybrid-cloud:
+  other: "Virtuozzo 混合云"
+hybrid-infrastructure:
+  other: "Virtuozzo 混合基础设施"
+application-platform:
+  other: "Virtuozzo 应用平台"
+self-service-for-vcenter:
+  other: "vCenter 自助服务"
+hybrid-server:
+  other: "Virtuozzo 混合服务器"
+
+solutions:
+  other: "解决方案"
+vmware-alternative:
+  other: "VMware 替代方案"
+platform-as-a-service:
+  other: "平台即服务"
+kubernetes-orchestration:
+  other: "Kubernetes 编排"
+database-management:
+  other: "数据库管理"
+high-performance-storage:
+  other: "高性能存储"
+multi-cloud:
+  other: "多云平台"
+
+partners:
+  other: "合作伙伴"
+paas-providers:
+  other: "PaaS 提供商"
+iaas-providers:
+  other: "IaaS 提供商"
+technology-partners:
+  other: "技术合作伙伴"
+resellers:
+  other: "经销商"
+distributors:
+  other: "分销商"
+become-a-partner:
+  other: "成为合作伙伴"
+
+support:
+  other: "支持"
+documentation:
+  other: "文档"
+product-support:
+  other: "产品支持"
+professional-services:
+  other: "专业服务"
+product-updates:
+  other: "产品更新"
+videos:
+  other: "视频"
+
+company:
+  other: "公司"
+about:
+  other: "关于我们"
+leadership:
+  other: "领导团队"
+case-studies:
+  other: "案例研究"
+blog:
+  other: "博客"
+events:
+  other: "活动"
+contact:
+  other: "联系"
+
+all-rights-reserved:
+  other: "版权所有。"
+privacy-and-legal:
+  other: "隐私与法律"
+
+get-in-touch:
+  other: "保持联系"

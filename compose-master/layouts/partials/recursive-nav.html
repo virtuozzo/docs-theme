@@ -24,9 +24,19 @@
             {{ if $element.Children }}
                 {{ $classList = math.Add $classList "has-children" }}
             {{ end }}
-            {{ if eq $URL $currentPage.RelPermalink }}
+            {{/*  {{ if eq $URL $currentPage.RelPermalink }}
                 {{ $classList = math.Add $classList " current-page" }}
-            {{ end }} 
+            {{ end }}   */}}
+            {{ $site := $currentPage.Site }}
+            {{ $langPrefix := printf "/%s/" $site.Language.Lang }}
+
+            {{ $menuPath := trim (urls.Parse $URL).Path "/" }}
+            {{ $currentPathRaw := (urls.Parse $currentPage.RelPermalink).Path }}
+            {{ $currentPath := trim (strings.TrimPrefix $langPrefix $currentPathRaw) "/" }}
+            {{ if eq $menuPath $currentPath }}
+            {{ $classList = math.Add $classList " current-page" }}
+            {{ end }}
+
             {{ if $URL }}
                 {{ $isRemote = strings.HasPrefix $URL "http" }}
                 {{ $isDocs = in $URL .Page.Site.Params.hostName }}

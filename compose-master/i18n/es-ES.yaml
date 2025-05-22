@@ -1,0 +1,87 @@
+search:
+  other: "Buscar"
+search-results:
+  other: "Resultados de la búsqueda"
+docs-menu:
+  other: "Menú de documentación"
+menu:
+  other: "MENÚ"
+
+products:
+  other: "Productos"
+hybrid-cloud:
+  other: "Virtuozzo Nube Híbrida"
+hybrid-infrastructure:
+  other: "Virtuozzo Infraestructura Híbrida"
+application-platform:
+  other: "Virtuozzo Plataforma de Aplicaciones"
+self-service-for-vcenter:
+  other: "Autoservicio para vCenter"
+hybrid-server:
+  other: "Virtuozzo Servidor Híbrido"
+
+solutions:
+  other: "Soluciones"
+vmware-alternative:
+  other: "Alternativa a VMware"
+platform-as-a-service:
+  other: "Plataforma como Servicio"
+kubernetes-orchestration:
+  other: "Orquestación de Kubernetes"
+database-management:
+  other: "Gestión de Bases de Datos"
+high-performance-storage:
+  other: "Almacenamiento de Alto Rendimiento"
+multi-cloud:
+  other: "Plataforma Multi-Nube"
+
+partners:
+  other: "Socios"
+paas-providers:
+  other: "Proveedores PaaS"
+iaas-providers:
+  other: "Proveedores IaaS"
+technology-partners:
+  other: "Socios Tecnológicos"
+resellers:
+  other: "Revendedores"
+distributors:
+  other: "Distribuidores"
+become-a-partner:
+  other: "Conviértete en Socio"
+
+support:
+  other: "Soporte"
+documentation:
+  other: "Documentación"
+product-support:
+  other: "Soporte de Producto"
+professional-services:
+  other: "Servicios Profesionales"
+product-updates:
+  other: "Actualizaciones de Producto"
+videos:
+  other: "Videos"
+
+company:
+  other: "Empresa"
+about:
+  other: "Acerca de"
+leadership:
+  other: "Liderazgo"
+case-studies:
+  other: "Casos de Estudio"
+blog:
+  other: "Blog"
+events:
+  other: "Eventos"
+contact:
+  other: "Contacto"
+
+all-rights-reserved:
+  other: "Todos los derechos reservados."
+privacy-and-legal:
+  other: "Privacidad y Legal"
+
+get-in-touch:
+  other: "Ponte en contacto"

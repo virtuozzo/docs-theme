@@ -20,9 +20,9 @@
                 </div>
                 {{ end }}
                 <form action="/search/" class="">
-                    <label for="docs-search" class="sr-only">Search</label>
+                    <label for="docs-search" class="sr-only">{{ i18n "search" }}</label>
                     <button type="submit" aria-label="search"></button>
-                    <input id="docs-search" type="text" name="s" placeholder="Search" required>
+                    <input id="docs-search" type="text" name="s" placeholder="{{ i18n `search` }}" required>
                     <span class="clear-search"></span>
                 </form>
                 <div class="hide-sidebar-menu"></div>

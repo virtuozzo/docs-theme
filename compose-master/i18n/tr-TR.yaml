@@ -1,0 +1,87 @@
+search:
+  other: "Ara"
+search-results:
+  other: "Arama Sonuçları"
+docs-menu:
+  other: "Dokümantasyon Menüsü"
+menu:
+  other: "MENÜ"
+
+products:
+  other: "Ürünler"
+hybrid-cloud:
+  other: "Virtuozzo Hibrit Bulut"
+hybrid-infrastructure:
+  other: "Virtuozzo Hibrit Altyapı"
+application-platform:
+  other: "Virtuozzo Uygulama Platformu"
+self-service-for-vcenter:
+  other: "vCenter için Self-Servis"
+hybrid-server:
+  other: "Virtuozzo Hibrit Sunucu"
+
+solutions:
+  other: "Çözümler"
+vmware-alternative:
+  other: "VMware Alternatifi"
+platform-as-a-service:
+  other: "Hizmet Olarak Platform"
+kubernetes-orchestration:
+  other: "Kubernetes Orkestrasyonu"
+database-management:
+  other: "Veritabanı Yönetimi"
+high-performance-storage:
+  other: "Yüksek Performanslı Depolama"
+multi-cloud:
+  other: "Çoklu Bulut Platformu"
+
+partners:
+  other: "Ortaklar"
+paas-providers:
+  other: "PaaS Sağlayıcıları"
+iaas-providers:
+  other: "IaaS Sağlayıcıları"
+technology-partners:
+  other: "Teknoloji Ortakları"
+resellers:
+  other: "Bayiler"
+distributors:
+  other: "Distribütörler"
+become-a-partner:
+  other: "Ortak Olun"
+
+support:
+  other: "Destek"
+documentation:
+  other: "Dokümantasyon"
+product-support:
+  other: "Ürün Desteği"
+professional-services:
+  other: "Profesyonel Hizmetler"
+product-updates:
+  other: "Ürün Güncellemeleri"
+videos:
+  other: "Videolar"
+
+company:
+  other: "Şirket"
+about:
+  other: "Hakkında"
+leadership:
+  other: "Liderlik"
+case-studies:
+  other: "Vaka Çalışmaları"
+blog:
+  other: "Blog"
+events:
+  other: "Etkinlikler"
+contact:
+  other: "İletişim"
+
+all-rights-reserved:
+  other: "Tüm hakları saklıdır."
+privacy-and-legal:
+  other: "Gizlilik ve Hukuki"
+
+get-in-touch:
+  other: "İletişime Geçin"

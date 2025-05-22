@@ -16,6 +16,20 @@
                     <img class="mobile-logo nolaz" alt="Jelastic" width="180" height="35"
                          src="{{ .Site.BaseURL }}images/VZ_Logo.svg">
                 </a>
+
+                {{ if .IsTranslated }}
+                    <div class="versions">
+                        <span class="current">
+                            {{ .Site.Language.Lang }}
+                        </span>
+                        <div class="versions-list">
+                            {{ range .Translations }}
+                                <a href="{{ .RelPermalink }}">{{ .Language.Lang }}</a>
+                            {{ end }}
+                        </div>
+                    </div>
+                {{ end }}
+
                 {{ if .Site.Params.versions }}
                 <div class="versions">
                     <span class="current">
@@ -33,14 +47,14 @@
                     </div>
                 </div>
                 {{ end }}
-                <span class="sidebar-menu">Docs menu</span>
+                <span class="sidebar-menu">{{ i18n "docs-menu" }}</span>
             </div>
-            <span class="menu-mobile"><span>MENU</span></span>
+            <span class="menu-mobile"><span>{{ i18n "menu" }}</span></span>
         </div>
         <div class="menu-container">
             <div class="menu header-menu">
                 <ul>
-                    {{ $current_link := print "https://" .Page.Site.Params.hostName }}
+                    {{/*  {{ $current_link := print "https://" .Page.Site.Params.hostName }}
                     {{ if .Page.Params.menu.docs.url }}
                     {{ $current_link = print $current_link .Page.Params.menu.docs.url }}
                     {{ else }}
@@ -49,7 +63,71 @@
 
                     {{ range $elem_key, $elem_val := $headerMenu.items }}
                     {{ template "menu-element" (dict "item" $elem_val "current_link" $current_link) }}
-                    {{ end }}
+                    {{ end }}  */}}
+                    <div class="menu header-menu">
+                        <ul>
+                            <li class="menu-item menu-item-has-children menu-dropdown-icon">
+                                <a href="#">{{ i18n "products" }}</a>
+                                <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/hybrid-cloud/">{{ i18n "hybrid-cloud" }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/hybrid-infrastructure/">{{ i18n "hybrid-infrastructure" }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/application-platform/">{{ i18n "application-platform" }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/hybrid-server/">{{ i18n "hybrid-server" }}</a>
+                                </li>
+                                </ul>
+                            </li>
+
+                            <li class="menu-item menu-item-has-children menu-dropdown-icon">
+                                <a href="#">{{ i18n "support" }}</a>
+                                <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/all-supported-products/">{{ i18n "product-support" }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/documentation/">{{ i18n "documentation" }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/professional-services/">{{ i18n "professional-services" }}</a>
+                                </li>
+                                </ul>
+                            </li>
+
+                            <li class="menu-item menu-item-has-children menu-dropdown-icon">
+                                <a href="#">{{ i18n "partners" }}</a>
+                                <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/iaas-providers/">{{ i18n "iaas-providers" }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/application-platform-partners/">{{ i18n "paas-providers" }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/technology-partnerships/">{{ i18n "technology-partners" }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/distributors/">{{ i18n "distributors" }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/resellers/">{{ i18n "resellers" }}</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.virtuozzo.com/partners/">{{ i18n "become-a-partner" }}</a>
+                                </li>
+                                </ul>
+                            </li>
+
+                            <li class="menu-item btn">
+                                <a href="https://www.virtuozzo.com/company/contact/">{{ i18n "get-in-touch" }}</a>
+                            </li>
+                            </ul>
+                    </div>
                 </ul>
             </div>
         </div>

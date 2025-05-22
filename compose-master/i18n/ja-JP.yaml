@@ -1,0 +1,87 @@
+search:
+  other: "検索"
+search-results:
+  other: "検索結果"
+docs-menu:
+  other: "ドキュメントメニュー"
+menu:
+  other: "メニュー"
+
+products:
+  other: "製品"
+hybrid-cloud:
+  other: "Virtuozzo ハイブリッドクラウド"
+hybrid-infrastructure:
+  other: "Virtuozzo ハイブリッドインフラストラクチャ"
+application-platform:
+  other: "Virtuozzo アプリケーションプラットフォーム"
+self-service-for-vcenter:
+  other: "vCenter セルフサービス"
+hybrid-server:
+  other: "Virtuozzo ハイブリッドサーバー"
+
+solutions:
+  other: "ソリューション"
+vmware-alternative:
+  other: "VMware の代替"
+platform-as-a-service:
+  other: "プラットフォーム・アズ・ア・サービス"
+kubernetes-orchestration:
+  other: "Kubernetes オーケストレーション"
+database-management:
+  other: "データベース管理"
+high-performance-storage:
+  other: "高性能ストレージ"
+multi-cloud:
+  other: "マルチクラウドプラットフォーム"
+
+partners:
+  other: "パートナー"
+paas-providers:
+  other: "PaaS プロバイダー"
+iaas-providers:
+  other: "IaaS プロバイダー"
+technology-partners:
+  other: "テクノロジーパートナー"
+resellers:
+  other: "再販業者"
+distributors:
+  other: "流通業者"
+become-a-partner:
+  other: "パートナーになる"
+
+support:
+  other: "サポート"
+documentation:
+  other: "ドキュメント"
+product-support:
+  other: "製品サポート"
+professional-services:
+  other: "プロフェッショナルサービス"
+product-updates:
+  other: "製品アップデート"
+videos:
+  other: "ビデオ"
+
+company:
+  other: "会社"
+about:
+  other: "会社概要"
+leadership:
+  other: "リーダーシップ"
+case-studies:
+  other: "ケーススタディ"
+blog:
+  other: "ブログ"
+events:
+  other: "イベント"
+contact:
+  other: "お問い合わせ"
+
+all-rights-reserved:
+  other: "全著作権所有。"
+privacy-and-legal:
+  other: "プライバシー＆法務"
+
+get-in-touch:
+  other: "お問い合わせ"
