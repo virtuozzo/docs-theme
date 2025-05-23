@@ -49,12 +49,7 @@
   <div class="main-content-wrapper">
     <div class="banner">
       <div class="jlc-container">
-          {{ if .Site.Params.notice }}
-          {{ .Site.Params.notice }}
-          {{- else }}
-          This is a documentation portal for Virtuozzo PaaS solutions, previously known as <a
-              href="https://jelastic.com" target="_blank">Jelastic</a>.
-          {{- end }}
+          {{ partial "i18n-extended.html" (slice "heading" .Site.Params.notice ) }}
       </div>
     </div>
     <div class="container">

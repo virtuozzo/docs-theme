@@ -1,5 +1,5 @@
 {{ define "main" }}
-<h1>{{ i18n "search-results" }}</h1>
+<h1>{{ partial "i18n-extended.html" (slice "search-results" "Search results") }}</h1>
 <div id="search-results">
 </div>
 <!-- this template is sucked in by search.js and appended to the search-results div above. So editing here will adjust style -->

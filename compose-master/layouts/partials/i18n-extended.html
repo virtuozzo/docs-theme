@@ -1,0 +1,17 @@
+{{- $key := index . 0 }}
+{{- $default := cond (ge (len .) 2) (index . 1) (print "** Missing translation for key: " $key) }}
+{{- $lang := site.Language.Lang }}
+
+{{- with site.Data.i18n_extra }}
+  {{- with index . $lang }}
+    {{- with index . $key }}
+      {{ . }}
+    {{- else }}
+      {{ i18n $key | default $default }}
+    {{- end }}
+  {{- else }}
+    {{ i18n $key | default $default }}
+  {{- end }}
+{{- else }}
+  {{ i18n $key | default $default }}
+{{- end }}

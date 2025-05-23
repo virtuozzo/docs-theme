@@ -21,9 +21,9 @@
                 {{ end }}
                 <div class="search-wrapper">
                     <form action="/search/" class="">
-                    <label for="docs-search" class="sr-only">{{ i18n "search" }}</label>
+                    <label for="docs-search" class="sr-only">{{ partial "i18n-extended.html" (slice "search" "Search") }}</label>
                     <button type="submit" aria-label="search"></button>
-                    <input id="docs-search" type="text" name="s" placeholder="{{ i18n `search` }}" required>
+                    <input id="docs-search" type="text" name="s" placeholder="{{ partial "i18n-extended.html" (slice `search` `Search`) }}" required>
                     <span class="clear-search"></span>
                 </form>
                     {{ if .IsTranslated }}
