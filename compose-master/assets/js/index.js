@@ -9,11 +9,19 @@ jQuery(document).ready(function ($) {
         $(this).closest('.versions').toggleClass('active');
     });
 
+    $('.langs span').click(function (e) {
+        $(this).closest('.langs').toggleClass('active');
+    });
+
     $(document).click(function(event) {
         var $target = $(event.target);
         if(!$target.closest('.versions').length &&
             $('.versions-list').is(":visible")) {
             $('.versions').removeClass('active')
+        }
+        if(!$target.closest('.langs').length &&
+            $('.langs-list').is(":visible")) {
+            $('.langs').removeClass('active')
         }
     });
 

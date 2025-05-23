@@ -17,19 +17,6 @@
                          src="{{ .Site.BaseURL }}images/VZ_Logo.svg">
                 </a>
 
-                {{ if .IsTranslated }}
-                    <div class="versions">
-                        <span class="current">
-                            {{ .Site.Language.Lang }}
-                        </span>
-                        <div class="versions-list">
-                            {{ range .Translations }}
-                                <a href="{{ .RelPermalink }}">{{ .Language.Lang }}</a>
-                            {{ end }}
-                        </div>
-                    </div>
-                {{ end }}
-
                 {{ if .Site.Params.versions }}
                 <div class="versions">
                     <span class="current">

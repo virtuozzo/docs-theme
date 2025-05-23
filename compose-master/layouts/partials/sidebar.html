@@ -19,12 +19,38 @@
                     </div>
                 </div>
                 {{ end }}
-                <form action="/search/" class="">
+                <div class="search-wrapper">
+                    <form action="/search/" class="">
                     <label for="docs-search" class="sr-only">{{ i18n "search" }}</label>
                     <button type="submit" aria-label="search"></button>
                     <input id="docs-search" type="text" name="s" placeholder="{{ i18n `search` }}" required>
                     <span class="clear-search"></span>
                 </form>
+                    {{ if .IsTranslated }}
+                    <div class="langs">
+                        <span class="current">
+                            {{ $parts := split .Site.Language.Lang "-" }}
+                            {{ if ge (len $parts) 2 }}
+                                {{ index $parts 1 }}
+                            {{ else }}
+                                {{ .Site.Language.Lang }}
+                            {{ end }}
+                        </span>
+                        <div class="langs-list">
+                            {{ range .Translations }}
+                                <a href="{{ .RelPermalink }}">
+                                    {{ $parts := split .Language.Lang "-" }}
+                                    {{ if ge (len $parts) 2 }}
+                                        {{ index $parts 1 }} - {{ .Language.LanguageName }}
+                                    {{ else }}
+                                        {{ .Language.Lang }} - {{ .Language.LanguageName }}
+                                    {{ end }}
+                                </a>
+                            {{ end }}
+                        </div>
+                    </div>
+                {{ end }}
+                </div>
                 <div class="hide-sidebar-menu"></div>
             </div> 
             <div class="aside-menu-wrapp">
