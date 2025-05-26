@@ -33,7 +33,8 @@
             {{ $menuPath := trim (urls.Parse $URL).Path "/" }}
             {{ $currentPathRaw := (urls.Parse $currentPage.RelPermalink).Path }}
             {{ $currentPath := trim (strings.TrimPrefix $langPrefix $currentPathRaw) "/" }}
-            {{ if eq $menuPath $currentPath }}
+
+            {{ if and (ne $menuPath "") (eq $menuPath $currentPath) }}
             {{ $classList = math.Add $classList " current-page" }}
             {{ end }}
 
