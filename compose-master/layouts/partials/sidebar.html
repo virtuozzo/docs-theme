@@ -1,63 +1,70 @@
 <aside class="aside">
     <div class="menu-items-wrap sticky">
         <div class="aside-menu">
-            <div class="search-box-side" id="search-box-side">
-                {{ if .Site.Params.versions }}
-                <div class="versions">
-                    <span class="current">
-                        {{ .Site.Params.version }}
-                    </span>
-                    <div class="versions-list">
-                        {{ range $version := .Site.Params.versions }}
-                            {{ if eq $.Site.Params.version $version }}
-                                <a href="/">{{ $version }}</a>
-                            {{ else }}
-                                {{ $result := replaceRE "^(https?://.*com/[^/]+/).*" "$1" $.Site.BaseURL }}
-                                <a href="{{ $result }}{{ $version }}">{{ $version }}</a>
-                            {{ end }}
-                        {{ end }}
-                    </div>
-                </div>
-                {{ end }}
-                <div class="search-wrapper">
-                    <form action="/search/" class="">
-                    <label for="docs-search" class="sr-only">{{ partial "i18n-extended.html" (slice "search" "Search") }}</label>
-                    <button type="submit" aria-label="search"></button>
-                    <input id="docs-search" type="text" name="s" placeholder="{{ partial "i18n-extended.html" (slice `search` `Search`) }}" required>
-                    <span class="clear-search"></span>
-                </form>
-                    {{ if .IsTranslated }}
-                    <div class="langs">
+            {{ if and (isset .Params "sidebar") (eq .Params.sidebar "toc") }}
+                <aside class="table-of-content">
+                <h2>Contents</h2>
+                {{ .TableOfContents }}
+                </aside>
+            {{ else }}
+                <div class="search-box-side" id="search-box-side">
+                    {{ if .Site.Params.versions }}
+                    <div class="versions">
                         <span class="current">
-                            {{ $parts := split .Site.Language.Lang "-" }}
-                            {{ if ge (len $parts) 2 }}
-                                {{ index $parts 1 }}
-                            {{ else }}
-                                {{ .Site.Language.Lang }}
-                            {{ end }}
+                            {{ .Site.Params.version }}
                         </span>
-                        <div class="langs-list">
-                            {{ range .Translations }}
-                                <a href="{{ .RelPermalink }}">
-                                    {{ $parts := split .Language.Lang "-" }}
-                                    {{ if ge (len $parts) 2 }}
-                                        {{ index $parts 1 }} - {{ .Language.LanguageName }}
-                                    {{ else }}
-                                        {{ .Language.Lang }} - {{ .Language.LanguageName }}
-                                    {{ end }}
-                                </a>
+                        <div class="versions-list">
+                            {{ range $version := .Site.Params.versions }}
+                                {{ if eq $.Site.Params.version $version }}
+                                    <a href="/">{{ $version }}</a>
+                                {{ else }}
+                                    {{ $result := replaceRE "^(https?://.*com/[^/]+/).*" "$1" $.Site.BaseURL }}
+                                    <a href="{{ $result }}{{ $version }}">{{ $version }}</a>
+                                {{ end }}
                             {{ end }}
                         </div>
                     </div>
-                {{ end }}
+                    {{ end }}
+                    <div class="search-wrapper">
+                        <form action="/search/" class="">
+                        <label for="docs-search" class="sr-only">{{ partial "i18n-extended.html" (slice "search" "Search") }}</label>
+                        <button type="submit" aria-label="search"></button>
+                        <input id="docs-search" type="text" name="s" placeholder="{{ partial "i18n-extended.html" (slice `search` `Search`) }}" required>
+                        <span class="clear-search"></span>
+                    </form>
+                        {{ if .IsTranslated }}
+                        <div class="langs">
+                            <span class="current">
+                                {{ $parts := split .Site.Language.Lang "-" }}
+                                {{ if ge (len $parts) 2 }}
+                                    {{ index $parts 1 }}
+                                {{ else }}
+                                    {{ .Site.Language.Lang }}
+                                {{ end }}
+                            </span>
+                            <div class="langs-list">
+                                {{ range .Translations }}
+                                    <a href="{{ .RelPermalink }}">
+                                        {{ $parts := split .Language.Lang "-" }}
+                                        {{ if ge (len $parts) 2 }}
+                                            {{ index $parts 1 }} - {{ .Language.LanguageName }}
+                                        {{ else }}
+                                            {{ .Language.Lang }} - {{ .Language.LanguageName }}
+                                        {{ end }}
+                                    </a>
+                                {{ end }}
+                            </div>
+                        </div>
+                    {{ end }}
+                    </div>
+                    <div class="hide-sidebar-menu"></div>
+                </div> 
+                <div class="aside-menu-wrapp">
+                    {{ $currentPage := .Page }}
+                    {{ $level := 0 }}
+                    {{ partial "recursive-nav.html" (dict "currentPage" $currentPage "level" $level "data" site.Menus.docs) }}
                 </div>
-                <div class="hide-sidebar-menu"></div>
-            </div> 
-            <div class="aside-menu-wrapp">
-                {{ $currentPage := .Page }}
-                {{ $level := 0 }}
-                {{ partial "recursive-nav.html" (dict "currentPage" $currentPage "level" $level "data" site.Menus.docs) }}
-            </div>
+            {{ end }}
         </div>
     </div>
 </aside>
