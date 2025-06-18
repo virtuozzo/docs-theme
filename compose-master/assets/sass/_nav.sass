@@ -267,21 +267,7 @@ header
   display: flex
   align-items: center
 
-.table-of-content
-  a
-    display: block
-    border-top: 1px solid #dedee9
-    padding: 12px 15px 12px 15px
-    font-size: 14px
-    font-weight: 400
-    text-transform: uppercase
-    cursor: pointer
-    background: #F8F9FF
-    color: #333
-    text-decoration: none
-    &:hover 
-      color: #86A2ED
-    
+.table-of-content    
   h2
     padding: 15px 15px
     position: relative
@@ -292,11 +278,30 @@ header
     margin: 0
 
   li 
-    display: block;
-    margin: 0;
-    padding: 0;
+    display: block
+    margin: 0
+    padding: 0
 
-
+    a
+      display: block
+      border-top: 1px solid #dedee9
+      padding: 12px 15px 12px 15px
+      font-size: 14px
+      font-weight: 400
+      text-transform: uppercase
+      cursor: pointer
+      background: #F8F9FF
+      color: #333
+      text-decoration: none
+      &:hover 
+        color: #86A2ED
+        
+    li
+      a 
+        padding-left: 30px
+      li
+        a 
+          padding-left: 45px
 
 .sidebar-menu
   background: none
