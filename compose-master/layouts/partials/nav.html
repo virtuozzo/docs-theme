@@ -1,4 +1,3 @@
-{{ $headerMenu := getJSON "http://185.209.82.198/get_menu.php?v=21082024" }}
 {{ $logoLink := .Site.BaseURL }}
 {{ if .Site.Params.logoLink }}
     {{ $logoLink = .Site.Params.logoLink }}
@@ -41,16 +40,6 @@
         <div class="menu-container">
             <div class="menu header-menu">
                 <ul>
-                    {{/*  {{ $current_link := print "https://" .Page.Site.Params.hostName }}
-                    {{ if .Page.Params.menu.docs.url }}
-                    {{ $current_link = print $current_link .Page.Params.menu.docs.url }}
-                    {{ else }}
-                    {{ $current_link = print $current_link "/" }}
-                    {{ end }}
-
-                    {{ range $elem_key, $elem_val := $headerMenu.items }}
-                    {{ template "menu-element" (dict "item" $elem_val "current_link" $current_link) }}
-                    {{ end }}  */}}
                     <div class="menu header-menu">
                         <ul>
                             <li class="menu-item menu-item-has-children menu-dropdown-icon">
