@@ -1,12 +1,20 @@
 RewriteEngine on
 RewriteBase /
-Header set Strict-Transport-Security "max-age=31536000"
-Header set X-Frame-Options "SAMEORIGIN"
 
+# === 1. Redirect non-www to www ===
+RewriteCond %{HTTP_HOST} ^virtuozzo\.com$ [NC]
+RewriteRule ^(.*)$ https://www.virtuozzo.com/$1 [R=301,L]
+
+# === 2. Redirect HTTP to HTTPS ===
 RewriteCond %{HTTPS} off
 RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# === 3. Security ===
+Header set Strict-Transport-Security "max-age=31536000"
+Header set X-Frame-Options "SAMEORIGIN"
+
+# === 4. Hugo aliases, redirects, private pages ===
 {{$privateCond := ""}}{{$templateUrl:= ""}}
 {{ if and .Site.Params.readRedirects (eq .Site.Params.readRedirects true) }}{{ readFile "redirects.htaccess" }}{{ end }}
 {{ $redirectTo := "" }}{{ range $p := .Site.Pages -}}{{ $length := .Aliases | len }}{{if .Params.redirectTo }}{{$redirectTo = .Params.redirectTo }}
@@ -27,8 +35,12 @@ Satisfy any
 RewriteCond %{REQUEST_URI} !/private-.*${{ $privateCond }}
 RewriteRule .*$ - [E=ALLOW_AUTHORIZATION:1]
 {{ end }}
+
+# === 5. Lowercase ===
 RewriteCond $1 [A-Z]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?(.*)$ {{.Site.BaseURL}}${lowercase:$1} [R=301,L]
 #lowercase rewrite map added in litespeed configs (Configuration -> Virtual hosts -> Rewrite)
+
+# === 6. Error page ===
 ErrorDocument 404 {{ .Site.Params.errorPage }}
