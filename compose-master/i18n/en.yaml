@@ -10,15 +10,15 @@ menu:
 products:
   other: "Products"
 hybrid-cloud:
-  other: "Virtuozzo Hybrid Cloud"
+  other: "Hybrid Cloud"
 hybrid-infrastructure:
-  other: "Virtuozzo Hybrid Infrastructure"
+  other: "Hybrid Infrastructure"
 application-platform:
-  other: "Virtuozzo Application Platform"
+  other: "Application Platform"
 self-service-for-vcenter:
   other: "Self-Service for vCenter"
 hybrid-server:
-  other: "Virtuozzo Hybrid Server"
+  other: "Hybrid Server"
 
 solutions:
   other: "Solutions"
