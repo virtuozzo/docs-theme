@@ -3,7 +3,7 @@ RewriteBase /
 
 # === 1. Redirect non-www to www ===
 RewriteCond %{HTTP_HOST} ^virtuozzo\.com$ [NC]
-RewriteRule ^(.*)$ https://www.virtuozzo.com/$1 [R=301,L]
+RewriteRule ^(.*)$ https://www.virtuozzo.com%{REQUEST_URI} [R=301,L]
 
 # === 2. Redirect HTTP to HTTPS ===
 RewriteCond %{HTTPS} off
