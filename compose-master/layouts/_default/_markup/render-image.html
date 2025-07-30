@@ -1,10 +1,4 @@
 {{ $src := .Destination | safeURL }}
 {{ $alt := .Text | safeHTMLAttr }}
 
-{{ $img := .Page.Resources.GetMatch (path.Base $src) }}
-
-{{ if and $img (or (eq $img.MediaType.Type "image/png") (eq $img.MediaType.Type "image/jpeg") (eq $img.MediaType.Type "image/jpg")) }}
-  <img src="{{ $src }}" alt="{{ $alt }}" width="{{ $img.Width }}" height="{{ $img.Height }}" loading="lazy" />
-{{ else }}
-  <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" />
-{{ end }}
+<img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" />
