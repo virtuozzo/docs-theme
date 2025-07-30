@@ -1,4 +1,17 @@
 {{ $src := .Destination | safeURL }}
 {{ $alt := .Text | safeHTMLAttr }}
 
-<img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" />
+{{ $img := .Page.Resources.GetMatch (path.Base $src) }}
+{{ $imgType := "" }}
+{{ with $img }}{{ $imgType = .MediaType.Type }}{{ end }}
+
+{{ if and $img (in (slice "image/png" "image/jpeg" "image/webp" "image/gif") $imgType) }}
+  {{ $width := 0 }}
+  {{ $height := 0 }}
+  {{ with $img.Width }}{{ $width = . }}{{ end }}
+  {{ with $img.Height }}{{ $height = . }}{{ end }}
+
+  <img src="{{ $src }}" alt="{{ $alt }}" width="{{ $width }}" height="{{ $height }}" loading="lazy" />
+{{ else }}
+  <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" />
+{{ end }}
