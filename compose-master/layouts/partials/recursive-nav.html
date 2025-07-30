@@ -68,7 +68,7 @@
                     {{ end }}
 
                     {{ if $URL }}
-                        <a href="{{ if and (not $isRemote) (ne $site.Language.Lang "en") }}{{ printf "/%s" $site.Language.Lang }}{{ end }}{{ $URL | safeURL }}" {{ with $title}} title="{{ . }}"{{ end }} {{ if and (eq $isRemote true) (eq $isDocs false) }} target="_blank" {{ end }} {{if (eq $isPrivate true)}} rel="nofollow noindex"{{end}} {{if and (eq $isVirtuozzoSites false) (eq $isRemote true)}} rel="nofollow noopener"{{end}}>{{ $title | safeHTML }}</a>
+                        <a href="{{ if and (not $isRemote) (ne $site.Language.Lang "en") }}{{ printf "/%s" $site.Language.Lang }}{{ end }}{{ $URL | safeURL }}" {{ with $title}} title="{{ . }}"{{ end }} {{ if and (eq $isRemote true) (eq $isDocs false) }} target="_blank" {{ end }} {{if and (eq $isVirtuozzoSites false) (eq $isRemote true)}} rel="nofollow noopener"{{end}}>{{ $title | safeHTML }}</a>
                         {{ if $hasPDF}} 
                             <a href="{{ $hasPDF }}" class="menu-pdf"></a>
                         {{ end }}
