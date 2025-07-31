@@ -24,15 +24,15 @@
       <picture>
         <source
           type="image/webp"
-          srcset="{{ $smallWebp.RelPermalink }} {{ $smallWebp.Width }}w,
-                  {{ $mediumWebp.RelPermalink }} {{ $mediumWebp.Width }}w,
-                  {{ $largeWebp.RelPermalink }} {{ $largeWebp.Width }}w"
+          srcset="{{ $smallWebp.Permalink }} {{ $smallWebp.Width }}w,
+                  {{ $mediumWebp.Permalink }} {{ $mediumWebp.Width }}w,
+                  {{ $largeWebp.Permalink }} {{ $largeWebp.Width }}w"
           sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 100vw" />
         <img
-          src="{{ $medium.RelPermalink }}"
-          srcset="{{ $small.RelPermalink }} {{ $small.Width }}w,
-                  {{ $medium.RelPermalink }} {{ $medium.Width }}w,
-                  {{ $large.RelPermalink }} {{ $large.Width }}w"
+          src="{{ $medium.Permalink }}"
+          srcset="{{ $small.Permalink }} {{ $small.Width }}w,
+                  {{ $medium.Permalink }} {{ $medium.Width }}w,
+                  {{ $large.Permalink }} {{ $large.Width }}w"
           sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 100vw"
           width="{{ $img.Width }}"
           height="{{ $img.Height }}"
@@ -49,10 +49,10 @@
 
     <figure>
       <img
-        src="{{ $medium.RelPermalink }}"
-        srcset="{{ $small.RelPermalink }} {{ $small.Width }}w,
-                {{ $medium.RelPermalink }} {{ $medium.Width }}w,
-                {{ $large.RelPermalink }} {{ $large.Width }}w"
+        src="{{ $medium.Permalink }}"
+        srcset="{{ $small.Permalink }} {{ $small.Width }}w,
+                {{ $medium.Permalink }} {{ $medium.Width }}w,
+                {{ $large.Permalink }} {{ $large.Width }}w"
         sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 100vw"
         width="{{ $img.Width }}"
         height="{{ $img.Height }}"
