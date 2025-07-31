@@ -1,31 +1,58 @@
-{{ if .Page.Site.Params.useWebp }}
-  
-  
+{{ $src := .Destination }}
+{{ $alt := .Text | safeHTMLAttr }}
+{{ $caption := .Title | default "" | safeHTML }}
 
-{{ else }}
+{{ $img := .Page.Resources.GetMatch (path.Base $src) }}
+{{ $imgType := "" }}
+{{ with $img }}{{ $imgType = .MediaType.Type }}{{ end }}
 
-  {{ $src := .Destination }}
-  {{ $alt := .Text | safeHTMLAttr }}
-  {{ $caption := .Title | default "" | safeHTML }}
+{{ $isSupportedImage := and $img (in (slice "image/png" "image/jpeg") $imgType) }}
 
-  {{ $img := .Page.Resources.GetMatch (path.Base $src) }}
-  {{ $imgType := "" }}
-  {{ with $img }}{{ $imgType = .MediaType.Type }}{{ end }}
+{{ if $isSupportedImage }}
 
-  {{ if and $img (in (slice "image/png" "image/jpeg") $imgType) }}
+  {{ $small := $img.Resize "320x" }}
+  {{ $medium := $img.Resize "480x" }}
+  {{ $large := $img }}
 
-    {{ $small := $img.Resize "320x" }}  <!-- мобильная версия -->
-    {{ $medium := $img.Resize "480x" }} <!-- планшеты и маленькие десктопы -->
-    {{ $large := $img }}                 <!-- оригинал -->
+  {{ if .Page.Site.Params.useWebp }}
+
+    {{ $smallWebp := $small.Process "webp" }}
+    {{ $mediumWebp := $medium.Process "webp" }}
+    {{ $largeWebp := $large.Process "webp" }}
+
+    <figure>
+      <picture>
+        <source
+          type="image/webp"
+          srcset="{{ $smallWebp.RelPermalink }} {{ $smallWebp.Width }}w,
+                  {{ $mediumWebp.RelPermalink }} {{ $mediumWebp.Width }}w,
+                  {{ $largeWebp.RelPermalink }} {{ $largeWebp.Width }}w"
+          sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 100vw" />
+        <img
+          src="{{ $medium.RelPermalink }}"
+          srcset="{{ $small.RelPermalink }} {{ $small.Width }}w,
+                  {{ $medium.RelPermalink }} {{ $medium.Width }}w,
+                  {{ $large.RelPermalink }} {{ $large.Width }}w"
+          sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 100vw"
+          width="{{ $img.Width }}"
+          height="{{ $img.Height }}"
+          alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
+          loading="lazy"
+          decoding="async" />
+      </picture>
+      {{ if $caption }}
+        <figcaption>{{ $caption | markdownify }}</figcaption>
+      {{ end }}
+    </figure>
+
+  {{ else }}
 
     <figure>
       <img
         src="{{ $medium.RelPermalink }}"
-        srcset="
-          {{ $small.RelPermalink }} {{ $small.Width }}w,
-          {{ $medium.RelPermalink }} {{ $medium.Width }}w,
-          {{ $large.RelPermalink }} {{ $large.Width }}w
-        "
+        srcset="{{ $small.RelPermalink }} {{ $small.Width }}w,
+                {{ $medium.RelPermalink }} {{ $medium.Width }}w,
+                {{ $large.RelPermalink }} {{ $large.Width }}w"
         sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 100vw"
         width="{{ $img.Width }}"
         height="{{ $img.Height }}"
@@ -37,8 +64,10 @@
       {{ end }}
     </figure>
 
-  {{ else }}
-    <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" decoding="async" />
   {{ end }}
+
+{{ else }}
+
+  <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" decoding="async" />
 
 {{ end }}
