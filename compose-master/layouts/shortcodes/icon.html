@@ -1,2 +1,2 @@
-{{ $_hugo_config := `{ "version": 1 }` }}
-<i class="icons-img">{{.Inner}}</i>
+{{- $content := .Inner | safeHTML | replaceRE `(?i)<\/?p[^>]*>` "" }}
+<i class="icons-img">{{- $content | safeHTML  }}</i>
