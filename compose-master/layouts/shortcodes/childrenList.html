@@ -11,6 +11,13 @@
             {{ if $element.ConfiguredURL }}
                 {{ $URL = $element.ConfiguredURL }}
             {{ end }}
+            {{ if .Page.Site.Params.useWebp }}
+                {{ with $element.MenuConfig }}
+                    {{ with .URL }}
+                        {{ $URL = . }}
+                    {{ end }}
+                {{ end }}
+            {{ end }}
             <li>
                 <a href="{{  $URL }}">{{ .Title }}</a>
             </li> 
