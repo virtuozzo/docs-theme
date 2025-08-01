@@ -10,13 +10,17 @@
 
 {{ if $isSupportedImage }}
 
-  {{ $small := $img.Resize "320x" }}
-  {{ $medium := $img.Resize "480x" }}
+  {{ $maxWidth := $img.Width }}
+
+  {{ $medium := cond (ge $maxWidth 480) ($img.Resize "480x") $img }}
   {{ $large := $img }}
+
+  {{ $limit := 480 }}
+  {{ $sizesWidth := cond (lt $img.Width $limit) $img.Width $limit }}
+  {{ $sizes := printf "(max-width: 900px) %dpx, 100vw" $sizesWidth }}
 
   {{ if .Page.Site.Params.useWebp }}
 
-    {{ $smallWebp := $small.Process "webp" }}
     {{ $mediumWebp := $medium.Process "webp" }}
     {{ $largeWebp := $large.Process "webp" }}
 
@@ -24,16 +28,20 @@
       <picture>
         <source
           type="image/webp"
-          srcset="{{ $smallWebp.Permalink }} {{ $smallWebp.Width }}w,
-                  {{ $mediumWebp.Permalink }} {{ $mediumWebp.Width }}w,
-                  {{ $largeWebp.Permalink }} {{ $largeWebp.Width }}w"
-          sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 100vw" />
+          srcset="
+            {{ if ne $mediumWebp.Permalink $largeWebp.Permalink }}
+              {{ $mediumWebp.Permalink }} {{ $mediumWebp.Width }}w,
+            {{ end }}
+            {{ $largeWebp.Permalink }} {{ $largeWebp.Width }}w"
+          sizes="{{ $sizes }}" />
         <img
           src="{{ $medium.Permalink }}"
-          srcset="{{ $small.Permalink }} {{ $small.Width }}w,
-                  {{ $medium.Permalink }} {{ $medium.Width }}w,
-                  {{ $large.Permalink }} {{ $large.Width }}w"
-          sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 100vw"
+          srcset="
+            {{ if ne $medium.Permalink $large.Permalink }}
+              {{ $medium.Permalink }} {{ $medium.Width }}w,
+            {{ end }}
+            {{ $large.Permalink }} {{ $large.Width }}w"
+          sizes="{{ $sizes }}"
           width="{{ $img.Width }}"
           height="{{ $img.Height }}"
           alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
@@ -50,10 +58,12 @@
     <figure>
       <img
         src="{{ $medium.Permalink }}"
-        srcset="{{ $small.Permalink }} {{ $small.Width }}w,
-                {{ $medium.Permalink }} {{ $medium.Width }}w,
-                {{ $large.Permalink }} {{ $large.Width }}w"
-        sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 100vw"
+        srcset="
+          {{ if ne $medium.Permalink $large.Permalink }}
+            {{ $medium.Permalink }} {{ $medium.Width }}w,
+          {{ end }}
+          {{ $large.Permalink }} {{ $large.Width }}w"
+        sizes="{{ $sizes }}"
         width="{{ $img.Width }}"
         height="{{ $img.Height }}"
         alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
