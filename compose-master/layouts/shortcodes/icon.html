@@ -1,12 +1,2 @@
-{{ $content := .Inner | safeHTML }}
-
-{{ if in $content "<figure" }}
-  {{/* Если есть <figure>, добавляем класс и стиль через replace */}}
-  {{ $styled := replaceRE `<figure([^>]*)>` `<figure class="icons-img"$1>` $content }}
-  {{ $styled | safeHTML }}
-{{ else }}
-  {{/* Иначе оборачиваем в div */}}
-  <div class="icons-img">
-    {{ $content | safeHTML }}
-  </div>
-{{ end }}
+{{ $_hugo_config := `{ "version": 1 }` }}
+<span class="icons-img">{{.Inner}}</span>

@@ -12,28 +12,63 @@
 
   {{ $maxWidth := $img.Width }}
 
-  {{ $medium := cond (ge $maxWidth 480) ($img.Resize "480x") $img }}
-  {{ $large := $img }}
+  {{ if lt $maxWidth 100 }}
 
-  {{ $limit := 480 }}
-  {{ $sizesWidth := cond (lt $img.Width $limit) $img.Width $limit }}
-  {{ $sizes := printf "(max-width: 900px) %dpx, 100vw" $sizesWidth }}
+    {{/* Маленькое изображение — просто <img> без picture и figure */}}
+    <img
+      src="{{ $img.Permalink }}"
+      width="{{ $img.Width }}"
+      height="{{ $img.Height }}"
+      alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
+      loading="lazy"
+      decoding="async" />
 
-  {{ if .Page.Site.Params.useWebp }}
+  {{ else }}
 
-    {{ $mediumWebp := $medium.Process "webp" }}
-    {{ $largeWebp := $large.Process "webp" }}
+    {{ $medium := cond (ge $maxWidth 480) ($img.Resize "480x") $img }}
+    {{ $large := $img }}
 
-    <figure>
-      <picture>
-        <source
-          type="image/webp"
-          srcset="
-            {{ if ne $mediumWebp.Permalink $largeWebp.Permalink }}
-              {{ $mediumWebp.Permalink }} {{ $mediumWebp.Width }}w,
-            {{ end }}
-            {{ $largeWebp.Permalink }} {{ $largeWebp.Width }}w"
-          sizes="{{ $sizes }}" />
+    {{ $limit := 480 }}
+    {{ $sizesWidth := cond (lt $img.Width $limit) $img.Width $limit }}
+    {{ $sizes := printf "(max-width: 900px) %dpx, 100vw" $sizesWidth }}
+
+    {{ if .Page.Site.Params.useWebp }}
+
+      {{ $mediumWebp := $medium.Process "webp" }}
+      {{ $largeWebp := $large.Process "webp" }}
+
+      <figure>
+        <picture>
+          <source
+            type="image/webp"
+            srcset="
+              {{ if ne $mediumWebp.Permalink $largeWebp.Permalink }}
+                {{ $mediumWebp.Permalink }} {{ $mediumWebp.Width }}w,
+              {{ end }}
+              {{ $largeWebp.Permalink }} {{ $largeWebp.Width }}w"
+            sizes="{{ $sizes }}" />
+          <img
+            src="{{ $medium.Permalink }}"
+            srcset="
+              {{ if ne $medium.Permalink $large.Permalink }}
+                {{ $medium.Permalink }} {{ $medium.Width }}w,
+              {{ end }}
+              {{ $large.Permalink }} {{ $large.Width }}w"
+            sizes="{{ $sizes }}"
+            width="{{ $img.Width }}"
+            height="{{ $img.Height }}"
+            alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
+            loading="lazy"
+            decoding="async" />
+        </picture>
+        {{ if $caption }}
+          <figcaption>{{ $caption | markdownify }}</figcaption>
+        {{ end }}
+      </figure>
+
+    {{ else }}
+
+      <figure>
         <img
           src="{{ $medium.Permalink }}"
           srcset="
@@ -47,37 +82,18 @@
           alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
           loading="lazy"
           decoding="async" />
-      </picture>
-      {{ if $caption }}
-        <figcaption>{{ $caption | markdownify }}</figcaption>
-      {{ end }}
-    </figure>
+        {{ if $caption }}
+          <figcaption>{{ $caption | markdownify }}</figcaption>
+        {{ end }}
+      </figure>
 
-  {{ else }}
-
-    <figure>
-      <img
-        src="{{ $medium.Permalink }}"
-        srcset="
-          {{ if ne $medium.Permalink $large.Permalink }}
-            {{ $medium.Permalink }} {{ $medium.Width }}w,
-          {{ end }}
-          {{ $large.Permalink }} {{ $large.Width }}w"
-        sizes="{{ $sizes }}"
-        width="{{ $img.Width }}"
-        height="{{ $img.Height }}"
-        alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
-        loading="lazy"
-        decoding="async" />
-      {{ if $caption }}
-        <figcaption>{{ $caption | markdownify }}</figcaption>
-      {{ end }}
-    </figure>
+    {{ end }}
 
   {{ end }}
 
 {{ else }}
 
+  {{/* Для неподдерживаемых или не найденных изображений — обычный img */}}
   <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" decoding="async" />
 
 {{ end }}
