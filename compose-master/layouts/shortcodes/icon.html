@@ -1,12 +1,11 @@
-{{ $src := .Get "src"  }} 
-{{ $alt := .Get "alt" | safeHTMLAttr }}
+{{- $_hugo_config := `{ "version": 1, "inline": true }` -}}
 
-{{ $img := .Page.Resources.GetMatch (path.Base $src) }}
-{{ $imgType := "" }}
-{{ with $img }}{{ $imgType = .MediaType.Type }}{{ end }}
-{{ $isSupportedImage := and $img (in (slice "image/png" "image/jpeg") $imgType) }}
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | safeHTMLAttr -}}
+{{- $img := .Page.Resources.GetMatch (path.Base $src) -}}
 
-<i class="icons-img">
-    <img src="{{ $img.Permalink }}" alt="{{ $alt }}" width="{{ $img.Width }}"
-            height="{{ $img.Height }}">
-</i> 
+{{- if not $img -}}
+  {{- errorf "icon shortcode: image '%s' not found in Page Bundle for page %s" $src .Page.Path -}}
+{{- end -}}
+
+{{- printf "<img src=\"%s\" alt=\"%s\" width=\"%d\" height=\"%d\" class=\"icons-img\">" $img.RelPermalink $alt $img.Width $img.Height | safeHTML -}}
