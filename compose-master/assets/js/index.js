@@ -510,7 +510,6 @@ $(document).ready(function () {
     
     if (expandedEl.length) {
         expandedEl = expandedEl[0];
-        console.log(expandedEl.parentNode);
         expandedEl.parentNode.parentNode.scrollTop = expandedEl.offsetTop - expandedEl.parentNode.parentNode.offsetTop;
     }
 
