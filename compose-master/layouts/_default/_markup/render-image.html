@@ -1,4 +1,4 @@
-{{ $src := .Destination }} 
+{{ $src := .Destination }}
 {{ $alt := .Text | safeHTMLAttr }}
 {{ $caption := .Title | default "" | safeHTML }}
 
@@ -12,56 +12,28 @@
 
   {{ $maxWidth := $img.Width }}
 
-  {{ if lt $maxWidth 100 }}
+  {{ $medium := cond (ge $maxWidth 480) ($img.Resize "480x") $img }}
+  {{ $large := $img }}
 
-    <img src="{{ $img.Permalink }}" alt="{{ $alt }}">
+  {{ $limit := 480 }}
+  {{ $sizesWidth := cond (lt $img.Width $limit) $img.Width $limit }}
+  {{ $sizes := printf "(max-width: 900px) %dpx, 100vw" $sizesWidth }}
 
-  {{ else }}
+  {{ if .Page.Site.Params.useWebp }}
 
-    {{ $medium := cond (ge $maxWidth 480) ($img.Resize "480x") $img }}
-    {{ $large := $img }}
+    {{ $mediumWebp := $medium.Process "webp" }}
+    {{ $largeWebp := $large.Process "webp" }}
 
-    {{ $limit := 480 }}
-    {{ $sizesWidth := cond (lt $img.Width $limit) $img.Width $limit }}
-    {{ $sizes := printf "(max-width: 900px) %dpx, 100vw" $sizesWidth }}
-
-    {{ if .Page.Site.Params.useWebp }}
-
-      {{ $mediumWebp := $medium.Process "webp" }}
-      {{ $largeWebp := $large.Process "webp" }}
-
-      <figure>
-        <picture>
-          <source
-            type="image/webp"
-            srcset="
-              {{ if ne $mediumWebp.Permalink $largeWebp.Permalink }}
-                {{ $mediumWebp.Permalink }} {{ $mediumWebp.Width }}w,
-              {{ end }}
-              {{ $largeWebp.Permalink }} {{ $largeWebp.Width }}w"
-            sizes="{{ $sizes }}" />
-          <img
-            src="{{ $medium.Permalink }}"
-            srcset="
-              {{ if ne $medium.Permalink $large.Permalink }}
-                {{ $medium.Permalink }} {{ $medium.Width }}w,
-              {{ end }}
-              {{ $large.Permalink }} {{ $large.Width }}w"
-            sizes="{{ $sizes }}"
-            width="{{ $img.Width }}"
-            height="{{ $img.Height }}"
-            alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
-            loading="lazy"
-            decoding="async" />
-        </picture>
-        {{ if $caption }}
-          <figcaption>{{ $caption | markdownify }}</figcaption>
-        {{ end }}
-      </figure>
-
-    {{ else }}
-
-      <figure>
+    <figure>
+      <picture>
+        <source
+          type="image/webp"
+          srcset="
+            {{ if ne $mediumWebp.Permalink $largeWebp.Permalink }}
+              {{ $mediumWebp.Permalink }} {{ $mediumWebp.Width }}w,
+            {{ end }}
+            {{ $largeWebp.Permalink }} {{ $largeWebp.Width }}w"
+          sizes="{{ $sizes }}" />
         <img
           src="{{ $medium.Permalink }}"
           srcset="
@@ -75,18 +47,37 @@
           alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
           loading="lazy"
           decoding="async" />
-        {{ if $caption }}
-          <figcaption>{{ $caption | markdownify }}</figcaption>
-        {{ end }}
-      </figure>
+      </picture>
+      {{ if $caption }}
+        <figcaption>{{ $caption | markdownify }}</figcaption>
+      {{ end }}
+    </figure>
 
-    {{ end }}
+  {{ else }}
+
+    <figure>
+      <img
+        src="{{ $medium.Permalink }}"
+        srcset="
+          {{ if ne $medium.Permalink $large.Permalink }}
+            {{ $medium.Permalink }} {{ $medium.Width }}w,
+          {{ end }}
+          {{ $large.Permalink }} {{ $large.Width }}w"
+        sizes="{{ $sizes }}"
+        width="{{ $img.Width }}"
+        height="{{ $img.Height }}"
+        alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
+        loading="lazy"
+        decoding="async" />
+      {{ if $caption }}
+        <figcaption>{{ $caption | markdownify }}</figcaption>
+      {{ end }}
+    </figure>
 
   {{ end }}
 
 {{ else }}
 
-  {{/* Для неподдерживаемых или не найденных изображений — обычный img */}}
   <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" decoding="async" />
 
 {{ end }}
