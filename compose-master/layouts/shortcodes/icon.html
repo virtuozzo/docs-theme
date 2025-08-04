@@ -1,2 +1,12 @@
-{{- $content := .Inner | safeHTML | replaceRE `(?i)<\/?p[^>]*>` "" }}
-<i class="icons-img">{{- $content | safeHTML  }}</i>
+{{ $src := .Get "src"  }} 
+{{ $alt := .Get "alt" | safeHTMLAttr }}
+
+{{ $img := .Page.Resources.GetMatch (path.Base $src) }}
+{{ $imgType := "" }}
+{{ with $img }}{{ $imgType = .MediaType.Type }}{{ end }}
+{{ $isSupportedImage := and $img (in (slice "image/png" "image/jpeg") $imgType) }}
+
+<i class="icons-img">
+    <img src="{{ $img.Permalink }}" alt="{{ $alt }}" width="{{ $img.Width }}"
+            height="{{ $img.Height }}">
+</i> 

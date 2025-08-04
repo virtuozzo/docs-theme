@@ -1,4 +1,4 @@
-{{ $src := .Destination }}
+{{ $src := .Destination }} 
 {{ $alt := .Text | safeHTMLAttr }}
 {{ $caption := .Title | default "" | safeHTML }}
 
@@ -14,14 +14,7 @@
 
   {{ if lt $maxWidth 100 }}
 
-    {{/* Маленькое изображение — просто <img> без picture и figure */}}
-    <img
-      src="{{ $img.Permalink }}"
-      width="{{ $img.Width }}"
-      height="{{ $img.Height }}"
-      alt="{{ if $alt }}{{ $alt }}{{ else if $caption }}{{ $caption | markdownify | plainify }}{{ else }}&nbsp;{{ end }}"
-      loading="lazy"
-      decoding="async" />
+    <img src="{{ $img.Permalink }}" alt="{{ $alt }}">
 
   {{ else }}
 
