@@ -60,7 +60,7 @@
                 {{ $hasPDF = printf "%s%s" $URL $element.Params.pdf }}
             {{ end }}
             
-            <li id="{{ .Identifier }}-menu" class="{{ $classList }}">
+            <li{{ with $classList }} class="{{ trim . " " }}"{{ end }}>
                 <span class="aside-menu-item"> 
                     {{ if eq $level 1 }}
                         {{ if $element.Params.img }}
