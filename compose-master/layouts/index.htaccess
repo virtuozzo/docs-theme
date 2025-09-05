@@ -44,3 +44,4 @@ RewriteRule ^/?(.*)$ {{.Site.BaseURL}}${lowercase:$1} [R=301,L]
 
 # === 6. Error page ===
 ErrorDocument 404 {{ .Site.Params.errorPage }}
+RewriteRule ^404/?$ https://{{ .Site.Params.hostName }}/ [L,R=301]
