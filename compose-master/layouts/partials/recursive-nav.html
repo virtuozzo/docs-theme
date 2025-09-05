@@ -15,11 +15,9 @@
             {{ if $element.ConfiguredURL }}
                 {{ $URL = $element.ConfiguredURL }}
             {{ end }}
-            {{ if .Page.Site.Params.useWebp }}
-                {{ with $element.MenuConfig }}
-                    {{ with .URL }}
-                        {{ $URL = . }}
-                    {{ end }}
+            {{ with $element.MenuConfig }}
+                {{ with .URL }}
+                    {{ $URL = . }}
                 {{ end }}
             {{ end }}
             {{ if $element.Title }}
