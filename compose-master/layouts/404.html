@@ -1,7 +1,8 @@
 {{ define "main" }}
-  {{ with site.GetPage "page" "404" }}
-    <h1>{{ .Title }}</h1>
-    <div>{{ .Content }}</div>
+  {{ $page := site.GetPage "/404" }}
+  {{ if $page }}
+    success
+    {{ $page.Content | safeHTML }}
   {{ else }}
     <h1>404 – Page Not Found</h1>
     <p>The page you are looking for doesn’t exist.</p>
