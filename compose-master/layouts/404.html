@@ -1,7 +1,6 @@
 {{ define "main" }}
   {{ $page := site.GetPage "/404" }}
   {{ if $page }}
-    success
     {{ $page.Content | safeHTML }}
   {{ else }}
     <h1>404 – Page Not Found</h1>
