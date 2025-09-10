@@ -457,6 +457,19 @@ function loadActions() {
 $(document).ready(function () {
     loadActions();
 
+    let content = document.querySelector('.content');
+    let tables = content.querySelectorAll('table.wrapped');
+
+    tables.forEach(function(table) {
+        if (table.parentElement && table.parentElement.classList.contains('table-default')) {
+            return;
+        }
+        let wrapper = document.createElement('div');
+        wrapper.className = 'table-default';
+        table.parentNode.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
+    });
+
     if (window.location.hash) {
         $('html, body').animate({
             scrollTop: $(window.location.hash).offset().top
