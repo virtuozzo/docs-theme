@@ -41,29 +41,27 @@
 </li>
 {{ end }}
 <div class="page-wrapper">
-  <header class="header" id="top">
-
-    {{- partial "nav" . }}
-
-  </header>
+  <header class="header" id="top">{{- partial "nav" . }}</header>
   <div class="main-content-wrapper">
-    <div class="banner">
-      <div class="jlc-container">
-          {{ partial "i18n-extended.html" (slice "heading" .Site.Params.notice ) }}
+    {{ with .Site.Params.notice }}
+      <div class="banner">
+        <div class="jlc-container">
+          {{ partial "i18n-extended.html" (slice "heading" .) }}
+        </div>
       </div>
-    </div>
+    {{ end }}
     <div class="container">
 
-  {{- partial "sidebar" . }}
-  <main class="main">
-    {{- if eq .Section "docs" }}
-    {{- partial "document" . }}
-    {{- else }}
-    {{- block "main" . }}{{ end }}
-    {{- end }}
-  </main>
+    {{- partial "sidebar" . }}
+    <main class="main">
+      {{- if eq .Section "docs" }}
+      {{- partial "document" . }}
+      {{- else }}
+      {{- block "main" . }}{{ end }}
+      {{- end }}
+    </main>
   <div id="footer"></div>
-</div>
+  </div>
 </div>
   {{- partial "footer" . }}
   {{- partial "scripts" . }}
