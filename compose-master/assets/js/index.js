@@ -354,13 +354,14 @@ function loadActions() {
 
     })();
 
-    let headingNodes = [], results, link, icon, current, id,
+    let headingNodes = [], results, link, icon, current, id, content,
         tags = ['h2', 'h3', 'h4', 'h5', 'h6'];
 
+    content = document.getElementsByClassName('content')[0];
     current = document.URL;
 
     tags.forEach(function (tag) {
-        results = document.getElementsByTagName(tag);
+        results = content.getElementsByTagName(tag);
         Array.prototype.push.apply(headingNodes, results);
     });
 

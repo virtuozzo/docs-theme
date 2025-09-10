@@ -63,7 +63,7 @@
 
 <meta name="description" content="{{ .Params.Seodesc }}">
 <meta name="keywords" content="{{ .Params.Seokeywords }}">
-<meta name="robots" content="{{ .Params.Seoindex }}"/>
+<meta name="robots" content="{{ if .Params.canonical }}{{ replaceRE `\bindex\b` "noindex" .Params.Seoindex }}{{ else }}{{ .Params.Seoindex }}{{ end }}">
 <link rel="canonical" href="{{ with .Params.canonical }}{{ . }}{{ else }}{{ .Permalink }}{{ end }}">
 {{- partial "opengraph" . }}
 {{- $options := (dict "targetPath" "css/styles.css" "outputStyle" "compressed" "enableSourceMap" "true") -}}
@@ -71,19 +71,43 @@
 <link rel="stylesheet" id="footer-css" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/css/blocks/footer.css" media="all">
 <link rel='stylesheet' href='{{ $styles.Permalink }}'>
 
-<!-- Google Tag Manager -->
-<script>(function (w, d, s, l, i) {
-    w[l] = w[l] || [];
-    w[l].push({
-        'gtm.start':
-            new Date().getTime(), event: 'gtm.js'
-    });
-    var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-    j.async = true;
-    j.src =
-        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-    f.parentNode.insertBefore(j, f);
-})(window, document, 'script', 'dataLayer', 'GTM-W9PSVPL');</script>
-<!-- End Google Tag Manager -->
+{{ if in .Site.BaseURL "virtuozzo.com" }}
+    <script>
+        // Define dataLayer and the gtag function.
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        // Default ad_storage to 'denied'.
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'wait_for_update': 500
+
+        });
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W9PSVPL');</script>
+    <!-- End Google Tag Manager -->
+    <!-- CookiePro Cookies Consent Notice start for virtuozzo.com -->
+    <script src="https://cookie-cdn.cookiepro.com/consent/d6997970-8f28-46d2-9fe5-77c66428e76c/otSDKStub.js"
+            type="text/javascript" charset="UTF-8" data-domain-script="d6997970-8f28-46d2-9fe5-77c66428e76c"></script>
+    <script type="text/javascript">
+        function OptanonWrapper() {
+        }
+    </script>
+    <!-- CookiePro Cookies Consent Notice end for virtuozzo.com -->
+{{ end }}
+
 
