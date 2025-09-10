@@ -357,7 +357,7 @@ function loadActions() {
     let headingNodes = [], results, link, icon, current, id, content,
         tags = ['h2', 'h3', 'h4', 'h5', 'h6'];
 
-    content = document.getElementsByClassName('content')[0];
+    content = document.querySelectorAll('main.main')[0];
     current = document.URL;
 
     tags.forEach(function (tag) {
@@ -457,9 +457,8 @@ function loadActions() {
 $(document).ready(function () {
     loadActions();
 
-    let content = document.querySelector('.content');
+    let content = document.querySelectorAll('main.main')[0];
     let tables = content.querySelectorAll('table.wrapped');
-
     tables.forEach(function(table) {
         if (table.parentElement && table.parentElement.classList.contains('table-default')) {
             return;
