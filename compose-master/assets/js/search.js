@@ -38,7 +38,8 @@ Docs.Search = (function (that) {
         minMatchCharLength: 30,
         keys: [
             {name: "title", weight: 0.8},
-            {name: "contents", weight: 0.5},
+            {name: "description", weight: 0.6},
+            {name: "contents", weight: 0.4}
         ]
     };
     that.search = $("#docs-search");
@@ -77,7 +78,7 @@ Docs.Search = (function (that) {
 
     that.populateResults = function (result) {
         $.each(result, function (key, value) {
-            var contents = value.item.contents;
+            var contents = value.item.description;
             var snippet = "";
             var snippetHighlights = [];
             var tags = [];
