@@ -71,6 +71,8 @@
 <link rel="stylesheet" id="footer-css" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/css/blocks/footer.css" media="all">
 <link rel='stylesheet' href='{{ $styles.Permalink }}'>
 
+{{ partial "schema.html" . }}
+
 {{ if in .Site.BaseURL "virtuozzo.com" }}
     <script>
         // Define dataLayer and the gtag function.
