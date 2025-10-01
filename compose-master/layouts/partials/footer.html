@@ -1,1 +1,87 @@
-{{- partial "static-footer" . }}
+<div id="static-footer">
+    <div id="static-footer-top">
+        <div class="static-footer-menu">
+            <p>{{ partial "i18n-extended.html" (slice "products" "Products") }}</p>
+            <ul>
+                <li><a href="https://www.virtuozzo.com/hybrid-cloud/">{{ partial "i18n-extended.html" (slice "hybrid-cloud" "Hybrid Cloud") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/hybrid-infrastructure/">{{ partial "i18n-extended.html" (slice "hybrid-infrastructure" "Hybrid Infrastructure") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/application-platform/">{{ partial "i18n-extended.html" (slice "application-platform" "Application Platform") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/hybrid-server/">{{ partial "i18n-extended.html" (slice "hybrid-server" "Hybrid Server") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/high-performance-storage/">{{ partial "i18n-extended.html" (slice "storage" "Storage") }}</a></li>
+            </ul>
+        </div>
+        <div class="static-footer-menu">
+            <p>{{ partial "i18n-extended.html" (slice "solutions" "Solutions") }}</p>
+            <ul>
+                <li><a href="https://www.virtuozzo.com/vmware-alternative/">{{ partial "i18n-extended.html" (slice "vmware-alternative" "VMware Alternative") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/application-platform/">{{ partial "i18n-extended.html" (slice "platform-as-a-service" "Platform as a Service") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/kubernetes-hosting/">{{ partial "i18n-extended.html" (slice "kubernetes-orchestration" "Kubernetes Orchestration") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/database-platform-as-a-service/">{{ partial "i18n-extended.html" (slice "database-management" "Database Management") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/high-performance-storage/">{{ partial "i18n-extended.html" (slice "high-performance-storage" "High Performance Storage") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/multi-cloud-platform/">{{ partial "i18n-extended.html" (slice "multi-cloud" "Multi-Cloud") }}</a></li>
+            </ul>
+        </div>
+        <div class="static-footer-menu">
+            <p>{{ partial "i18n-extended.html" (slice "partners" "Partners") }}</p>
+            <ul>
+                <li><a href="https://www.virtuozzo.com/application-platform-partners/">{{ partial "i18n-extended.html" (slice "paas-providers" "PaaS Providers") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/iaas-providers/">{{ partial "i18n-extended.html" (slice "iaas-providers" "IaaS Providers") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/technology-partnerships/">{{ partial "i18n-extended.html" (slice "technology-partners" "Technology Partners") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/resellers/">{{ partial "i18n-extended.html" (slice "resellers" "Resellers") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/distributors/">{{ partial "i18n-extended.html" (slice "distributors" "Distributors") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/partners/">{{ partial "i18n-extended.html" (slice "become-a-partner" "Become a Partner") }}</a></li>
+            </ul>
+        </div>
+        <div class="static-footer-menu">
+            <p>{{ partial "i18n-extended.html" (slice "support" "Support") }}</p>
+            <ul>
+                <li><a href="https://www.virtuozzo.com/documentation/">{{ partial "i18n-extended.html" (slice "documentation" "Documentation") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/all-supported-products/">{{ partial "i18n-extended.html" (slice "product-support" "Product Support") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/professional-services/">{{ partial "i18n-extended.html" (slice "professional-services" "Professional Services") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/company/blog/category/product-updates/">{{ partial "i18n-extended.html" (slice "product-updates" "Product Updates") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/company/blog/category/video/">{{ partial "i18n-extended.html" (slice "videos" "Videos") }}</a></li>
+            </ul>
+        </div>
+        <div class="static-footer-menu">
+            <p>{{ partial "i18n-extended.html" (slice "company" "Company") }}</p>
+            <ul>
+                <li><a href="https://www.virtuozzo.com/company/about/">{{ partial "i18n-extended.html" (slice "about" "About") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/company/leadership/">{{ partial "i18n-extended.html" (slice "leadership" "Leadership") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/resources/?resources_cats=case-studies">{{ partial "i18n-extended.html" (slice "case-studies" "Case Studies") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/company/blog/">{{ partial "i18n-extended.html" (slice "blog" "Blog") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/company/events/">{{ partial "i18n-extended.html" (slice "events" "Events") }}</a></li>
+                <li><a href="https://www.virtuozzo.com/company/contact/">{{ partial "i18n-extended.html" (slice "contact" "Contact") }}</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="static-footer-bottom">
+        <div class="static-footer-bottom-top">
+            <img src="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/img/vz-main-logo-white.svg" alt="Virtuozzo logo" width="600" height="108">
+            <ul class="static-footer-social">
+                <li>
+                    <a href="https://www.linkedin.com/company/virtuozzo" target="_blank" rel="noopener noreferrer">
+                        <img src="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/img/components/footer/linkedin.svg" alt="linkedin"  width="35" height="35">
+                    </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/virtuozzoinc" target="_blank" rel="noopener noreferrer">
+                        <img src="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/img/components/footer/twitter.svg" alt="twitter" width="34" height="35">
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.facebook.com/VirtuozzoInc/" target="_blank" rel="noopener noreferrer">
+                        <img src="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/img/components/footer/facebook.svg" alt="facebook" width="34" height="35">
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.youtube.com/channel/UCF1QeKAgIZ8ZQFaqUxPp87w" target="_blank" rel="noopener noreferrer">
+                        <img src="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/img/components/footer/youtube.svg" alt="youtube" width="35" height="35">
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="static-footer-bottom-bottom">
+            <p>© Virtuozzo. {{ partial "i18n-extended.html" (slice "all-rights-reserved" "All rights reserved") }} | <a href="https://www.virtuozzo.com/legal/">{{ partial "i18n-extended.html" (slice "privacy-and-legal" "Privacy & Legal") }}</a></p>
+        </div>
+    </div>
+</div>
