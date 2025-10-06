@@ -59,7 +59,43 @@
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-config" content='{{ absURL (printf "%sbrowserconfig.xml" $iconsPath) }}'>
 <meta name="theme-color" content="#ffffff">
-<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ with .Params.Seotitle }}{{ . }} | {{ end }}{{ .Page.Site.Params.pageSeoTitle }}{{ end }}</title>
+
+{{- $limit := 70 -}}
+{{- $main := "" -}}
+{{- if .IsHome -}}
+    {{- $main = .Site.Title -}}
+{{- else -}}
+    {{- with .Params.Seotitle -}}
+        {{- $main = . -}}
+    {{- else -}}
+        {{- $main = "" -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $longSuffix := print " | " .Site.Params.pageSeoTitle -}}
+{{- $shortSuffix := " | Virtuozzo" -}}
+
+{{- $fullTitle := "" -}}
+{{- if .IsHome -}}
+    {{- $fullTitle = $main -}}
+{{- else -}}
+    {{- if $main -}}
+        {{- $fullTitle = print $main $longSuffix -}}
+    {{- else -}}
+        {{- $fullTitle = print .Site.Params.pageSeoTitle -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if gt (len $fullTitle) $limit -}}
+    {{- $fullTitle = print $main $shortSuffix -}}
+{{- end -}}
+
+{{- if gt (len $fullTitle) $limit -}}
+    {{- $fullTitle = $main -}}
+{{- end -}}
+
+<title>{{ $fullTitle }}</title>
+
 
 <meta name="description" content="{{ .Params.Seodesc }}">
 <meta name="keywords" content="{{ .Params.Seokeywords }}">

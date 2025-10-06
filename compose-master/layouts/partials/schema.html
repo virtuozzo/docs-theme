@@ -5,111 +5,135 @@
 {{- $orgLogo := "https://www.virtuozzo.com/wp-content/uploads/2025/04/virtuozzo.svg" -}}
 {{- $orgUrl := "https://www.virtuozzo.com/" -}}
 {{- $lang := cond (eq .Site.Language.Lang "en") "en-US" .Site.Language.Lang -}}
+{{ $raw := lower .RawContent }}
 
 <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      "@context": "https://schema.org",
-      "@graph": [
+      "@type": "WebPage",
+      "@id": "{{ $url }}",
+      "url": "{{ $url }}",
+      "name": "{{ $title }}",
+      "isPartOf": { "@id": "{{ $orgUrl }}#website" },
+      "about": { "@id": "{{ $orgUrl }}#organization" },
+      "datePublished": "{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}",
+      "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+      "description": "{{ $description }}",
+      "breadcrumb": { "@id": "{{ $url }}#breadcrumb" },
+      "inLanguage": "{{ $lang }}",
+      "potentialAction": [
         {
-          "@type": "WebPage",
-          "@id": "{{ $url }}",
-          "url": "{{ $url }}",
-          "name": "{{ $title }}",
-          "isPartOf": { "@id": "{{ $orgUrl }}#website" },
-          "about": { "@id": "{{ $orgUrl }}#organization" },
-          "datePublished": "{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}",
-          "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
-          "description": "{{ $description }}",
-          "breadcrumb": { "@id": "{{ $url }}#breadcrumb" },
-          "inLanguage": "{{ $lang }}",
-            "potentialAction": [
-                {
-                    "@type": "ReadAction",
-                    "target": [
-                        "{{ $url }}"
-                    ]
-                }
-            ]
-        },
-        {
-          "@type": "BreadcrumbList",
-          "@id": "{{ $url }}#breadcrumb",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "{{ $orgUrl }}"
-            },
-            {{- if not .IsHome -}}
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "{{ .Site.Title }}",
-              "item": "{{ .Site.BaseURL }}"
-            },
-            {
-              "@type": "ListItem",
-              "position": 3,
-              "name": "{{ $title }}"
-            }
-            {{- else }}
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "{{ .Site.Title }}"
-            }
-            {{- end }}
-          ]
-        },
-        {
-          "@type": "WebSite",
-          "@id": "{{ $orgUrl }}#website",
-          "url": "{{ $orgUrl }}",
-          "name": "{{ $orgName }}",
-          "description": "",
-          "publisher": { "@id": "{{ $orgUrl }}#organization" },
-          "potentialAction": [
-            {
-              "@type": "SearchAction",
-              "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "{{ $orgUrl }}?s={search_term_string}"
-              },
-              "query-input": {
-                "@type": "PropertyValueSpecification",
-                "valueRequired": true,
-                "valueName": "search_term_string"
-              }
-            }
-          ],
-          "inLanguage": "{{ $lang }}"
-        },
-        {
-          "@type": "Organization",
-          "@id": "{{ $orgUrl }}#organization",
-          "name": "{{ $orgName }}",
-          "url": "{{ $orgUrl }}",
-          "logo": {
-            "@type": "ImageObject",
-            "inLanguage": "{{ $lang }}",
-            "@id": "{{ $orgUrl }}#/schema/logo/image/",
-            "url": "{{ $orgLogo }}",
-            "contentUrl": "{{ $orgLogo }}",
-            "width": 105,
-            "height": 19,
-            "caption": "Virtuozzo"
-          },
-          "image": { "@id": "{{ $orgUrl }}#/schema/logo/image/" },
-          "sameAs": [
-            "https://www.facebook.com/VirtuozzoInc/",
-            "https://x.com/virtuozzoinc",
-            "https://www.youtube.com/channel/UCF1QeKAgIZ8ZQFaqUxPp87w",
-            "https://www.linkedin.com/company/virtuozzo"
-          ],
-          "description": "Enabling service providers with virtualization, hyperconverged cloud infrastructure, high-performance storage and application management",
-          "email": "info@virtuozzo.com"
+          "@type": "ReadAction",
+          "target": ["{{ $url }}"]
         }
       ]
     }
-</script>
+    {{ if and (not .IsHome) (not (in $raw "childrenlist")) }},
+    {
+      "@type": "TechArticle",
+      "@id": "{{ $url }}#techarticle",
+      "headline": "{{ $title }}",
+      "url": "{{ $url }}",
+      "name": "{{ $title }}",
+      "description": "{{ $description }}",
+      "author": {
+        "@type": "Organization",
+        "name": "{{ $orgName }}"
+      },
+      "publisher": { "@id": "{{ $orgUrl }}#organization" },
+      "mainEntityOfPage": { "@id": "{{ $url }}" },
+      {{ with .Params.images }}
+      "image": {
+        "@type": "ImageObject",
+        "url": "{{ index . 0 }}"
+      },
+      {{ end }}
+      "datePublished": "{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}",
+      "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+      "inLanguage": "{{ $lang }}"
+    }
+    {{ end }},
+    {
+      "@type": "BreadcrumbList",
+      "@id": "{{ $url }}#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "{{ $orgUrl }}"
+        },
+        {{- if not .IsHome -}}
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "{{ .Site.Title }}",
+          "item": "{{ .Site.BaseURL }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "{{ $title }}"
+        }
+        {{- else }}
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "{{ .Site.Title }}"
+        }
+        {{- end }}
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ $orgUrl }}#website",
+      "url": "{{ $orgUrl }}",
+      "name": "{{ $orgName }}",
+      "description": "Enabling service providers with virtualization, hyperconverged cloud infrastructure, high-performance storage and application management",
+      "publisher": { "@id": "{{ $orgUrl }}#organization" },
+      "potentialAction": [
+        {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "{{ $orgUrl }}?s={search_term_string}"
+          },
+          "query-input": {
+            "@type": "PropertyValueSpecification",
+            "valueRequired": true,
+            "valueName": "search_term_string"
+          }
+        }
+      ],
+      "inLanguage": "{{ $lang }}"
+    },
+    {
+      "@type": "Organization",
+      "@id": "{{ $orgUrl }}#organization",
+      "name": "{{ $orgName }}",
+      "url": "{{ $orgUrl }}",
+      "logo": {
+        "@type": "ImageObject",
+        "inLanguage": "{{ $lang }}",
+        "@id": "{{ $orgUrl }}#/schema/logo/image/",
+        "url": "{{ $orgLogo }}",
+        "contentUrl": "{{ $orgLogo }}",
+        "width": 105,
+        "height": 19,
+        "caption": "Virtuozzo"
+      },
+      "image": { "@id": "{{ $orgUrl }}#/schema/logo/image/" },
+      "sameAs": [
+        "https://www.facebook.com/VirtuozzoInc/",
+        "https://x.com/virtuozzoinc",
+        "https://www.youtube.com/channel/UCF1QeKAgIZ8ZQFaqUxPp87w",
+        "https://www.linkedin.com/company/virtuozzo"
+      ],
+      "description": "Enabling service providers with virtualization, hyperconverged cloud infrastructure, high-performance storage and application management",
+      "email": "info@virtuozzo.com"
+    }
+  ]
+}
+</script> 
