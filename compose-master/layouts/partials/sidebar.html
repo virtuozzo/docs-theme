@@ -19,7 +19,7 @@
                                     <a href="/">{{ $version }}</a>
                                 {{ else }}
                                     {{ $result := replaceRE "^(https?://.*com/[^/]+/).*" "$1" $.Site.BaseURL }}
-                                    <a href="{{ $result }}{{ $version }}">{{ $version }}</a>
+                                    <a href="{{ $result }}{{ $version }}/">{{ $version }}</a>
                                 {{ end }}
                             {{ end }}
                         </div>
