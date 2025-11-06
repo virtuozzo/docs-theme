@@ -43,12 +43,13 @@
 <div class="page-wrapper">
   <header class="header" id="top">{{- partial "nav" . }}</header>
   <div class="main-content-wrapper">
-    {{ with .Site.Params.notice }}
-      <div class="banner">
-        <div class="jlc-container">
-          {{ partial "i18n-extended.html" (slice "heading" .) }}
-        </div>
-      </div>
+    {{ $banner := .Params.bannerText | default .Site.Params.notice }}
+    {{ with $banner }}
+    <div class="banner">
+      <div class="jlc-container">
+        {{ . }}
+      </div> 
+    </div>
     {{ end }}
     <div class="container">
 
