@@ -555,7 +555,7 @@ $(document).ready(function () {
     var modalImg = modal.querySelector(".imgPopupInner");
     var modalClose = modal.querySelector(".close");
     $('.imagePopup').on('click', function(event){
-        modalImg.src = $(this).attr('href');
+        modalImg.src = $(this).attr('data-image');
         modal.style.display = "block";
         return false;
     });
