@@ -11,10 +11,8 @@
 {{ if $isSupportedImage }}
 
   {{ $maxWidth := $img.Width }}
-
   {{ $medium := cond (ge $maxWidth 480) ($img.Resize "480x") $img }}
   {{ $large := $img }}
-
   {{ $limit := 480 }}
   {{ $sizesWidth := cond (lt $img.Width $limit) $img.Width $limit }}
   {{ $sizes := printf "(max-width: 900px) %dpx, 100vw" $sizesWidth }}
@@ -29,18 +27,18 @@
           type="image/webp"
           srcset="
             {{ if ne $mediumWebp.Permalink $largeWebp.Permalink }}
-              {{ partial "cdn-url.html" $mediumWebp.Permalink }} {{ $mediumWebp.Width }}w,
+              {{ partial "cdn-url.html" (dict "url" $mediumWebp.Permalink "context" .Page.Site) }} {{ $mediumWebp.Width }}w,
             {{ end }}
-            {{ partial "cdn-url.html" $largeWebp.Permalink }} {{ $largeWebp.Width }}w"
+            {{ partial "cdn-url.html" (dict "url" $largeWebp.Permalink "context" .Page.Site) }} {{ $largeWebp.Width }}w"
           sizes="{{ $sizes }}" />
 
         <img
-          src="{{ partial "cdn-url.html" $medium.Permalink }}"
+          src="{{ partial "cdn-url.html" (dict "url" $medium.Permalink "context" .Page.Site) }}"
           srcset="
             {{ if ne $medium.Permalink $large.Permalink }}
-              {{ partial "cdn-url.html" $medium.Permalink }} {{ $medium.Width }}w,
+              {{ partial "cdn-url.html" (dict "url" $medium.Permalink "context" .Page.Site) }} {{ $medium.Width }}w,
             {{ end }}
-            {{ partial "cdn-url.html" $large.Permalink }} {{ $large.Width }}w"
+            {{ partial "cdn-url.html" (dict "url" $large.Permalink "context" .Page.Site) }} {{ $large.Width }}w"
           sizes="{{ $sizes }}"
           width="{{ $img.Width }}"
           height="{{ $img.Height }}"
@@ -48,7 +46,6 @@
           loading="lazy"
           decoding="async" />
       </picture>
-
       {{ if $caption }}
         <figcaption>{{ $caption | markdownify }}</figcaption>
       {{ end }}
@@ -58,12 +55,12 @@
 
     <figure>
       <img
-        src="{{ partial "cdn-url.html" $medium.Permalink }}"
+        src="{{ partial "cdn-url.html" (dict "url" $medium.Permalink "context" .Page.Site) }}"
         srcset="
           {{ if ne $medium.Permalink $large.Permalink }}
-            {{ partial "cdn-url.html" $medium.Permalink }} {{ $medium.Width }}w,
+            {{ partial "cdn-url.html" (dict "url" $medium.Permalink "context" .Page.Site) }} {{ $medium.Width }}w,
           {{ end }}
-          {{ partial "cdn-url.html" $large.Permalink }} {{ $large.Width }}w"
+          {{ partial "cdn-url.html" (dict "url" $large.Permalink "context" .Page.Site) }} {{ $large.Width }}w"
         sizes="{{ $sizes }}"
         width="{{ $img.Width }}"
         height="{{ $img.Height }}"
@@ -79,6 +76,10 @@
 
 {{ else }}
 
-  <img src="{{ partial "cdn-url.html" $src }}" alt="{{ $alt }}" loading="lazy" decoding="async" />
+  <img
+    src="{{ partial "cdn-url.html" (dict "url" $src "context" .Page.Site) }}"
+    alt="{{ $alt }}"
+    loading="lazy"
+    decoding="async" />
 
 {{ end }}

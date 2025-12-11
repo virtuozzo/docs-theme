@@ -1,5 +1,7 @@
-{{- $url := . -}}
-{{- if not site.IsServer -}}
-    {{- $url = replace $url .Site.BaseURL "https://static.virtuozzo.com/" -}}
+{{/* partials/cdn-url.html */}}
+{{- $url := .url -}}
+{{- $context := .context -}}
+{{- if not $context.IsServer -}}
+    {{- $url = replace $url $context.BaseURL "https://static.virtuozzo.com/" -}}
 {{- end -}}
 {{- $url -}}
