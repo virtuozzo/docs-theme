@@ -1,0 +1,5 @@
+{{- $url := . -}}
+{{- if not site.IsServer -}}
+    {{- $url = printf "https://static.virtuozzo.com/%s" $url -}}
+{{- end -}}
+{{- $url -}} 

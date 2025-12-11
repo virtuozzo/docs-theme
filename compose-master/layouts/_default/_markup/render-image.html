@@ -20,7 +20,6 @@
   {{ $sizes := printf "(max-width: 900px) %dpx, 100vw" $sizesWidth }}
 
   {{ if .Page.Site.Params.useWebp }}
-
     {{ $mediumWebp := $medium.Process "webp" }}
     {{ $largeWebp := $large.Process "webp" }}
 
@@ -30,17 +29,18 @@
           type="image/webp"
           srcset="
             {{ if ne $mediumWebp.Permalink $largeWebp.Permalink }}
-              {{ $mediumWebp.Permalink }} {{ $mediumWebp.Width }}w,
+              {{ partial "cdn-url.html" $mediumWebp.Permalink }} {{ $mediumWebp.Width }}w,
             {{ end }}
-            {{ $largeWebp.Permalink }} {{ $largeWebp.Width }}w"
+            {{ partial "cdn-url.html" $largeWebp.Permalink }} {{ $largeWebp.Width }}w"
           sizes="{{ $sizes }}" />
+
         <img
-          src="{{ $medium.Permalink }}"
+          src="{{ partial "cdn-url.html" $medium.Permalink }}"
           srcset="
             {{ if ne $medium.Permalink $large.Permalink }}
-              {{ $medium.Permalink }} {{ $medium.Width }}w,
+              {{ partial "cdn-url.html" $medium.Permalink }} {{ $medium.Width }}w,
             {{ end }}
-            {{ $large.Permalink }} {{ $large.Width }}w"
+            {{ partial "cdn-url.html" $large.Permalink }} {{ $large.Width }}w"
           sizes="{{ $sizes }}"
           width="{{ $img.Width }}"
           height="{{ $img.Height }}"
@@ -48,6 +48,7 @@
           loading="lazy"
           decoding="async" />
       </picture>
+
       {{ if $caption }}
         <figcaption>{{ $caption | markdownify }}</figcaption>
       {{ end }}
@@ -57,12 +58,12 @@
 
     <figure>
       <img
-        src="{{ $medium.Permalink }}"
+        src="{{ partial "cdn-url.html" $medium.Permalink }}"
         srcset="
           {{ if ne $medium.Permalink $large.Permalink }}
-            {{ $medium.Permalink }} {{ $medium.Width }}w,
+            {{ partial "cdn-url.html" $medium.Permalink }} {{ $medium.Width }}w,
           {{ end }}
-          {{ $large.Permalink }} {{ $large.Width }}w"
+          {{ partial "cdn-url.html" $large.Permalink }} {{ $large.Width }}w"
         sizes="{{ $sizes }}"
         width="{{ $img.Width }}"
         height="{{ $img.Height }}"
@@ -78,6 +79,6 @@
 
 {{ else }}
 
-  <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" decoding="async" />
+  <img src="{{ partial "cdn-url.html" $src }}" alt="{{ $alt }}" loading="lazy" decoding="async" />
 
 {{ end }}
