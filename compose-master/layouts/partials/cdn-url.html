@@ -1,5 +1,5 @@
 {{- $url := . -}}
 {{- if not site.IsServer -}}
-    {{- $url = printf "https://static.virtuozzo.com/%s" $url -}}
+    {{- $url = replace $url .Site.BaseURL "https://static.virtuozzo.com/" -}}
 {{- end -}}
-{{- $url -}} 
+{{- $url -}}
