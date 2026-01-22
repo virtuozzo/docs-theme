@@ -1,0 +1,11 @@
+{{ $_hugo_config := `{ "version": 1 }` }}
+{{ $id := printf "tabs-%d" (now.UnixMilli) }}
+{{ $.Page.Scratch.Delete "tabTitles" }}
+{{ $.Page.Scratch.Set "currentTabsId" $id }}
+<div class="tabs-container" id="{{ $id }}" data-tabs-init>
+    <div class="tabs-header" role="tablist" data-tabs-header>
+    </div>
+    <div class="tabs-content">
+        {{ .Inner }}
+    </div>
+</div>

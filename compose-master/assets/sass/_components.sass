@@ -253,3 +253,67 @@
   .bwrap 
     p  
       display: block
+
+// Custom tabs component
+.tabs-container
+  margin: 1rem 0
+  border: 1px solid #e0e0e0
+  border-radius: 4px
+  overflow: hidden
+
+.tabs-header
+  display: flex
+  background: #f5f5f5
+  border-bottom: 2px solid #e0e0e0
+  margin: 0
+  padding: 0
+
+.tab-button
+  flex: 1
+  padding: 12px 20px
+  background: transparent
+  border: none
+  border-right: 1px solid #e0e0e0
+  cursor: pointer
+  font-size: 14px
+  font-weight: 500
+  color: #666
+  transition: all 0.3s ease
+  outline: none
+
+  &:last-child
+    border-right: none
+
+  &:hover
+    background: #ebebeb
+    color: #333
+
+  &.active
+    background: #fff
+    color: #254D90
+    border-bottom: 2px solid #254D90
+    margin-bottom: -2px
+    position: relative
+
+.tabs-content
+  padding: 0
+
+.tab-panel
+  display: none
+  padding: 20px
+  animation: fadeIn 0.3s ease
+
+  &.active
+    display: block
+
+  p:first-child
+    margin-top: 0
+
+  p:last-child
+    margin-bottom: 0
+
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1

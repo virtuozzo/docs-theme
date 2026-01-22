@@ -608,3 +608,59 @@ $(document).ready(function () {
 
     
 })();
+
+// Tabs functionality
+function switchTab(containerId, tabIndex) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    // Update buttons
+    const buttons = container.querySelectorAll('.tab-button');
+    buttons.forEach((btn, index) => {
+        if (index === tabIndex) {
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+        } else {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+        }
+    });
+    
+    // Update panels
+    const panels = container.querySelectorAll('.tab-panel');
+    panels.forEach((panel, index) => {
+        if (index === tabIndex) {
+            panel.classList.add('active');
+        } else {
+            panel.classList.remove('active');
+        }
+    });
+}
+
+// Initialize tabs on page load
+(function initializeTabs() {
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabContainers = document.querySelectorAll('[data-tabs-init]');
+        
+        tabContainers.forEach(function(container) {
+            const header = container.querySelector('[data-tabs-header]');
+            const panels = container.querySelectorAll('.tab-panel');
+            const containerId = container.id;
+            
+            panels.forEach(function(panel, index) {
+                const title = panel.getAttribute('data-tab-title');
+                const button = document.createElement('button');
+                button.className = 'tab-button' + (index === 0 ? ' active' : '');
+                button.setAttribute('data-tab', index);
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+                button.textContent = title;
+                button.onclick = function() {
+                    switchTab(containerId, index);
+                };
+                
+                header.appendChild(button);
+            });
+        });
+    });
+})();
