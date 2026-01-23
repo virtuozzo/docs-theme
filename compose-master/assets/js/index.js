@@ -637,30 +637,41 @@ function switchTab(containerId, tabIndex) {
     });
 }
 
-// Initialize tabs on page load
-(function initializeTabs() {
-    document.addEventListener('DOMContentLoaded', function() {
-        const tabContainers = document.querySelectorAll('[data-tabs-init]');
+// Initialize tabs
+function initializeTabs() {
+    const tabContainers = document.querySelectorAll('[data-tabs-init]');
+    
+    tabContainers.forEach(function(container) {
+        const header = container.querySelector('[data-tabs-header]');
+        const panels = container.querySelectorAll('.tab-panel');
+        const containerId = container.id;
         
-        tabContainers.forEach(function(container) {
-            const header = container.querySelector('[data-tabs-header]');
-            const panels = container.querySelectorAll('.tab-panel');
-            const containerId = container.id;
+        // Skip if already initialized
+        if (header.querySelector('.tab-button')) {
+            return;
+        }
+        
+        panels.forEach(function(panel, index) {
+            const title = panel.getAttribute('data-tab-title');
+            const button = document.createElement('button');
+            button.className = 'tab-button' + (index === 0 ? ' active' : '');
+            button.setAttribute('data-tab', index);
+            button.setAttribute('role', 'tab');
+            button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            button.textContent = title;
+            button.onclick = function() {
+                switchTab(containerId, index);
+            };
             
-            panels.forEach(function(panel, index) {
-                const title = panel.getAttribute('data-tab-title');
-                const button = document.createElement('button');
-                button.className = 'tab-button' + (index === 0 ? ' active' : '');
-                button.setAttribute('data-tab', index);
-                button.setAttribute('role', 'tab');
-                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
-                button.textContent = title;
-                button.onclick = function() {
-                    switchTab(containerId, index);
-                };
-                
-                header.appendChild(button);
-            });
+            header.appendChild(button);
         });
     });
-})();
+}
+
+// Initialize tabs when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeTabs);
+} else {
+    // DOM is already loaded
+    initializeTabs();
+}
