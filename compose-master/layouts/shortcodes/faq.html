@@ -1,0 +1,33 @@
+{{- $items := .Inner | transform.Unmarshal }}
+{{- if $items }}
+  <div class="faq-list">
+    {{ range $items }}
+      <div class="collapsible">
+        <span class="hwrap">{{ .q }}</span>
+        <div class="bwrap" style="display:none">
+          {{ .a | $.Page.RenderString }}
+        </div>
+      </div>
+    {{ end }}
+  </div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{- range $i, $item := $items }}
+    {
+      "@type": "Question",
+      "name": {{ $item.q | plainify }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ $item.a | plainify }}
+      }
+    }{{ if ne (add $i 1) (len $items) }},{{ end }}
+    {{- end }}
+  ]
+}
+</script>
+
+{{- end }}
