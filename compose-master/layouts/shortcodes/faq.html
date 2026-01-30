@@ -3,8 +3,8 @@
   <div class="faq-list">
     {{ range $items }}
       <div class="collapsible">
-        <span class="hwrap">{{ .q }}</span>
-        <div class="bwrap" style="display:none">
+        <span class="hwrap" style="font-weight: 400; padding-left: 1rem;" >{{ .q }}</span>
+        <div class="bwrap" style="display:none; padding-left: 1.5rem;">
           {{ .a | $.Page.RenderString }}
         </div>
       </div>
