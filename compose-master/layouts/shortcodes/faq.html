@@ -22,7 +22,7 @@
       "name": {{ $item.q | plainify }},
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": {{ $item.a | plainify }}
+        "text": {{ trim ($item.a | plainify | replaceRE "\\*+" "" | replaceRE "\\[([^\\]]+)\\]\\([^\\)]+\\)" "$1" | replaceRE "\\*\\*" "" | replaceRE "\\s+-\\s+" ", " | replaceRE "\\s+" " ") " " }},
       }
     }{{ if ne (add $i 1) (len $items) }},{{ end }}
     {{- end }}
