@@ -1,13 +1,7 @@
 {{ $logoLink := .Site.BaseURL }}
-
 {{ if .Site.Params.logoLink }}
     {{ $logoLink = .Site.Params.logoLink }}
-{{ end }}
-
-{{ if .Site.Params.version }}
-    {{ $logoLink = printf "%s%s/" .Site.BaseURL .Site.Params.version }}
-{{ end }}
-
+{{- end }}
 <div class="jlc-container">
     <div class="menu-content">
         <div class="logo-part">
