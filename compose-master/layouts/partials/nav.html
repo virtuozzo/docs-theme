@@ -1,14 +1,8 @@
-{{ $logoLink := printf "%s" .Site.BaseURL }}
-
-{{ if .Site.Params.logoLink }}
-    {{ $logoLink = .Site.Params.logoLink }}
-{{ end }}
-
 <div class="jlc-container">
     <div class="menu-content">
         <div class="logo-part">
             <div class="left-header">
-                <a class="jelastic-logo" href="{{ $logoLink }}">
+                <a class="jelastic-logo" href="{{ .Site.BaseURL }}">
                     {{ if .Site.Params.logo }}
                     <img class="main-logo nolaz {{ .Site.Params.logoClass }}" alt="{{ .Site.Params.pageSeoTitle }}"
                          width="{{ .Site.Params.logoWidth }}" height="{{ .Site.Params.logoHeight }}"
