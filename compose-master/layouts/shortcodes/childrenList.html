@@ -1,5 +1,5 @@
 {{ $_hugo_config := `{ "version": 1 }` }}
-{{ $currentID := replace .Page.RelPermalink "/" "" }}
+{{ $currentID := .Page.Params.menu.docs.identifier }}
 <ul class="childrenList"> 
 {{ template "childrenList" (dict "data" site.Menus.docs "currentID" $currentID ) }}
 </ul> 
@@ -10,11 +10,6 @@
             {{ $URL := $element.URL }}
             {{ if $element.ConfiguredURL }}
                 {{ $URL = $element.ConfiguredURL }}
-            {{ end }}
-            {{ with $element.MenuConfig }}
-                {{ with .URL }}
-                    {{ $URL = . }}
-                {{ end }}
             {{ end }}
             <li>
                 <a href="{{  $URL }}">{{ .Title }}</a>
