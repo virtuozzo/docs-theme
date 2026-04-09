@@ -7,10 +7,20 @@
 {{ $currentID := .currentID}}
     {{ range $index, $element := .data }}    
         {{ if eq $element.Parent $currentID }}
-            {{ $URL := $element.URL }}
-            {{ if $element.ConfiguredURL }}
-                {{ $URL = $element.ConfiguredURL }}
+            {{ $URL := "" }}
+
+            {{ if $element.Page }}
+                {{ $URL = $element.Page.RelPermalink }}
             {{ end }}
+
+            {{ with $element.MenuConfig }}
+                {{ with .URL }}
+                    {{ if or (hasPrefix . "http://") (hasPrefix . "https://") }}
+                        {{ $URL = . }} <!-- только внешние -->
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+
             <li>
                 <a href="{{  $URL }}">{{ .Title }}</a>
             </li> 
