@@ -1,13 +1,20 @@
 {{ $_hugo_config := `{ "version": 1 }` }}
 {{ $currentID := .Page.Params.menu.docs.identifier }}
 <ul class="childrenList"> 
-{{ template "childrenList" (dict "data" site.Menus.docs "currentID" $currentID ) }}
+{{ template "childrenList" (dict "data" site.Menus.docs "currentID" $currentID "currentPage" .Page ) }}
 </ul> 
 {{ define "childrenList" }} 
 {{ $currentID := .currentID}}
+{{ $currentPage := .currentPage }}
     {{ range $index, $element := .data }}    
         {{ if eq $element.Parent $currentID }}
+            {{ $title := "" }}
+            {{ $isPrivate := "" }}
+            {{ $isRemote := false }}
+            {{ $isDocs := false }}
+            {{ $isVirtuozzoSites := false }}
             {{ $URL := $element.URL }}
+
             {{ if $element.ConfiguredURL }}
                 {{ $URL = $element.ConfiguredURL }}
             {{ end }}
@@ -16,12 +23,29 @@
                     {{ $URL = . }}
                 {{ end }}
             {{ end }}
+
+            {{ if $element.Title }}
+                {{ $title = $element.Title }}
+            {{ else }}
+                {{ $title = $element.Name }}
+            {{ end }}
+
+            {{ $site := $currentPage.Site }}
+            {{ $langPrefix := printf "/%s/" $site.Language.Lang }}
+
+            {{ if $URL }}
+                {{ $isRemote = strings.HasPrefix $URL "http" }}
+                {{ $isDocs = in $URL .Page.Site.Params.hostName }}
+                {{ $isVirtuozzoSites = in $URL "virtuozzo.com" }}
+                {{ $isPrivate = in $URL "/private-" }}
+            {{ end }}
+            
             <li>
-                <a href="{{  $URL }}">{{ .Title }}</a>
+                <a href="{{ if and (not $isRemote) (ne $site.Language.Lang "en") }}{{ printf "/%s" $site.Language.Lang }}{{ end }}{{ $URL | safeURL }}" {{ with $title}} title="{{ . }}"{{ end }} {{ if and (eq $isRemote true) (eq $isDocs false) }} target="_blank" {{ end }} {{if and (eq $isVirtuozzoSites false) (eq $isRemote true)}} rel="noopener"{{end}}>{{ $title | safeHTML }}</a>
             </li> 
         {{ end }}
         {{ if $element.Children }}
-            {{ template "childrenList" (dict "data" $element.Children "currentID" $currentID ) }}
+            {{ template "childrenList" (dict "data" $element.Children "currentID" $currentID "currentPage" $currentPage ) }}
         {{ end }}
     {{ end }}  
 {{ end }} 
