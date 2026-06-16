@@ -110,42 +110,50 @@
 {{ partial "schema.html" . }}
 
 {{ if in .Site.BaseURL "virtuozzo.com" }}
-    <script>
-        // Define dataLayer and the gtag function.
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        // Default ad_storage to 'denied'.
-        gtag('consent', 'default', {
-            'ad_storage': 'denied',
-            'wait_for_update': 500
+    <script data-no-optimize="1">
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
 
-        });
-    </script>
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
+            // Блокуємо ВСЕ за замовчуванням
+            gtag('consent', 'default', {
+                'ad_storage':              'denied',
+                'analytics_storage':       'denied',
+                'functionality_storage':   'denied',
+                'personalization_storage': 'denied',
+                'security_storage':        'granted',
+                'wait_for_update':         500
             });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-            j.async = true;
-            j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-W9PSVPL');</script>
-    <!-- End Google Tag Manager -->
-    <!-- CookiePro Cookies Consent Notice start for virtuozzo.com -->
-    <script src="https://cookie-cdn.cookiepro.com/consent/d6997970-8f28-46d2-9fe5-77c66428e76c/otSDKStub.js"
-            type="text/javascript" charset="UTF-8" data-domain-script="d6997970-8f28-46d2-9fe5-77c66428e76c"></script>
-    <script type="text/javascript">
-        function OptanonWrapper() {
-        }
-    </script>
-    <!-- CookiePro Cookies Consent Notice end for virtuozzo.com -->
+        </script>
+
+        <!-- CookiePro — має йти ДО GTM -->
+        <script data-no-optimize="1"
+                src="https://cookie-cdn.cookiepro.com/consent/d6997970-8f28-46d2-9fe5-77c66428e76c/otSDKStub.js"
+                data-domain-script="d6997970-8f28-46d2-9fe5-77c66428e76c"></script>
+
+        <script data-no-optimize="1">
+            function OptanonWrapper() {
+                var activeGroups = window.OnetrustActiveGroups || '';
+
+                gtag('consent', 'update', {
+                    'analytics_storage':       activeGroups.indexOf('C2') > -1 ? 'granted' : 'denied',
+                    'functionality_storage':   activeGroups.indexOf('C3') > -1 ? 'granted' : 'denied',
+                    'personalization_storage': activeGroups.indexOf('C3') > -1 ? 'granted' : 'denied',
+                    'ad_storage':              activeGroups.indexOf('C4') > -1 ? 'granted' : 'denied',
+                });
+            }
+        </script>
+
+        <!-- GTM — після OneTrust -->
+        <script data-no-optimize="1">(function(w,d,s,l,i){
+                w[l]=w[l]||[];
+                w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+                var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),
+                    dl=l!='dataLayer'?'&l='+l:'';
+                j.async=true;
+                j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+                f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-W9PSVPL');</script>
 {{ end }}
 
 
