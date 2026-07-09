@@ -15,7 +15,7 @@
   color: #222
   background: #F8F9FF
 
-  pre[class*="language-"]
+  .code-block, .highlight
     margin-top: .5em
     margin-bottom: .5em
 
@@ -258,7 +258,8 @@
 .tabs-container
   margin: 1rem 0
   border: 1px solid #e0e0e0
-  border-radius: 4px
+  border-radius: 10px
+  box-shadow: rgba(94, 108, 158, 0.3) 0 0 10px 0;
   overflow: hidden
 
 .tabs-header
@@ -289,7 +290,7 @@
     color: #333
 
   &.active
-    background: #fff
+    background: #f4f6ff
     color: #254D90
     border-bottom: 2px solid #254D90
     margin-bottom: -2px
@@ -297,6 +298,7 @@
 
 .tabs-content
   padding: 0
+  background: #FFF;
 
 .tab-panel
   display: none

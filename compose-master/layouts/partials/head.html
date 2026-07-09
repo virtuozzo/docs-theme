@@ -109,7 +109,7 @@
 
 {{ partial "schema.html" . }}
 
-{{ if in .Site.BaseURL "virtuozzo.com" }}
+{{ if and (in .Site.BaseURL "virtuozzo.com") (not site.IsServer) }}
     <script data-no-optimize="1">
             window.dataLayer = window.dataLayer || [];
             function gtag() { dataLayer.push(arguments); }

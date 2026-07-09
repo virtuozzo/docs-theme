@@ -1,0 +1,23 @@
+{{- $lang := .Type -}}
+{{- $highlightLang := .Type -}}
+{{- if or (not $lang) (eq $lang "fallback") -}}
+  {{- $lang = "" -}}
+  {{- $highlightLang = "text" -}}
+{{- end -}}
+{{- $filename := "" -}}
+{{- with .Attributes.filename -}}
+  {{- $filename = . -}}
+{{- end -}}
+{{- $highlighted := transform.Highlight .Inner $highlightLang .Options -}}
+<div class="code-block">
+  <textarea class="code-block-source" hidden readonly aria-hidden="true">{{ .Inner }}</textarea>
+  <div class="code-block-toolbar">
+    {{- if $filename -}}
+      <span class="code-block-label">{{ $filename }}</span>
+    {{- else if $lang -}}
+      <span class="code-block-label">{{ $lang }}</span>
+    {{- end -}}
+    <button type="button" class="code-copy-btn" aria-label="Copy code to clipboard">Copy</button>
+  </div>
+  {{ $highlighted }}
+</div>

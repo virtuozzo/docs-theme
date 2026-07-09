@@ -25,8 +25,6 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    $("code[class*='language-']").addClass('line-numbers');
-
     $('iframe[src*="youtube"]').wrap('<div class="youtube-responsive"></div>');
 
     //the following hides the menu when a click is registered outside
@@ -209,12 +207,72 @@ function hasClasses(el) {
     return navHeight;
 })();
 
-(function markInlineCodeTags() {
-    const codeBlocks = elems('code');
-    if (codeBlocks) {
-        codeBlocks.forEach(function (codeBlock) {
-            if (!hasClasses(codeBlock)) {
-                codeBlock.children.length ? false : pushClass(codeBlock, 'noClass');
+(function initCodeCopyButtons() {
+    document.addEventListener('click', function (event) {
+        const button = event.target.closest('.code-copy-btn');
+        if (!button) {
+            return;
+        }
+
+        const block = button.closest('.code-block');
+        if (!block) {
+            return;
+        }
+
+        const source = block.querySelector('.code-block-source');
+        let text;
+        if (source) {
+            text = source.value;
+        } else {
+            const code = block.querySelector('.lntable .lntd:last-child pre code')
+                || block.querySelector('pre code[data-lang]')
+                || block.querySelector('pre code');
+            if (!code) {
+                return;
+            }
+            text = code.innerText.replace(/\n$/, '');
+        }
+        const copiedLabel = 'Copied';
+        const defaultLabel = button.dataset.defaultLabel || button.textContent;
+
+        function showCopied() {
+            button.textContent = copiedLabel;
+            button.classList.add('copied');
+            window.setTimeout(function () {
+                button.textContent = defaultLabel;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(showCopied).catch(function () {
+                fallbackCopy(text);
+                showCopied();
+            });
+            return;
+        }
+
+        fallbackCopy(text);
+        showCopied();
+    });
+
+    function fallbackCopy(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'absolute';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+    }
+
+    const copyButtons = elems('.code-copy-btn');
+    if (copyButtons) {
+        copyButtons.forEach(function (button) {
+            if (!button.dataset.defaultLabel) {
+                button.dataset.defaultLabel = button.textContent;
             }
         });
     }

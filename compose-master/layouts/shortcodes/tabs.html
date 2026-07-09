@@ -3,11 +3,8 @@
 {{ $id := printf "tabs-%d-%d" (now.Unix) ($.Page.Scratch.Get "tabsContainerCounter") }}
 {{ $.Page.Scratch.Delete "tabTitles" }}
 {{ $.Page.Scratch.Delete "tabItemCounter" }}
-{{ $.Page.Scratch.Set "currentTabsId" $id }}
-<div class="tabs-container" id="{{ $id }}" data-tabs-init>
-    <div class="tabs-header" role="tablist" data-tabs-header>
-    </div>
-    <div class="tabs-content">
-        {{ .Inner }}
-    </div>
-</div>
+{{ $.Page.Scratch.Set "currentTabsId" $id -}}
+{{- /* Keep all markup at column 0 so indented closing tags are not turned into
+     code blocks when tabs are nested inside markdown-processing shortcodes
+     (e.g. note, tip). */ -}}
+<div class="tabs-container" id="{{ $id }}" data-tabs-init><div class="tabs-header" role="tablist" data-tabs-header></div><div class="tabs-content">{{ .Inner }}</div></div>

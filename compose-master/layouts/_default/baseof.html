@@ -4,12 +4,14 @@
   {{- partial "head" . }}
 </head>
 <body class="line-numbers page-{{ .Kind }}">
+{{- if and (in .Site.BaseURL "virtuozzo.com") (not site.IsServer) }}
 <!-- Google Tag Manager (noscript) -->
 <noscript>
   <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W9PSVPL"
           height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
+{{- end }}
 
 {{ define "menu-element" }}
 

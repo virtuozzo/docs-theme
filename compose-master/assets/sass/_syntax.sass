@@ -1,15 +1,74 @@
 code
-  min-width: 100%
-  max-width: 100%
   font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
-  &.noClass
-    padding: .2em .4em
+
+@at-root :not(pre) > code
+  padding: .2em .4em
+  margin: 0
+  font-size: 85%
+  white-space: break-spaces
+  background: #eaedff
+  color: #E85858
+  border-radius: 6px
+
+.code-block
+  position: relative
+  margin: 1.25rem 0
+  border-radius: 10px
+  box-shadow: rgba(94, 108, 158, 0.3) 0 0 10px 0
+  overflow: hidden
+
+  .highlight
     margin: 0
-    font-size: 85%
-    white-space: break-spaces
+    border-radius: 0
+    box-shadow: none
+
+.code-block-toolbar
+  display: flex
+  align-items: center
+  justify-content: flex-end
+  gap: .75rem
+  min-height: 36px
+  padding: .35rem .75rem
+  background: #f4f6ff
+  border-bottom: 1px solid rgba(94, 108, 158, 0.15)
+
+  &:has(.code-block-label)
+    justify-content: space-between
+
+.code-block-label
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+  font-size: 12px
+  font-weight: 500
+  text-transform: uppercase
+  letter-spacing: .03em
+  color: #5e6c9e
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+  &:empty
+    display: none
+
+.code-copy-btn
+  flex-shrink: 0
+  padding: .25rem .65rem
+  font-size: 12px
+  font-weight: 500
+  line-height: 1.4
+  color: #254D90
+  background: #fff
+  border: 1px solid rgba(94, 108, 158, 0.25)
+  border-radius: 6px
+  cursor: pointer
+  transition: background .15s ease, border-color .15s ease, color .15s ease
+
+  &:hover
     background: #eaedff
-    color: #E85858
-    border-radius: 6px
+    border-color: #86A2ED
+
+  &.copied
+    color: #00BEA7
+    border-color: #00BEA7
 
 .highlight
   display: grid
@@ -27,40 +86,86 @@ code
   & &
     margin: 0
 
-
   pre
-    @media (min-width: 900px)
-      padding: 0
-      overflow-x: auto
+    margin: 0
+    overflow-x: auto
+    font-size: 14px
+    line-height: 1.5
+
+  & > pre,
+  .lntd:last-child pre
+    padding: 1em 1.25em
+    background: #fff
+
+  .line
+    display: block
+    margin: 0
+    padding: 0
+    line-height: 1.5
+
+  .line.hl
+    display: block
+    width: 100%
+    margin: 0 0 0 -1.25em
+    background: #fff8e1
+    border-left: 3px solid #f0c040
+    padding: 0 1.25em
+
+  .lntable
+    width: 100%
+    border-collapse: collapse
+    display: table
+    table-layout: auto
 
   .lntd
+    vertical-align: top
     min-width: auto
+    padding: 1em 0
+
+    pre
+      margin: 0
+      overflow: visible
+      font-size: 14px
+      line-height: 1.5
+
     &:first-child
       background: #CB333B
-      font-size: 100%
-      color: #fff
-      letter-spacing: -1px
-      height: 100%
-      border-radius: 10px 0 0 10px
-      padding: 0 7px
+      width: 1%
+      white-space: nowrap
       text-align: right
-      @media (max-width: 899.98px)
-        padding-left: 10px
-        padding-right: 10px
+      border-radius: 0
+      padding-left: 0
+      padding-right: 0
       @media (min-width: 900px)
-        min-width: 30px
-      @media (max-width: 576px)
-        padding-left: 5px
-        padding-right: 5px
+        min-width: 36px
       pre
-        padding: 0
-        overflow: visible
+        padding: 0 10px 0 0
+        background: transparent
+        color: #fff
+      .lnt
         display: block
+        color: #fff
+        text-align: right
+        padding: 0
+        margin: 0
+        line-height: 1.5
+      .hl
+        display: block
+        width: 100%
+        margin: 0
+        background: transparent
+        box-shadow: none
+        .lnt
+          color: #fff
+          font-weight: inherit
     &:last-child
       width: 100%
-      padding-left: 15px
+      padding-left: 0
       background: #fff
-      border-radius: 0 10px 10px 0
+      border-radius: 0
+      pre
+        padding: 0 1.25em
+        background: #fff
 
 .chroma
 
@@ -72,15 +177,14 @@ code
     padding: 0
     margin: 0
     border: 0
-    width: auto
-    overflow: auto
-    display: block
+    width: 100%
+    display: table
+    table-layout: auto
     font-size: 14px
 
   .hl
     display: block
     width: 100%
-    background-color: #ffffcc
 
   .ln
     margin-right: 0.4em
