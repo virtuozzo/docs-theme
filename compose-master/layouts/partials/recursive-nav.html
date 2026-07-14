@@ -62,13 +62,48 @@
                 <span class="aside-menu-item"> 
                     {{ if eq $level 1 }}
                         {{ if $element.Params.img }}
-                            {{ $img := printf "/content/%s/%s/%s" $element.Identifier $element.Identifier $element.Params.img }}
-                            {{ if fileExists $img }}
+                            {{ $imgPath := printf "/content/%s/%s/%s" $element.Identifier $element.Identifier $element.Params.img }}
+                            {{ $img := "" }}
+                            {{ $imgFsPath := "" }}
+                            {{ if fileExists $imgPath }}
                                 {{ $img = printf "/%s/%s" $element.Identifier $element.Params.img }}
-                                <img src="{{ $img }}" alt="">
+                                {{ $imgFsPath = $imgPath }}
                             {{ else }}
-                                <img src="/images/sidebar/{{ $element.Params.img }}" alt="">
+                                {{ $img = printf "/images/sidebar/%s" $element.Params.img }}
+                                {{ $imgFsPath = printf "/static%s" $img }}
                             {{ end }}
+
+                            {{ $w := 24 }}
+                            {{ $h := 24 }}
+                            {{ if fileExists $imgFsPath }}
+                                {{ $svg := readFile $imgFsPath }}
+                                {{ $tagMatch := findRE `(?s)<svg[^>]*>` $svg 1 }}
+                                {{ if gt (len $tagMatch) 0 }}
+                                    {{ $tag := index $tagMatch 0 }}
+                                    {{ $wMatch := findRE `width=["'][0-9.]+["']` $tag 1 }}
+                                    {{ $hMatch := findRE `height=["'][0-9.]+["']` $tag 1 }}
+                                    {{ if and (gt (len $wMatch) 0) (gt (len $hMatch) 0) }}
+                                        {{ $w = replaceRE `[^0-9.]` "" (index $wMatch 0) }}
+                                        {{ $h = replaceRE `[^0-9.]` "" (index $hMatch 0) }}
+                                    {{ else }}
+                                        {{ $vbMatch := findRE `viewBox=["'][0-9.\s]+["']` $tag 1 }}
+                                        {{ if gt (len $vbMatch) 0 }}
+                                            {{ $vbClean := replaceRE `[^0-9.\s]` "" (index $vbMatch 0) }}
+                                            {{ $vbClean = replaceRE `\s+` " " (strings.TrimSpace $vbClean) }}
+                                            {{ $parts := split $vbClean " " }}
+                                            {{ if eq (len $parts) 4 }}
+                                                {{ $w = index $parts 2 }}
+                                                {{ $h = index $parts 3 }}
+                                            {{ end }}
+                                        {{ end }}
+                                    {{ end }}
+                                {{ end }}
+                            {{ end }}
+
+                            {{ $w = math.Round $w }}
+                            {{ $h = math.Round $h }}
+
+                            <img src="{{ $img }}" width="{{ $w }}" height="{{ $h }}" alt="{{ $title | safeHTML }}">
                         {{ end }} 
                     {{ end }}
 
