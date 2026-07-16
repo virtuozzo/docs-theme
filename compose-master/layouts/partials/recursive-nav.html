@@ -88,8 +88,10 @@
                                     {{ else }}
                                         {{ $vbMatch := findRE `viewBox=["'][0-9.\s]+["']` $tag 1 }}
                                         {{ if gt (len $vbMatch) 0 }}
-                                            {{ $vbClean := replaceRE `[^0-9.\s]` "" (index $vbMatch 0) }}
-                                            {{ $vbClean = replaceRE `\s+` " " (strings.TrimSpace $vbClean) }}
+                                            {{ $vbRaw := index $vbMatch 0 }}
+                                            {{ $vbClean := replaceRE `[^0-9.\s]` "" $vbRaw }}
+                                            {{ $vbClean = replaceRE `\s+` " " $vbClean }}
+                                            {{ $vbClean = trim $vbClean " " }}
                                             {{ $parts := split $vbClean " " }}
                                             {{ if eq (len $parts) 4 }}
                                                 {{ $w = index $parts 2 }}
