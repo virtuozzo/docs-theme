@@ -1,5 +1,5 @@
 {{ $_hugo_config := `{ "version": 1 }` }}
-{{ $src := printf "%s%s" .Page.RelPermalink .Inner | safeURL }}
+{{ $src := printf "%s%s" .Page.Permalink .Inner | safeURL }}
 <span data-image="{{ $src }}" class="imagePopup">
     <img src="{{ $src }}" alt="{{ .Params.alt }}" width="{{ .Params.width }}">
 </span>
