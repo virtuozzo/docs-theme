@@ -4,7 +4,7 @@
     {{ $enTranslations := where .Page.AllTranslations "Lang" "en" }}
     {{ if gt (len $enTranslations) 0 }}
         {{ $en := index $enTranslations 0 }}
-        {{ $src = printf "%s%s" $en.RelPermalink .Inner | safeURL }}
+        {{ $src = printf "%s%s" $en.Permalink .Inner | safeURL }}
     {{ end }}
 {{ end }}
 <span data-image="{{ $src }}" class="imagePopup">
