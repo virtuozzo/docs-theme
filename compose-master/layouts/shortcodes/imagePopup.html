@@ -1,5 +1,12 @@
 {{ $_hugo_config := `{ "version": 1 }` }}
-{{ $src := printf "%s%s" .Page.Permalink .Inner | safeURL }}
+{{ $src := .Inner }}
+{{ if .Page.Translations }}
+    {{ $enTranslations := where .Page.AllTranslations "Lang" "en" }}
+    {{ if gt (len $enTranslations) 0 }}
+        {{ $en := index $enTranslations 0 }}
+        {{ $src = printf "%s%s" $en.RelPermalink .Inner | safeURL }}
+    {{ end }}
+{{ end }}
 <span data-image="{{ $src }}" class="imagePopup">
     <img src="{{ $src }}" alt="{{ .Params.alt }}" width="{{ .Params.width }}">
 </span>
