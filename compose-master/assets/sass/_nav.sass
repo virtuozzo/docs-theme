@@ -28,7 +28,7 @@ header
   left: 0
   width: 100%
   background-color: #fff
-  box-shadow: 0 0 3px 0 rgba(0, 0, 0, .22)
+  border-bottom: 1px solid #edf1fe
 
   .jelastic-logo
     img
@@ -192,6 +192,9 @@ header
       font-weight: 600
       font-size: 15px
       transition: .2s
+      font-smoothing: antialiased
+      text-rendering: optimizeLegibility
+      -webkit-font-smoothing: antialiased
       &:hover
         color: #fff !important
         background: #cb333b
@@ -222,21 +225,28 @@ header
         visibility: hidden
         justify-content: space-between
         box-sizing: border-box
-        padding: 20px
+        padding: 20px 15px
         list-style: none
         opacity: 0
         background: #fff
-        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 12px rgba(0, 0, 0, 0.12)
+        box-shadow: 0 15px 25px 0 rgba(0, 0, 0, 0.15)
         transform: translate(-50%, 0)
         margin-left: 50%
+        border-radius: 0 0 25px 25px
+        top: calc(100% + 1px)
+        li 
+          margin-bottom: 5px
+          &:last-child
+            margin-bottom: 0
         a
           color: #353535
-          font-size: 14px
+          border-radius: 10px
+          display: block
           text-decoration: none
-          display: inline-block
-          padding-top: 0
-          padding-bottom: 0
+          padding: 7px 15px
           &:hover
+            background: #edf1fe
+            font-weight: 400
             color: #000
 
       > a
