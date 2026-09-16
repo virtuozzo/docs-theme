@@ -27,15 +27,23 @@ var Docs = window.Docs || {};
 
 Docs.Search = (function (that) {
     that.summaryInclude = 130;
+
+    // Fields of index.json that are searched, in order of importance.
+    that.fields = ["title", "description", "contents"];
+
+    // Fuzzy search. Used only as a fallback, when the literal search finds
+    // nothing and the query contains no quoted phrase, so that a typo such as
+    // "kubernetess cluster" still returns the Kubernetes topics.
     that.fuseOptions = {
         shouldSort: true,
         includeMatches: true,
-        threshold: 0.0,
+        threshold: 0.3,
         tokenize: true,
+        matchAllTokens: true,
         location: 0,
-        distance: 20,
+        distance: 100000,
         maxPatternLength: 32,
-        minMatchCharLength: 30,
+        minMatchCharLength: 3,
         keys: [
             {name: "title", weight: 0.8},
             {name: "description", weight: 0.6},
@@ -45,11 +53,133 @@ Docs.Search = (function (that) {
     that.search = $("#docs-search");
     that.searchResults = $("#search-results");
 
+    // Splits a query into quoted phrases and single words:
+    // backup "management node" old -> {phrases: ["management node"], words: ["backup", "old"]}
+    that.parseQuery = function (query) {
+        var phrases = [];
+        var rest = query.replace(/[“”]/g, '"').replace(/"([^"]*)"/g, function (match, phrase) {
+            phrase = $.trim(phrase);
+            if (phrase) {
+                phrases.push(phrase);
+            }
+            return ' ';
+        });
+        var words = $.trim(rest.replace(/"/g, ' ')).split(/\s+/);
+        words = $.grep(words, function (word) {
+            return word.length > 0;
+        });
+        return {
+            phrases: phrases,
+            words: words,
+            terms: phrases.concat(words),
+            // The query as one string, used to rank whole-query matches highest.
+            whole: $.trim(query.replace(/["“”]/g, ' ').replace(/\s+/g, ' '))
+        };
+    };
+
+    that.fieldText = function (page, field) {
+        return typeof page[field] === 'string' ? page[field] : '';
+    };
+
+    // Literal, case-insensitive search: every phrase and every word must occur
+    // in the page as typed. A quoted phrase is never matched fuzzily.
+    that.literalSearch = function (pages, parsed) {
+        var terms = $.map(parsed.terms, function (term) {
+            return term.toLowerCase();
+        });
+        var whole = parsed.whole.toLowerCase();
+        var fields = that.fields;
+        var results = [];
+
+        $.each(pages, function (pageKey, page) {
+            var haystack = $.map(fields, function (field) {
+                return that.fieldText(page, field).toLowerCase();
+            });
+            var anchor = null;
+
+            // Reject the page as soon as one term is missing everywhere.
+            for (var t = 0; t < terms.length; t++) {
+                var found = false;
+                for (var f = 0; f < fields.length; f++) {
+                    var position = haystack[f].indexOf(terms[t]);
+                    if (position !== -1) {
+                        if (!anchor || f < anchor.field) {
+                            anchor = {field: f, position: position};
+                        }
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    return;
+                }
+            }
+
+            // Rank by the most important field that holds the whole query.
+            var rank = fields.length;
+            for (var r = 0; r < fields.length; r++) {
+                var complete = true;
+                for (var i = 0; i < terms.length; i++) {
+                    if (haystack[r].indexOf(terms[i]) === -1) {
+                        complete = false;
+                        break;
+                    }
+                }
+                if (complete) {
+                    rank = r;
+                    break;
+                }
+            }
+
+            // A page containing the query as one uninterrupted string wins
+            // over a page that merely contains all of its words.
+            var bonus = 0;
+            if (whole) {
+                if (haystack[0].indexOf(whole) !== -1) {
+                    bonus = -0.6;
+                } else if (haystack[1].indexOf(whole) !== -1) {
+                    bonus = -0.3;
+                } else if (haystack[2].indexOf(whole) !== -1) {
+                    bonus = -0.1;
+                }
+            }
+
+            results.push({
+                item: page,
+                highlights: parsed.terms,
+                anchor: {field: fields[anchor.field], position: anchor.position},
+                score: rank + bonus,
+                titleLength: that.fieldText(page, 'title').length
+            });
+        });
+
+        results.sort(function (a, b) {
+            return a.score - b.score
+                || a.anchor.position - b.anchor.position
+                || a.titleLength - b.titleLength;
+        });
+        return results;
+    };
+
+    that.fuzzySearch = function (pages, query) {
+        var fuse = new Fuse(pages, that.fuseOptions);
+        return $.map(fuse.search(query), function (result) {
+            return {item: result.item, highlights: [query], anchor: null};
+        });
+    };
+
     that.executeSearch = function () {
         $.getJSON("{{ .Site.BaseURL }}index.json", function (data) {
             var pages = data;
-            var fuse = new Fuse(pages, that.fuseOptions);
-            var result = fuse.search(that.searchQuery);
+            var parsed = that.parseQuery(that.searchQuery);
+            var result = that.literalSearch(pages, parsed);
+
+            // A quoted phrase is a request for that exact wording: if it is not
+            // in the docs, say so rather than offering approximate matches.
+            if (!result.length && !parsed.phrases.length) {
+                result = that.fuzzySearch(pages, that.searchQuery);
+            }
+
             if (result.length > 0) {
 
                 that.pag_pages = Math.ceil(result.length / that.per_page);
@@ -76,30 +206,59 @@ Docs.Search = (function (that) {
         });
     };
 
+    // index.json is built from .Plain, which leaves HTML entities encoded
+    // (&lt;value&gt;). Decode first, then escape once, so that a snippet shows
+    // <value> rather than the entity, and no markup from a page reaches the DOM.
+    that.decodeEntities = function (text) {
+        return $('<textarea>').html(text).val() || '';
+    };
+
+    that.escapeHtml = function (text) {
+        return $('<div>').text(text).html().replace(/\$\{/g, '$\u200B{');
+    };
+
+    // Excerpt taken around the match, so that a result shows the text that was
+    // searched for. Falls back to the page description.
+    that.buildSnippet = function (value) {
+        var page = value.item;
+        var anchor = value.anchor;
+        var source = '';
+
+        if (anchor && anchor.field === 'contents') {
+            source = that.decodeEntities(that.fieldText(page, 'contents'));
+        }
+        if (!source) {
+            source = that.decodeEntities(
+                that.fieldText(page, 'description') || that.fieldText(page, 'contents')
+            );
+        }
+        if (!source) {
+            return '';
+        }
+
+        // Locate the term again in the decoded text, since decoding shifts positions.
+        var position = -1;
+        if (anchor && anchor.field === 'contents' && value.highlights && value.highlights.length) {
+            position = source.toLowerCase().indexOf(value.highlights[0].toLowerCase());
+        }
+
+        if (position < 0) {
+            return that.escapeHtml(source.substring(0, that.summaryInclude * 2))
+                + (source.length > that.summaryInclude * 2 ? '...' : '');
+        }
+
+        var start = Math.max(position - that.summaryInclude, 0);
+        var end = Math.min(position + that.summaryInclude * 2, source.length);
+        return (start > 0 ? '...' : '')
+            + that.escapeHtml(source.substring(start, end))
+            + (end < source.length ? '...' : '');
+    };
+
+
     that.populateResults = function (result) {
         $.each(result, function (key, value) {
-            var contents = value.item.description;
-            var snippet = "";
-            var snippetHighlights = [];
-            var tags = [];
-            if (that.fuseOptions.tokenize) {
-                snippetHighlights.push(that.searchQuery);
-            } else {
-                $.each(value.matches, function (matchKey, mvalue) {
-                    if (mvalue.key == "tags" || mvalue.key == "categories") {
-                        snippetHighlights.push(mvalue.value);
-                    } else if (mvalue.key == "contents") {
-                        start = mvalue.indices[0][0] - summaryInclude > 0 ? mvalue.indices[0][0] - summaryInclude : 0;
-                        end = mvalue.indices[0][1] + summaryInclude < contents.length ? mvalue.indices[0][1] + summaryInclude : contents.length;
-                        snippet += contents.substring(start, end);
-                        snippetHighlights.push(mvalue.value.substring(mvalue.indices[0][0], mvalue.indices[0][1] - mvalue.indices[0][0] + 1));
-                    }
-                });
-            }
-
-            if (snippet.length < 1) {
-                snippet += contents.substring(0, that.summaryInclude * 2) + '...';
-            }
+            var snippet = that.buildSnippet(value);
+            var snippetHighlights = value.highlights || [];
 
             //pull template from hugo templarte definition
             var templateDefinition = $('#search-result-template').html();
@@ -135,9 +294,8 @@ Docs.Search = (function (that) {
 
             pagination += '</div>';
 
+            that.searchResults.append(pagination);
         }
-
-        that.searchResults.append(pagination);
 
     };
 
@@ -197,10 +355,3 @@ Docs.Search = (function (that) {
     }
 
 }(Docs.Search || {}));
-
-
-
-
-
-
-
