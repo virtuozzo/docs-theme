@@ -99,7 +99,28 @@
 
 <meta name="description" content="{{ .Params.Seodesc }}">
 <meta name="keywords" content="{{ .Params.Seokeywords }}">
-<meta name="robots" content="{{ if or .Params.canonical (eq .Layout `search`) }}{{ replaceRE `\bindex\b` "noindex" (default `index, follow` .Params.Seoindex) }}{{ else }}{{ .Params.Seoindex }}{{ end }}">
+
+{{- /* robots + hreflang. hreflang печатается только на индексируемых страницах. */ -}}
+
+{{- $robots := "" -}}
+{{- if site.Params.archived -}}
+{{- $robots = "noindex, follow" -}}
+{{- else if or .Params.canonical (eq .Layout "search") -}}
+{{- $robots = replaceRE `\bindex\b` "noindex" (default "index, follow" .Params.Seoindex) -}}
+{{- else -}}
+{{- $robots = default "index, follow" .Params.Seoindex -}}
+{{- end -}}
+<meta name="robots" content="{{ $robots }}">
+{{ if and .IsTranslated (not (in $robots "noindex")) -}}
+{{- range .AllTranslations }}
+<link rel="alternate" hreflang="{{ .Language.LanguageCode | default .Language.Lang }}" href="{{ .Permalink }}">
+{{- end }}
+{{ .AllTranslations }}
+{{- range .AllTranslations }}{{ if eq .Language.Lang "en" }}
+<link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">
+{{- end }}{{ end }}
+{{- end }}
+
 <link rel="canonical" href="{{ with .Params.canonical }}{{ . }}{{ else }}{{ .Permalink }}{{ end }}">
 {{- partial "opengraph" . }} 
 {{- $options := (dict "targetPath" "css/styles.css" "outputStyle" "compressed" "enableSourceMap" "true") -}}
