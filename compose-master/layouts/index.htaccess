@@ -14,6 +14,11 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 Header set Strict-Transport-Security "max-age=31536000"
 Header set X-Frame-Options "SAMEORIGIN"
 
+# === 3a. Charset ===
+# LiteSpeed ​​serves Hugo's static files as "text/html" without a charset,
+# and crawlers that determine encoding via the HTTP header read UTF-8 as ISO-8859-1.
+AddDefaultCharset UTF-8
+
 # === 4. Hugo aliases, redirects, private pages ===
 {{$privateCond := ""}}{{$templateUrl:= ""}}
 {{ if and .Site.Params.readRedirects (eq .Site.Params.readRedirects true) }}{{ readFile "redirects.htaccess" }}{{ end }}
