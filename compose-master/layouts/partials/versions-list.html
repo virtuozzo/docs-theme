@@ -1,0 +1,17 @@
+{{- /*
+  Version switcher links. Docs root = baseURL without the trailing /<current version>/.
+  params.defaultVersion (passed by the deploy workflow as HUGO_PARAMS_DEFAULTVERSION) lives at the docs root,
+  every other version at <docs root><version>/. Without defaultVersion (local hugo server) the current
+  version links to the current build's home.
+*/ -}}
+{{- $cur := print site.Params.version -}}
+{{- $def := "" -}}{{- with site.Params.defaultVersion -}}{{- $def = print . -}}{{- end -}}
+{{- $root := replaceRE (printf `%s/$` (replace $cur "." `\.`)) "" site.BaseURL -}}
+{{- range site.Params.versions -}}
+  {{- $v := print . -}}
+  {{- $href := print $root $v "/" -}}
+  {{- if eq $v $def -}}{{- $href = $root -}}
+  {{- else if and (not $def) (eq $v $cur) -}}{{- $href = site.Home.Permalink -}}
+  {{- end }}
+<a href="{{ $href }}">{{ $v }}</a>
+{{- end -}}

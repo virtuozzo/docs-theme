@@ -17,16 +17,7 @@
                     <span class="current">
                         {{ .Site.Params.version }}
                     </span>
-                    <div class="versions-list">
-                        {{ range $version := .Site.Params.versions }}
-                            {{ if eq $.Site.Params.version $version }}
-                                <a href="/">{{ $version }}</a>
-                            {{ else }}
-                                {{ $result := replaceRE "^(https?://.*com/[^/]+/).*" "$1" $.Site.BaseURL }}
-                                <a href="{{ $result }}{{ $version }}/">{{ $version }}</a>
-                            {{ end }}
-                        {{ end }}
-                    </div>
+                    <div class="versions-list">{{ partial "versions-list.html" . }}</div>
                 </div>
                 {{ end }}
                 <span class="sidebar-menu">{{ partial "i18n-extended.html" (slice "docs-menu" "Docs Menu") }}</span>
