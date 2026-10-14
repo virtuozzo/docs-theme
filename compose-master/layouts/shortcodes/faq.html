@@ -11,23 +11,11 @@
     {{ end }}
   </div>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {{- range $i, $item := $items }}
-    {
-      "@type": "Question",
-      "name": {{ $item.q | plainify }},
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": {{ trim ($item.a | plainify | replaceRE "\\*+" "" | replaceRE "\\[([^\\]]+)\\]\\([^\\)]+\\)" "$1" | replaceRE "\\*\\*" "" | replaceRE "\\s+-\\s+" ", " | replaceRE "\\s+" " ") " " }},
-      }
-    }{{ if ne (add $i 1) (len $items) }},{{ end }}
-    {{- end }}
-  ]
-}
-</script>
+{{- $qa := slice }}
+{{- range $items }}
+  {{- $text := .a | $.Page.RenderString | plainify | htmlUnescape | htmlUnescape | replaceRE `\s+` " " | strings.TrimLeft " " | strings.TrimRight " " }}
+  {{- $qa = $qa | append (dict "@type" "Question" "name" (.q | plainify | htmlUnescape) "acceptedAnswer" (dict "@type" "Answer" "text" $text)) }}
+{{- end }}
+<script type="application/ld+json">{{ dict "@context" "https://schema.org" "@type" "FAQPage" "@id" (print $.Page.Permalink "#faq") "mainEntity" $qa | jsonify | safeJS }}</script>
 
 {{- end }}

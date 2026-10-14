@@ -1,0 +1,20 @@
+{{- /*
+  identifier -> {name, url, parent} for every page of the current language that
+  has front matter menu.docs. Called via partialCached per language from schema.html.
+*/ -}}
+{{- $s := newScratch -}}
+{{- $s.Set "m" dict -}}
+{{- range .Site.Pages -}}
+  {{- $p := . -}}
+  {{- $menu := index $p.Params "menu" -}}
+  {{- if reflect.IsMap $menu -}}
+    {{- $d := index $menu "docs" -}}
+    {{- if reflect.IsMap $d -}}
+      {{- $id := index $d "identifier" | default "" -}}
+      {{- if $id -}}
+        {{- $s.SetInMap "m" $id (dict "name" (index $d "title" | default $p.Title) "url" $p.Permalink "parent" (index $d "parent" | default "")) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return ($s.Get "m") -}}
