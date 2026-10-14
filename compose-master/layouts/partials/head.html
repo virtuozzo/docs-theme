@@ -103,7 +103,10 @@
 {{- /* robots + hreflang. hreflang печатается только на индексируемых страницах. */ -}}
 
 {{- $robots := "" -}}
-{{- if site.Params.archived -}}
+{{- /* Any version other than params.defaultVersion (passed by the deploy workflow as HUGO_PARAMS_DEFAULTVERSION) is noindex */ -}}
+{{- $notDefault := false -}}
+{{- with site.Params.defaultVersion }}{{ if ne (print .) (print site.Params.version) }}{{ $notDefault = true }}{{ end }}{{ end -}}
+{{- if or site.Params.archived $notDefault -}}
 {{- $robots = "noindex, follow" -}}
 {{- else if or .Params.canonical (eq .Layout "search") -}}
 {{- $robots = replaceRE `\bindex\b` "noindex" (default "index, follow" .Params.Seoindex) -}}
