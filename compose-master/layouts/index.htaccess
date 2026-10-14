@@ -25,7 +25,7 @@ AddDefaultCharset UTF-8
 {{- with .Site.Params.defaultVersion }}{{ if eq (print .) (print $.Site.Params.version) }}{{ $v := replace (print .) "." "\\." }}{{ $base := replaceRE (printf "%s/$" $v) "" (urls.Parse $.Site.BaseURL).Path }}
 # Strip /{{ . }}/ from URLs: default version (params.defaultVersion) lives at the docs root.
 RewriteCond %{REQUEST_URI} /{{ $v }}(/|$)
-RewriteRule ^(?:{{ $v }}/)?(.*)$ {{ $base }}$1 [L,R=301,NE]
+RewriteRule ^(?:{{ $v }}(?:/|$))?(.*)$ {{ $base }}$1 [L,R=301,NE]
 {{ end }}{{ end }}
 {{ if and .Site.Params.readRedirects (eq .Site.Params.readRedirects true) }}{{ readFile "redirects.htaccess" }}{{ end }}
 {{ $redirectTo := "" }}{{ range $p := .Site.Pages -}}{{ $length := .Aliases | len }}{{if .Params.redirectTo }}{{$redirectTo = .Params.redirectTo }}
