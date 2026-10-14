@@ -1,139 +1,163 @@
-{{- $url := .Permalink -}}
-{{- $title := .Title -}}
-{{- $description := .Params.Seodesc | default .Site.Params.description -}}
-{{- $orgName := "Virtuozzo" -}}
-{{- $orgLogo := "https://www.virtuozzo.com/wp-content/uploads/2025/04/virtuozzo.svg" -}}
+{{- /*
+  JSON-LD for Virtuozzo docs (shared theme).
+  Optional per-docs config (config.yaml -> params.schema):
+    schema:
+      product:            # product the docs describe; entity lives on www.virtuozzo.com
+        id:   https://www.virtuozzo.com/infrastructure/#software
+        name: Virtuozzo Infrastructure
+        url:  https://www.virtuozzo.com/infrastructure/
+  Organization / WebSite mirror the main site's Yoast graph (same @id) — keep in sync.
+*/ -}}
 {{- $orgUrl := "https://www.virtuozzo.com/" -}}
-{{- $lang := cond (eq .Site.Language.Lang "en") "en-US" .Site.Language.Lang -}}
-{{ $raw := lower .RawContent }}
+{{- $orgId := print $orgUrl "#organization" -}}
+{{- $siteId := print $orgUrl "#website" -}}
+{{- $orgDesc := "Enabling service providers with virtualization, hyperconverged cloud infrastructure, high-performance storage and application management" -}}
+{{- $orgLogo := "https://www.virtuozzo.com/wp-content/uploads/2026/09/virtuozzo-logo-512x512-1.png" -}}
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebPage",
-      "@id": "{{ $url }}",
-      "url": "{{ $url }}",
-      "name": "{{ $title }}",
-      "isPartOf": { "@id": "{{ $orgUrl }}#website" },
-      "about": { "@id": "{{ $orgUrl }}#organization" },
-      "datePublished": "{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}",
-      "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
-      "description": "{{ $description }}",
-      "breadcrumb": { "@id": "{{ $url }}#breadcrumb" },
-      "inLanguage": "{{ $lang }}",
-      "potentialAction": [
-        {
-          "@type": "ReadAction",
-          "target": ["{{ $url }}"]
-        }
-      ]
-    }
-    {{ if and (not .IsHome) (not (in $raw "childrenlist")) }},
-    {
-      "@type": "TechArticle",
-      "@id": "{{ $url }}#techarticle",
-      "headline": "{{ $title }}",
-      "url": "{{ $url }}",
-      "name": "{{ $title }}",
-      "description": "{{ $description }}",
-      "author": {
-        "@type": "Organization",
-        "name": "{{ $orgName }}"
-      },
-      "publisher": { "@id": "{{ $orgUrl }}#organization" },
-      "mainEntityOfPage": { "@id": "{{ $url }}" },
-      {{ with .Params.images }}
-      "image": {
-        "@type": "ImageObject",
-        "url": "{{ index . 0 }}"
-      },
-      {{ end }}
-      "datePublished": "{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}",
-      "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
-      "inLanguage": "{{ $lang }}"
-    }
-    {{ end }},
-    {
-      "@type": "BreadcrumbList",
-      "@id": "{{ $url }}#breadcrumb",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "{{ $orgUrl }}"
-        },
-        {{- if not .IsHome -}}
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "{{ .Site.Title }}",
-          "item": "{{ .Site.BaseURL }}"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "{{ $title }}"
-        }
-        {{- else }}
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "{{ .Site.Title }}"
-        }
-        {{- end }}
-      ]
-    },
-    {
-      "@type": "WebSite",
-      "@id": "{{ $orgUrl }}#website",
-      "url": "{{ $orgUrl }}",
-      "name": "{{ $orgName }}",
-      "description": "Enabling service providers with virtualization, hyperconverged cloud infrastructure, high-performance storage and application management",
-      "publisher": { "@id": "{{ $orgUrl }}#organization" },
-      "potentialAction": [
-        {
-          "@type": "SearchAction",
-          "target": {
-            "@type": "EntryPoint",
-            "urlTemplate": "{{ $orgUrl }}?s={search_term_string}"
-          },
-          "query-input": {
-            "@type": "PropertyValueSpecification",
-            "valueRequired": true,
-            "valueName": "search_term_string"
-          }
-        }
-      ],
-      "inLanguage": "{{ $lang }}"
-    },
-    {
-      "@type": "Organization",
-      "@id": "{{ $orgUrl }}#organization",
-      "name": "{{ $orgName }}",
-      "url": "{{ $orgUrl }}",
-      "logo": {
-        "@type": "ImageObject",
-        "inLanguage": "{{ $lang }}",
-        "@id": "{{ $orgUrl }}#/schema/logo/image/",
-        "url": "{{ $orgLogo }}",
-        "contentUrl": "{{ $orgLogo }}",
-        "width": 105,
-        "height": 19,
-        "caption": "Virtuozzo"
-      },
-      "image": { "@id": "{{ $orgUrl }}#/schema/logo/image/" },
-      "sameAs": [
-        "https://www.facebook.com/VirtuozzoInc/",
-        "https://x.com/virtuozzoinc",
-        "https://www.youtube.com/channel/UCF1QeKAgIZ8ZQFaqUxPp87w",
-        "https://www.linkedin.com/company/virtuozzo"
-      ],
-      "description": "Enabling service providers with virtualization, hyperconverged cloud infrastructure, high-performance storage and application management",
-      "email": "info@virtuozzo.com"
-    }
-  ]
-}
-</script> 
+{{- $url := .Permalink -}}
+{{- $docsHome := .Site.Home.Permalink -}}
+{{- $docsName := .Site.Params.openGraphSiteName | default .Site.Title -}}
+
+{{- /* BCP 47: en -> en-US, de-de -> de-DE */ -}}
+{{- $l := .Site.Language.Lang -}}
+{{- $lang := $l -}}
+{{- if eq $l "en" -}}{{- $lang = "en-US" -}}
+{{- else -}}
+  {{- $lp := split $l "-" -}}
+  {{- if eq (len $lp) 2 -}}{{- $lang = printf "%s-%s" (index $lp 0) (upper (index $lp 1)) -}}{{- end -}}
+{{- end -}}
+
+{{- $title := .Title | plainify | htmlUnescape -}}
+{{- $desc := .Params.seodesc | default "" -}}
+{{- if not $desc -}}
+  {{- $desc = .Summary | plainify | htmlUnescape | htmlUnescape | replaceRE `\s+` " " | strings.TrimLeft " " | strings.TrimRight " " | truncate 200 -}}
+{{- end -}}
+
+{{- /* Hub (CollectionPage) = home, or a childrenList page with little own text.
+     Counted on the default-language version so all translations get the same type. */ -}}
+{{- $isList := .IsHome -}}
+{{- if and (not .IsHome) (in (lower .RawContent) "childrenlist") -}}
+  {{- $src := . -}}
+  {{- $defLang := (index .Sites 0).Language.Lang -}}
+  {{- range .AllTranslations -}}{{- if eq .Language.Lang $defLang -}}{{- $src = . -}}{{- end -}}{{- end -}}
+  {{- $own := $src.RawContent | replaceRE `\{\{[%<][\s\S]*?[%>]\}\}` "" | replaceRE `(?m)^#.*$` "" | replaceRE `\]\([^)]*\)` "]" -}}
+  {{- $maxHub := 100 -}}
+  {{- with .Site.Params.schema -}}{{- with .hubMaxWords -}}{{- $maxHub = int . -}}{{- end -}}{{- end -}}
+  {{- $isList = lt (countwords $own) $maxHub -}}
+{{- end -}}
+
+{{- $product := dict -}}
+{{- with .Site.Params.schema -}}{{- with .product -}}{{- with .id -}}
+  {{- $product = dict "@id" . -}}
+{{- end -}}{{- end -}}{{- end -}}
+{{- if isset $product "@id" -}}
+  {{- with .Site.Params.schema.product.name -}}{{- $product = merge $product (dict "name" .) -}}{{- end -}}
+  {{- with .Site.Params.schema.product.url -}}{{- $product = merge $product (dict "url" .) -}}{{- end -}}
+{{- end -}}
+
+{{- $dates := dict -}}
+{{- if not .PublishDate.IsZero -}}{{- $dates = merge $dates (dict "datePublished" (.PublishDate.Format "2006-01-02T15:04:05Z07:00")) -}}{{- end -}}
+{{- if not .Lastmod.IsZero -}}{{- $dates = merge $dates (dict "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")) -}}{{- end -}}
+
+{{- /* ---------- Breadcrumbs: Virtuozzo > Docs > menu ancestors > page ---------- */ -}}
+{{- $ancestors := slice -}}
+{{- if not .IsHome -}}
+  {{- $menuMap := partialCached "schema/menu-map.html" . .Site.Language.Lang -}}
+  {{- /* fallback tree of the default language: an untranslated section keeps the chain going */ -}}
+  {{- $defHome := (index .Sites 0).Home -}}
+  {{- $defMap := partialCached "schema/menu-map.html" $defHome $defHome.Site.Language.Lang -}}
+  {{- $cur := "" -}}
+  {{- with .Params.menu -}}{{- with .docs -}}{{- $cur = .parent | default "" -}}{{- end -}}{{- end -}}
+  {{- $stop := false -}}
+  {{- range seq 10 -}}
+    {{- if and (not $stop) $cur (isset $menuMap $cur) -}}
+      {{- $e := index $menuMap $cur -}}
+      {{- if or (eq $e.url $url) (eq $e.url $docsHome) -}}
+        {{- $stop = true -}}
+      {{- else -}}
+        {{- $ancestors = $ancestors | append $e -}}
+        {{- $cur = $e.parent -}}
+      {{- end -}}
+    {{- else if and (not $stop) $cur (isset $defMap $cur) -}}
+      {{- $cur = (index $defMap $cur).parent -}}
+    {{- else -}}
+      {{- $stop = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $crumbs := slice (dict "@type" "ListItem" "position" 1 "name" "Virtuozzo" "item" $orgUrl) -}}
+{{- if .IsHome -}}
+  {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" 2 "name" $docsName "item" $url) -}}
+{{- else -}}
+  {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" 2 "name" $docsName "item" $docsHome) -}}
+  {{- $n := len $ancestors -}}
+  {{- range $i := seq $n -}}
+    {{- $e := index $ancestors (sub $n $i) -}}
+    {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" (add $i 2) "name" ($e.name | plainify | htmlUnescape) "item" $e.url) -}}
+  {{- end -}}
+  {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" (add $n 3) "name" $title "item" $url) -}}
+{{- end -}}
+
+{{- /* ---------- Graph ---------- */ -}}
+{{- $page := dict
+    "@type" (cond $isList "CollectionPage" "WebPage")
+    "@id" $url
+    "url" $url
+    "name" $title
+    "isPartOf" (dict "@id" $siteId)
+    "breadcrumb" (dict "@id" (print $url "#breadcrumb"))
+    "inLanguage" $lang
+-}}
+{{- with $desc -}}{{- $page = merge $page (dict "description" .) -}}{{- end -}}
+{{- $page = merge $page $dates -}}
+{{- if and $isList (isset $product "@id") -}}{{- $page = merge $page (dict "about" $product) -}}{{- end -}}
+
+{{- $graph := slice $page -}}
+
+{{- if not $isList -}}
+  {{- $art := dict
+      "@type" "TechArticle"
+      "@id" (print $url "#techarticle")
+      "headline" (truncate 110 $title)
+      "name" $title
+      "url" $url
+      "isPartOf" (dict "@id" $url)
+      "mainEntityOfPage" (dict "@id" $url)
+      "author" (dict "@id" $orgId)
+      "publisher" (dict "@id" $orgId)
+      "inLanguage" $lang
+  -}}
+  {{- with $desc -}}{{- $art = merge $art (dict "description" .) -}}{{- end -}}
+  {{- $art = merge $art $dates -}}
+  {{- with .Site.Params.version -}}{{- $art = merge $art (dict "version" (print .)) -}}{{- end -}}
+  {{- if isset $product "@id" -}}{{- $art = merge $art (dict "about" $product) -}}{{- end -}}
+  {{- with .Params.images -}}{{- $art = merge $art (dict "image" (absURL (index . 0))) -}}{{- end -}}
+  {{- $graph = $graph | append $art -}}
+{{- end -}}
+
+{{- $graph = $graph | append (dict "@type" "BreadcrumbList" "@id" (print $url "#breadcrumb") "itemListElement" $crumbs) -}}
+
+{{- $graph = $graph | append (dict
+    "@type" "WebSite"
+    "@id" $siteId
+    "url" $orgUrl
+    "name" "Virtuozzo"
+    "description" $orgDesc
+    "publisher" (dict "@id" $orgId)
+    "inLanguage" "en-US"
+) -}}
+
+{{- $logo := dict "@type" "ImageObject" "@id" (print $orgUrl "#/schema/logo/image/") "url" $orgLogo "contentUrl" $orgLogo "width" 512 "height" 512 "caption" "Virtuozzo" -}}
+{{- $graph = $graph | append (dict
+    "@type" "Organization"
+    "@id" $orgId
+    "name" "Virtuozzo"
+    "url" $orgUrl
+    "logo" $logo
+    "image" (dict "@id" (print $orgUrl "#/schema/logo/image/"))
+    "description" $orgDesc
+    "sameAs" (slice "https://www.facebook.com/VirtuozzoInc/" "https://x.com/virtuozzoinc" "https://www.youtube.com/channel/UCF1QeKAgIZ8ZQFaqUxPp87w" "https://www.linkedin.com/company/virtuozzo" "https://en.wikipedia.org/wiki/Virtuozzo_(company)")
+) -}}
+
+<script type="application/ld+json">{{ dict "@context" "https://schema.org" "@graph" $graph | jsonify | safeJS }}</script>
