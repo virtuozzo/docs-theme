@@ -7,7 +7,16 @@
 {{- $cur := print site.Params.version -}}
 {{- $def := "" -}}{{- with site.Params.defaultVersion -}}{{- $def = print . -}}{{- end -}}
 {{- $root := replaceRE (printf `%s/$` (replace $cur "." `\.`)) "" site.BaseURL -}}
-{{- range site.Params.versions -}}
+{{- /* params.versions: a list from the branch config, or a comma-separated string from the deploy
+     pipeline (HUGO_PARAMS_VERSIONS, read from the main branch config; sent with a trailing comma so a
+     single version stays a string and "9.0" is not read as the number 9) */ -}}
+{{- $versions := site.Params.versions -}}
+{{- if and $versions (not (reflect.IsSlice $versions)) -}}
+  {{- $list := slice -}}
+  {{- range split (print $versions) "," -}}{{- with trim . " " -}}{{- $list = $list | append . -}}{{- end -}}{{- end -}}
+  {{- $versions = $list -}}
+{{- end -}}
+{{- range $versions -}}
   {{- $v := print . -}}
   {{- $href := print $root $v "/" -}}
   {{- if eq $v $def -}}{{- $href = $root -}}
