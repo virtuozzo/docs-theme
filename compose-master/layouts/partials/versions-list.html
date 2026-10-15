@@ -16,11 +16,14 @@
   {{- range split (print $versions) "," -}}{{- with trim . " " -}}{{- $list = $list | append . -}}{{- end -}}{{- end -}}
   {{- $versions = $list -}}
 {{- end -}}
+{{- /* For assets/js/version-switch.js: this build's root and the current language prefix ("de-de/" or ""),
+     so a click can open the same article in the other version */ -}}
+{{- $lang := strings.TrimPrefix site.BaseURL site.Home.Permalink -}}
 {{- range $versions -}}
   {{- $v := print . -}}
   {{- $href := print $root $v "/" -}}
   {{- if eq $v $def -}}{{- $href = $root -}}
   {{- else if and (not $def) (eq $v $cur) -}}{{- $href = site.Home.Permalink -}}
   {{- end }}
-<a href="{{ $href }}">{{ $v }}</a>
+<a href="{{ $href }}" data-vs-from="{{ site.BaseURL }}" data-vs-lang="{{ $lang }}"{{ if eq $v $cur }} aria-current="true"{{ end }}>{{ $v }}</a>
 {{- end -}}

@@ -19,7 +19,10 @@
 {{- $mainScriptPath := "js/index.js" }}
 {{- $main := resources.Get $mainScriptPath | resources.ExecuteAsTemplate $mainScriptPath . }}
 
-{{- $bundle := slice $jquery $fuse $mark $lunr $search $youtubelazy $main | resources.Concat "js/bundle.js" | resources.Minify | resources.Fingerprint "sha512" }}
+{{- $versionSwitchPath := "js/version-switch.js" }}
+{{- $versionSwitch := resources.Get $versionSwitchPath }}
+
+{{- $bundle := slice $jquery $fuse $mark $lunr $search $youtubelazy $main $versionSwitch | resources.Concat "js/bundle.js" | resources.Minify | resources.Fingerprint "sha512" }}
 
 <!--<script src="{{ $jquery.Permalink }}"></script>-->
 <script async src = '{{ $bundle.Permalink }}'></script>
