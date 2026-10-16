@@ -6,6 +6,10 @@
         id:   https://www.virtuozzo.com/infrastructure/#software
         name: Virtuozzo Infrastructure
         url:  https://www.virtuozzo.com/infrastructure/
+      image:              # default share image for pages without their own (front matter `images`)
+        url: https://www.virtuozzo.com/wp-content/uploads/2025/07/vz.png
+        width: 1060
+        height: 600
   Organization / WebSite mirror the main site's Yoast graph (same @id) — keep in sync.
 */ -}}
 {{- $orgUrl := "https://www.virtuozzo.com/" -}}
@@ -113,7 +117,14 @@
 {{- $page = merge $page $dates -}}
 {{- if and $isList (isset $product "@id") -}}{{- $page = merge $page (dict "about" $product) -}}{{- end -}}
 
-{{- $graph := slice $page -}}
+{{- /* Primary image: page's own or the docs' default share image (same as og:image) */ -}}
+{{- $img := partial "schema/page-image.html" . -}}
+{{- $imgId := print $url "#primaryimage" -}}
+{{- $imgNode := dict "@type" "ImageObject" "@id" $imgId "url" $img.url "contentUrl" $img.url "inLanguage" $lang -}}
+{{- if $img.width -}}{{- $imgNode = merge $imgNode (dict "width" $img.width "height" $img.height) -}}{{- end -}}
+{{- $page = merge $page (dict "image" (dict "@id" $imgId) "primaryImageOfPage" (dict "@id" $imgId)) -}}
+
+{{- $graph := slice $page $imgNode -}}
 
 {{- if not $isList -}}
   {{- $art := dict
@@ -132,7 +143,7 @@
   {{- $art = merge $art $dates -}}
   {{- with .Site.Params.version -}}{{- $art = merge $art (dict "version" (print .)) -}}{{- end -}}
   {{- if isset $product "@id" -}}{{- $art = merge $art (dict "about" $product) -}}{{- end -}}
-  {{- with .Params.images -}}{{- $art = merge $art (dict "image" (absURL (index . 0))) -}}{{- end -}}
+  {{- $art = merge $art (dict "image" (dict "@id" $imgId)) -}}
   {{- $graph = $graph | append $art -}}
 {{- end -}}
 

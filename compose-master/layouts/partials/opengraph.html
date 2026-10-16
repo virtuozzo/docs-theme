@@ -1,2 +1,18 @@
+{{- /* Hugo's built-in Open Graph / Twitter tags; when the page has no image of its own, add the docs'
+     default share image (partials/schema/page-image.html) so link previews and schema always have one. */ -}}
+{{- $img := partial "schema/page-image.html" . -}}
 {{- template "_internal/opengraph.html" . -}}
+{{- if $img.fallback }}
+<meta property="og:image" content="{{ $img.url }}">
+{{- with $img.width }}
+<meta property="og:image:width" content="{{ . }}">{{ end }}
+{{- with $img.height }}
+<meta property="og:image:height" content="{{ . }}">{{ end }}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ $img.url }}">
+<meta name="twitter:title" content="{{ .Title | plainify }}">
+{{- with or .Params.seodesc .Description .Summary site.Params.description }}
+<meta name="twitter:description" content="{{ . | plainify | htmlUnescape | replaceRE `\s+` " " | strings.TrimLeft " " | strings.TrimRight " " | truncate 200 }}">{{ end }}
+{{- else -}}
 {{- template "_internal/twitter_cards.html" . -}}
+{{- end -}}

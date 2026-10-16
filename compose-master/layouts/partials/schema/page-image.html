@@ -1,0 +1,15 @@
+{{- /*
+  Image for Open Graph, Twitter and JSON-LD. Returns dict: url, width, height (0 = unknown), fallback (bool).
+  Order: the page's own images (front matter `images`, or a bundled feature, cover or thumbnail image,
+  via Hugo's _funcs/get-page-images) -> params.schema.image {url, width, height} -> the main site's default
+  share image (the one Yoast uses on pages without a featured image).
+*/ -}}
+{{- $res := dict "url" "https://www.virtuozzo.com/wp-content/uploads/2025/07/vz.png" "width" 1060 "height" 600 "fallback" true -}}
+{{- with site.Params.schema.image -}}
+  {{- with .url -}}{{- $res = dict "url" (absURL .) "width" ($.Site.Params.schema.image.width | default 0) "height" ($.Site.Params.schema.image.height | default 0) "fallback" true -}}{{- end -}}
+{{- end -}}
+{{- with partial "_funcs/get-page-images" . -}}
+  {{- $i := index . 0 -}}
+  {{- $res = dict "url" $i.Permalink "width" ($i.Width | default 0) "height" ($i.Height | default 0) "fallback" false -}}
+{{- end -}}
+{{- return $res -}}
