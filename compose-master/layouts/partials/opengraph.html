@@ -1,18 +1,37 @@
-{{- /* Hugo's built-in Open Graph / Twitter tags; when the page has no image of its own, add the docs'
-     default share image (partials/schema/page-image.html) so link previews and schema always have one. */ -}}
+{{- /*
+  Open Graph + Twitter card tags (replaces Hugo's built-in templates).
+  site_name: params.openGraphSiteName (same name as the docs crumb in JSON-LD), falls back to site title.
+  description: partials/schema/page-desc.html (seodesc -> description -> summary without the H1).
+  image: partials/schema/page-image.html (page's own image -> params.schema.image -> default share image).
+*/ -}}
+{{- $title := .Title | default site.Title | plainify | htmlUnescape -}}
+{{- $desc := partial "schema/page-desc.html" . -}}
 {{- $img := partial "schema/page-image.html" . -}}
-{{- template "_internal/opengraph.html" . -}}
-{{- if $img.fallback }}
+{{- $siteName := site.Params.openGraphSiteName | default site.Title -}}
+{{- /* og:locale: en / en-us -> en_US, de-de -> de_DE */ -}}
+{{- $lp := split (replace (lower (site.Language.LanguageCode | default site.Language.Lang)) "_" "-") "-" -}}
+{{- $locale := cond (eq (len $lp) 2) (printf "%s_%s" (index $lp 0) (upper (index $lp 1))) (index $lp 0) -}}
+{{- if eq $locale "en" -}}{{- $locale = "en_US" -}}{{- end }}
+<meta property="og:site_name" content="{{ $siteName }}">
+<meta property="og:title" content="{{ $title }}">
+{{- with $desc }}
+<meta property="og:description" content="{{ . }}">{{ end }}
+<meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:locale" content="{{ $locale }}">
 <meta property="og:image" content="{{ $img.url }}">
 {{- with $img.width }}
 <meta property="og:image:width" content="{{ . }}">{{ end }}
 {{- with $img.height }}
 <meta property="og:image:height" content="{{ . }}">{{ end }}
+{{- if .IsPage }}
+{{- with .PublishDate }}{{ if not .IsZero }}
+<meta property="article:published_time" content="{{ .Format "2006-01-02T15:04:05-07:00" }}">{{ end }}{{ end }}
+{{- with .Lastmod }}{{ if not .IsZero }}
+<meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05-07:00" }}">{{ end }}{{ end }}
+{{- end }}
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $title }}">
+{{- with $desc }}
+<meta name="twitter:description" content="{{ . }}">{{ end }}
 <meta name="twitter:image" content="{{ $img.url }}">
-<meta name="twitter:title" content="{{ .Title | plainify }}">
-{{- with or .Params.seodesc .Description .Summary site.Params.description }}
-<meta name="twitter:description" content="{{ . | plainify | htmlUnescape | replaceRE `\s+` " " | strings.TrimLeft " " | strings.TrimRight " " | truncate 200 }}">{{ end }}
-{{- else -}}
-{{- template "_internal/twitter_cards.html" . -}}
-{{- end -}}

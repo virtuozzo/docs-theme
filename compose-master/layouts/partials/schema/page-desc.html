@@ -1,0 +1,14 @@
+{{- /*
+  Plain-text page description for meta tags and JSON-LD (max 200 chars).
+  Order: front matter seodesc -> description -> page summary (with the leading H1 text removed) -> site description.
+*/ -}}
+{{- $d := or .Params.seodesc .Description -}}
+{{- $fromSummary := false -}}
+{{- if not $d -}}{{- $d = .Summary -}}{{- $fromSummary = true -}}{{- end -}}
+{{- $d = $d | plainify | htmlUnescape | htmlUnescape | replaceRE `\s+` " " | strings.TrimLeft " " | strings.TrimRight " " -}}
+{{- if $fromSummary -}}
+  {{- $t := .Title | plainify | htmlUnescape | replaceRE `\s+` " " -}}
+  {{- if and $t (strings.HasPrefix $d (print $t " ")) -}}{{- $d = strings.TrimPrefix (print $t " ") $d -}}{{- end -}}
+{{- end -}}
+{{- if not $d -}}{{- with site.Params.description -}}{{- $d = . | plainify -}}{{- end -}}{{- end -}}
+{{- return ($d | truncate 200) -}}

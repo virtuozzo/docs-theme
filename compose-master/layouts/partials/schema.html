@@ -32,10 +32,7 @@
 {{- end -}}
 
 {{- $title := .Title | plainify | htmlUnescape -}}
-{{- $desc := .Params.seodesc | default "" -}}
-{{- if not $desc -}}
-  {{- $desc = .Summary | plainify | htmlUnescape | htmlUnescape | replaceRE `\s+` " " | strings.TrimLeft " " | strings.TrimRight " " | truncate 200 -}}
-{{- end -}}
+{{- $desc := partial "schema/page-desc.html" . -}}
 
 {{- /* Hub (CollectionPage) = home, or a childrenList page with little own text.
      Counted on the default-language version so all translations get the same type. */ -}}
