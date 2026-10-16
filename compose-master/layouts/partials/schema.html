@@ -32,7 +32,7 @@
 {{- end -}}
 
 {{- $title := .Title | plainify | htmlUnescape -}}
-{{- $desc := partial "schema/page-desc.html" . -}}
+{{- $desc := (partial "seo/meta.html" .).description -}}
 
 {{- /* Hub (CollectionPage) = home, or a childrenList page with little own text.
      Counted on the default-language version so all translations get the same type. */ -}}
