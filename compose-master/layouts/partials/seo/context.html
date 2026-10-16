@@ -1,0 +1,44 @@
+{{- /*
+  Where a page sits in the docs menu (front matter menu.docs).
+  Input:  dict "page" <Page> "map" <menu-map of the page language>
+  Return: dict "guide"  <name of the top-level menu item, e.g. "Self-Service Guide">
+               "parent" <name of the direct parent; empty when the parent is the guide itself>
+  Top-level items listed in params.seo.menuGroups (default: archive) only group other
+  guides, so for pages under them the guide is the next level down.
+  Both are empty for pages outside the menu and for the guide pages themselves.
+*/ -}}
+{{- $map := .map -}}
+{{- $groups := slice "archive" -}}
+{{- with site.Params.seo -}}{{- with .menuGroups -}}{{- $groups = . -}}{{- end -}}{{- end -}}
+{{- $id := "" -}}
+{{- with .page.Params.menu -}}{{- with .docs -}}{{- $id = .identifier | default "" -}}{{- end -}}{{- end -}}
+
+{{- /* ancestors, nearest first: [parent, grandparent, ..., top-level] */ -}}
+{{- $chain := slice -}}
+{{- if and $id (isset $map $id) -}}
+  {{- $cur := (index $map $id).parent -}}
+  {{- range seq 12 -}}
+    {{- if and $cur (isset $map $cur) -}}
+      {{- $chain = $chain | append $cur -}}
+      {{- $cur = (index $map $cur).parent -}}
+    {{- else -}}
+      {{- $cur = "" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $guideId := "" -}}
+{{- $n := len $chain -}}
+{{- if gt $n 0 -}}
+  {{- $guideId = index $chain (sub $n 1) -}}
+  {{- if and (in $groups $guideId) (gt $n 1) -}}{{- $guideId = index $chain (sub $n 2) -}}{{- end -}}
+{{- end -}}
+
+{{- $guide := "" -}}
+{{- $parent := "" -}}
+{{- if $guideId -}}
+  {{- $guide = (index $map $guideId).name -}}
+  {{- $pid := index $chain 0 -}}
+  {{- if and (ne $pid $guideId) (not (in $groups $pid)) -}}{{- $parent = (index $map $pid).name -}}{{- end -}}
+{{- end -}}
+{{- return (dict "guide" ($guide | plainify | htmlUnescape) "parent" ($parent | plainify | htmlUnescape)) -}}

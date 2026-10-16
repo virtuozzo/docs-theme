@@ -60,44 +60,12 @@
 <meta name="msapplication-config" content='{{ absURL (printf "%sbrowserconfig.xml" $iconsPath) }}'>
 <meta name="theme-color" content="#ffffff">
 
-{{- $limit := 70 -}}
-{{- $main := "" -}}
-{{- if .IsHome -}}
-    {{- $main = .Site.Title -}}
-{{- else -}}
-    {{- with .Params.Seotitle -}}
-        {{- $main = . -}}
-    {{- else -}}
-        {{- $main = "" -}}
-    {{- end -}}
-{{- end -}}
-
-{{- $longSuffix := print " | " .Site.Params.pageSeoTitle -}}
-{{- $shortSuffix := " | Virtuozzo" -}}
-
-{{- $fullTitle := "" -}}
-{{- if .IsHome -}}
-    {{- $fullTitle = $main -}}
-{{- else -}}
-    {{- if $main -}}
-        {{- $fullTitle = print $main $longSuffix -}}
-    {{- else -}}
-        {{- $fullTitle = print .Site.Params.pageSeoTitle -}}
-    {{- end -}}
-{{- end -}}
-
-{{- if gt (len $fullTitle) $limit -}}
-    {{- $fullTitle = print $main $shortSuffix -}}
-{{- end -}}
-
-{{- if gt (len $fullTitle) $limit -}}
-    {{- $fullTitle = $main -}}
-{{- end -}}
-
-<title>{{ $fullTitle }}</title>
+{{- /* title + description: see partials/seo/meta.html */ -}}
+{{- $seo := partial "seo/meta.html" . -}}
+<title>{{ $seo.title }}</title>
 
 
-<meta name="description" content="{{ .Params.Seodesc }}">
+<meta name="description" content="{{ $seo.description }}">
 <meta name="keywords" content="{{ .Params.Seokeywords }}">
 
 {{- /* robots + hreflang. hreflang печатается только на индексируемых страницах. */ -}}

@@ -1,0 +1,22 @@
+{{- /*
+  How many indexable pages of one language share the same SEO title / description.
+  Called once per language: partialCached "seo/dup-map.html" .Site.Home .Site.Language.Lang
+  Keys: "t|<title>", "tg|<title>|<guide>", "d|<desc>", "dg|<desc>|<guide>" (lower-cased) -> count.
+*/ -}}
+{{- $map := partialCached "schema/menu-map.html" . .Site.Language.Lang -}}
+{{- $s := newScratch -}}
+{{- $s.Set "c" dict -}}
+{{- range .Site.Pages -}}
+  {{- if and (in (slice "page" "section") .Kind) (not .Params.canonical) (not (in (lower (.Params.Seoindex | default "")) "noindex")) -}}
+    {{- $ctx := partial "seo/context.html" (dict "page" . "map" $map) -}}
+    {{- $t := lower (.Params.Seotitle | default .Title) -}}
+    {{- $d := lower (.Params.Seodesc | default (partial "schema/page-desc.html" .)) -}}
+    {{- $keys := slice -}}
+    {{- with $t -}}{{- $keys = $keys | append (print "t|" .) (print "tg|" . "|" $ctx.guide) -}}{{- end -}}
+    {{- with $d -}}{{- $keys = $keys | append (print "d|" .) (print "dg|" . "|" $ctx.guide) -}}{{- end -}}
+    {{- range $keys -}}
+      {{- $s.SetInMap "c" . (add 1 (index ($s.Get "c") . | default 0)) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return ($s.Get "c") -}}

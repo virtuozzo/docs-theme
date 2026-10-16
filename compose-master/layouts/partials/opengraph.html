@@ -5,7 +5,7 @@
   image: partials/schema/page-image.html (page's own image -> params.schema.image -> default share image).
 */ -}}
 {{- $title := .Title | default site.Title | plainify | htmlUnescape -}}
-{{- $desc := partial "schema/page-desc.html" . -}}
+{{- $desc := (partial "seo/meta.html" .).description -}}
 {{- $img := partial "schema/page-image.html" . -}}
 {{- $siteName := site.Params.openGraphSiteName | default site.Title -}}
 {{- /* og:locale: en / en-us -> en_US, de-de -> de_DE */ -}}

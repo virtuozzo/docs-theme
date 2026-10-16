@@ -1,0 +1,53 @@
+{{- /*
+  Final <title> and meta description of a page.
+  A title / description used by more than one page of the same language gets the
+  guide name ("Cloning volumes – Self-Service Guide"); if it still repeats inside the
+  guide, the parent menu item too ("Linux – Using NFS shares – Storage User Guide").
+  Unique titles and descriptions are left as written in front matter.
+  Return: dict "title" "description"
+*/ -}}
+{{- $limit := 70 -}}
+{{- $sep := " – " -}}
+{{- $longSuffix := print " | " .Site.Params.pageSeoTitle -}}
+{{- $shortSuffix := " | Virtuozzo" -}}
+
+{{- $title := "" -}}
+{{- /* front matter seodesc as written; pages without it get the generated one (summary etc.) */ -}}
+{{- $desc := .Params.Seodesc | default (partial "schema/page-desc.html" .) -}}
+
+{{- if .IsHome -}}
+  {{- $title = .Site.Title -}}
+{{- else -}}
+  {{- $main := .Params.Seotitle | default .Title -}}
+  {{- $map := partialCached "schema/menu-map.html" . .Site.Language.Lang -}}
+  {{- $dups := partialCached "seo/dup-map.html" .Site.Home .Site.Language.Lang -}}
+  {{- $ctx := partial "seo/context.html" (dict "page" . "map" $map) -}}
+
+  {{- /* title */ -}}
+  {{- $qual := $main -}}
+  {{- if and $main $ctx.guide (gt (index $dups (print "t|" (lower $main)) | default 0) 1) -}}
+    {{- if and $ctx.parent (gt (index $dups (print "tg|" (lower $main) "|" $ctx.guide) | default 0) 1) -}}
+      {{- $qual = print $qual $sep $ctx.parent -}}
+    {{- end -}}
+    {{- $qual = print $qual $sep $ctx.guide -}}
+  {{- end -}}
+  {{- if not $qual -}}
+    {{- $title = .Site.Params.pageSeoTitle -}}
+  {{- else if le (strings.RuneCount (print $qual $longSuffix)) $limit -}}
+    {{- $title = print $qual $longSuffix -}}
+  {{- else if le (strings.RuneCount (print $qual $shortSuffix)) $limit -}}
+    {{- $title = print $qual $shortSuffix -}}
+  {{- else -}}
+    {{- $title = $qual -}}
+  {{- end -}}
+
+  {{- /* description */ -}}
+  {{- if and $desc $ctx.guide (gt (index $dups (print "d|" (lower $desc)) | default 0) 1) -}}
+    {{- $prefix := $ctx.guide -}}
+    {{- if and $ctx.parent (gt (index $dups (print "dg|" (lower $desc) "|" $ctx.guide) | default 0) 1) -}}
+      {{- $prefix = print $prefix $sep $ctx.parent -}}
+    {{- end -}}
+    {{- $desc = print $prefix ": " $desc -}}
+  {{- end -}}
+{{- end -}}
+{{- return (dict "title" $title "description" $desc) -}}
