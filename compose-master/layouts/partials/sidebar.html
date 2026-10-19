@@ -17,7 +17,19 @@
                     </div>
                     {{ end }}
                     <div class="search-wrapper">
-                        <form action="/search/" class="">
+                        {{- /* Search runs in the current language: on its own search page (content/<lang>/search.md)
+                               when the language has one, otherwise on the first language's search page, with a
+                               hidden lang field telling search.js which language's index.json to load. */ -}}
+                        {{- $searchPage := site.GetPage "/search" -}}
+                        {{- if not $searchPage -}}
+                            {{- range site.Sites -}}
+                                {{- if not $searchPage -}}{{- $searchPage = .GetPage "/search" -}}{{- end -}}
+                            {{- end -}}
+                        {{- end }}
+                        <form action="{{ with $searchPage }}{{ .Permalink }}{{ else }}{{ "search/" | absLangURL }}{{ end }}" class="">
+                        {{- with $searchPage }}{{ if ne .Language.Lang site.Language.Lang }}
+                        <input type="hidden" name="lang" value="{{ site.Language.Lang }}">
+                        {{- end }}{{ end }}
                         <label for="docs-search" class="sr-only">{{ partial "i18n-extended.html" (slice "search" "Search") }}</label>
                         <button type="submit" aria-label="search"></button>
                         <input id="docs-search" type="text" name="s" placeholder="{{ partial "i18n-extended.html" (slice `search` `Search`) }}" required>

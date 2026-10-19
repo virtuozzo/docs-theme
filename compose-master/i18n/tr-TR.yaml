@@ -2,6 +2,10 @@ search:
   other: "Ara"
 search-results:
   other: "Arama Sonuçları"
+search-no-results:
+  other: "Eşleşme bulunamadı"
+search-enter-query:
+  other: "Lütfen bir arama sorgusu girin..."
 docs-menu:
   other: "Dokümantasyon Menüsü"
 menu:
