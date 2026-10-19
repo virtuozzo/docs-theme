@@ -1,0 +1,122 @@
+{{- /*
+  Docs menu as data, built once per language (through sidebar/menu.html, which is partialCached).
+
+  Args: dict "entries" (menu entries of one level) "prefix" (id prefix, "" at the top) "level" (1 at the top).
+  Returns dict:
+    nodes  id -> node. An id is the item's position: "3" is the 4th top item, "3.0" its first child.
+           node: id, level, cls (has-children / external / has-pdf), html (the item's
+           <span class="aside-menu-item">…</span>), kids (child ids).
+    ids    ids of this level, in menu order.
+    tree   the same level for menu.json, which sidebar.js renders branches from:
+           t title (HTML), h href, c classes, x opens in a new tab, r rel=noopener, p PDF href,
+           i top-level icon {s, w, h}, k children.
+    paths  path of an item's URL ("admin-guide-backup-storage") -> ids, to find the current page's items.
+
+  An entry without a weight is not shown (as before). Links are absolute (absLangURL) so that the same
+  value is right in the page and in menu.json, which canonifyURLs does not process.
+*/ -}}
+{{- $nodes := dict -}}
+{{- $ids := slice -}}
+{{- $tree := slice -}}
+{{- $paths := dict -}}
+{{- $level := .level -}}
+{{- $i := 0 -}}
+{{- range .entries -}}
+  {{- if .Weight -}}
+    {{- $id := printf "%s%d" $.prefix $i -}}
+    {{- $i = add $i 1 -}}
+
+    {{- $URL := .URL -}}
+    {{- with .ConfiguredURL }}{{ $URL = . }}{{ end -}}
+    {{- with .MenuConfig }}{{ with .URL }}{{ $URL = . }}{{ end }}{{ end -}}
+    {{- $title := .Title | default .Name -}}
+
+    {{- $isRemote := false -}}
+    {{- $isDocs := false -}}
+    {{- $isVirtuozzo := false -}}
+    {{- $cls := slice -}}
+    {{- if .Children }}{{ $cls = $cls | append "has-children" }}{{ end -}}
+    {{- if $URL -}}
+      {{- $isRemote = strings.HasPrefix $URL "http" -}}
+      {{- $isDocs = in $URL site.Params.hostName -}}
+      {{- $isVirtuozzo = in $URL "virtuozzo.com" -}}
+      {{- if and $isRemote (not $isDocs) }}{{ $cls = $cls | append "external" }}{{ end -}}
+    {{- end -}}
+
+    {{- /* Same targets as the old markup: a site-local URL gets the language prefix, through the base URL */ -}}
+    {{- $href := "" -}}
+    {{- if $URL -}}
+      {{- $href = cond $isRemote $URL (strings.TrimPrefix "/" $URL | absLangURL) -}}
+    {{- end -}}
+    {{- $pdf := "" -}}
+    {{- if and .Params.pdf $URL -}}
+      {{- $cls = $cls | append "has-pdf" -}}
+      {{- $pdf = printf "%s%s" $URL .Params.pdf -}}
+      {{- if not (strings.HasPrefix $pdf "http") }}{{ $pdf = strings.TrimPrefix "/" $pdf | absURL }}{{ end -}}
+    {{- end -}}
+
+    {{- /* Top-level icon: content/<id>/<id>/<img> or static/images/sidebar/<img>; size read from the SVG */ -}}
+    {{- $img := dict -}}
+    {{- if and (eq $level 1) .Params.img -}}
+      {{- $imgPath := printf "/content/%s/%s/%s" .Identifier .Identifier .Params.img -}}
+      {{- $src := "" -}}
+      {{- $fsPath := "" -}}
+      {{- if fileExists $imgPath -}}
+        {{- $src = printf "/%s/%s" .Identifier .Params.img -}}
+        {{- $fsPath = $imgPath -}}
+      {{- else -}}
+        {{- $src = printf "/images/sidebar/%s" .Params.img -}}
+        {{- $fsPath = printf "/static%s" $src -}}
+      {{- end -}}
+      {{- $w := 24 -}}
+      {{- $h := 24 -}}
+      {{- if fileExists $fsPath -}}
+        {{- $tag := index (findRE `(?s)<svg[^>]*>` (readFile $fsPath) 1) 0 | default "" -}}
+        {{- $wm := findRE `width=["'][0-9.]+["']` $tag 1 -}}
+        {{- $hm := findRE `height=["'][0-9.]+["']` $tag 1 -}}
+        {{- if and $wm $hm -}}
+          {{- $w = replaceRE `[^0-9.]` "" (index $wm 0) -}}
+          {{- $h = replaceRE `[^0-9.]` "" (index $hm 0) -}}
+        {{- else -}}
+          {{- with findRE `viewBox=["'][0-9.\s]+["']` $tag 1 -}}
+            {{- $parts := split (trim (replaceRE `\s+` " " (replaceRE `[^0-9.\s]` "" (index . 0))) " ") " " -}}
+            {{- if eq (len $parts) 4 }}{{ $w = index $parts 2 }}{{ $h = index $parts 3 }}{{ end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $img = dict "s" (strings.TrimPrefix "/" $src | absURL) "w" (math.Round $w) "h" (math.Round $h) -}}
+    {{- end -}}
+
+    {{- $node := dict "id" $id "level" $level "title" $title "href" $href "pdf" $pdf "img" $img
+          "newTab" (and $isRemote (not $isDocs)) "noopener" (and $isRemote (not $isVirtuozzo)) -}}
+    {{- $node = merge $node (dict "html" (partial "sidebar/item.html" $node | string)) -}}
+
+    {{- $json := dict "t" $title -}}
+    {{- with $href }}{{ $json = merge $json (dict "h" .) }}{{ end -}}
+    {{- with $cls }}{{ $json = merge $json (dict "c" (delimit . " ")) }}{{ end -}}
+    {{- if $node.newTab }}{{ $json = merge $json (dict "x" 1) }}{{ end -}}
+    {{- if and $href $node.noopener }}{{ $json = merge $json (dict "r" 1) }}{{ end -}}
+    {{- with $pdf }}{{ $json = merge $json (dict "p" .) }}{{ end -}}
+    {{- with $img }}{{ $json = merge $json (dict "i" .) }}{{ end -}}
+
+    {{- $kids := slice -}}
+    {{- if .Children -}}
+      {{- $sub := partial "sidebar/menu-data.html" (dict "entries" .Children "prefix" (print $id ".") "level" (add $level 1)) -}}
+      {{- $kids = $sub.ids -}}
+      {{- if $sub.ids }}{{ $json = merge $json (dict "k" $sub.tree) }}{{ end -}}
+      {{- $nodes = merge $nodes $sub.nodes -}}
+      {{- range $p, $pids := $sub.paths -}}
+        {{- $paths = merge $paths (dict $p ((index $paths $p | default slice) | append $pids)) -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- $nodes = merge $nodes (dict $id (dict "id" $id "level" $level "cls" (delimit $cls " ") "html" $node.html "kids" $kids)) -}}
+    {{- $ids = $ids | append $id -}}
+    {{- $tree = $tree | append $json -}}
+    {{- /* lower: merge treats map keys case-insensitively */ -}}
+    {{- with lower (trim (urls.Parse $URL).Path "/") -}}
+      {{- $paths = merge $paths (dict . ((index $paths . | default slice) | append $id)) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return (dict "nodes" $nodes "ids" $ids "tree" $tree "paths" $paths) -}}

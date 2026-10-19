@@ -1,0 +1,8 @@
+{{- /*
+  The docs menu of the current language: sidebar/menu-data.html plus menu.json, the whole tree that
+  sidebar.js loads when a branch not in the page is opened. Call it with partialCached, keyed by
+  language: it is the same for every page of a language.
+*/ -}}
+{{- $data := partial "sidebar/menu-data.html" (dict "entries" site.Menus.docs "prefix" "" "level" 1) -}}
+{{- $json := resources.FromString (printf "menu/%s.json" site.Language.Lang) ($data.tree | jsonify) | fingerprint "md5" -}}
+{{- return (merge $data (dict "json" $json.Permalink)) -}}
