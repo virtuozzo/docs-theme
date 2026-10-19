@@ -1,0 +1,11 @@
+{{- /* One menu item without its children. Keep in step with renderItem() in assets/js/sidebar.js,
+       which builds the same markup for branches loaded from menu.json. */ -}}
+<span class="aside-menu-item">
+  {{- with .img }}<img src="{{ .s }}" width="{{ .w }}" height="{{ .h }}" alt="{{ $.title | safeHTML }}">{{ end -}}
+  {{- if .href -}}
+    <a href="{{ .href | safeURL }}"{{ with .title }} title="{{ . }}"{{ end }}{{ if .newTab }} target="_blank"{{ end }}{{ if .noopener }} rel="noopener"{{ end }}>{{ .title | safeHTML }}</a>
+    {{- with .pdf }}<a href="{{ . | safeURL }}" class="menu-pdf"></a>{{ end -}}
+  {{- else -}}
+    <span>{{ .title }}</span>
+  {{- end -}}
+</span>

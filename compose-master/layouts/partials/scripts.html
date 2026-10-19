@@ -22,7 +22,9 @@
 {{- $versionSwitchPath := "js/version-switch.js" }}
 {{- $versionSwitch := resources.Get $versionSwitchPath }}
 
-{{- $bundle := slice $jquery $fuse $mark $lunr $search $youtubelazy $main $versionSwitch | resources.Concat "js/bundle.js" | resources.Minify | resources.Fingerprint "sha512" }}
+{{- $sidebar := resources.Get "js/sidebar.js" }}
+
+{{- $bundle := slice $jquery $fuse $mark $lunr $search $youtubelazy $main $versionSwitch $sidebar | resources.Concat "js/bundle.js" | resources.Minify | resources.Fingerprint "sha512" }}
 
 <!--<script src="{{ $jquery.Permalink }}"></script>-->
 <script async src = '{{ $bundle.Permalink }}'></script>

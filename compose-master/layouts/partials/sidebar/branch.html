@@ -1,0 +1,20 @@
+{{- /*
+  One level of the menu in the page. Args: dict "menu" (sidebar/menu.html) "ids" "level"
+  "open" (ids whose children are in the page: the current page's ancestors and the current page)
+  "current" (ids of the current page's items).
+  Children of other items are not in the page: such an item has data-id, and sidebar.js renders its
+  children from menu.json when it is opened.
+*/ -}}
+<ul class="menu-level-{{ .level }}">
+{{- range .ids -}}
+  {{- $n := index $.menu.nodes . -}}
+  {{- $open := and $n.kids (in $.open .) -}}
+  {{- $cls := $n.cls -}}
+  {{- if in $.current . }}{{ $cls = printf "%s current-page" $cls }}{{ end -}}
+  {{- if $open }}{{ $cls = printf "%s expanded" $cls }}{{ end }}
+<li{{ with trim $cls " " }} class="{{ . }}"{{ end }}{{ if $n.kids }} data-id="{{ $n.id }}"{{ end }}>
+  {{- $n.html | safeHTML -}}
+  {{- if $open }}{{ partial "sidebar/branch.html" (dict "menu" $.menu "ids" $n.kids "level" (add $.level 1) "open" $.open "current" $.current) }}{{ end -}}
+</li>
+{{- end }}
+</ul>
