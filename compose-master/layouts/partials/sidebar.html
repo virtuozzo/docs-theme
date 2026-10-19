@@ -62,10 +62,10 @@
                     </div>
                     <div class="hide-sidebar-menu"></div>
                 </div> 
-                {{- /* The page holds the top level of the menu and the branch of the current page; the whole
-                       tree is in menu.json (data-menu), from which sidebar.js renders any other branch when
-                       it is opened. The full tree in every page was ~200 KB, most of every page and of the
-                       build time. */ -}}
+                {{- /* The page holds the first levels of the menu (params.sidebarDepth, 3 by default) and the
+                       branch of the current page; the whole tree is in menu.json (data-menu), from which
+                       sidebar.js renders any deeper branch when it is opened. The full tree in every page
+                       was ~200 KB, most of every page and of the build time. */ -}}
                 {{- $menu := partialCached "sidebar/menu.html" . site.Language.Lang -}}
                 {{- $langPrefix := printf "/%s/" site.Language.Lang -}}
                 {{- $currentPath := lower (trim (strings.TrimPrefix $langPrefix (urls.Parse .RelPermalink).Path) "/") -}}
@@ -81,7 +81,7 @@
                     {{- end -}}
                 {{- end }}
                 <div class="aside-menu-wrapp" data-menu="{{ $menu.json }}">
-                    {{ partial "sidebar/branch.html" (dict "menu" $menu "ids" $menu.ids "level" 1 "open" $open "current" $current) }}
+                    {{ partial "sidebar/branch.html" (dict "menu" $menu "ids" $menu.ids "level" 1 "open" $open "current" $current "depth" (int (site.Params.sidebarDepth | default 3))) }}
                 </div>
             {{ end }}
         </div>
