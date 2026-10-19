@@ -2,6 +2,10 @@ search:
   other: "Search"
 search-results:
   other: "Search Results"
+search-no-results:
+  other: "No matches found"
+search-enter-query:
+  other: "Please enter search query..."
 docs-menu:
   other: "Docs menu"
 menu: 

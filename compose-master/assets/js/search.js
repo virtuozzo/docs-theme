@@ -12,7 +12,8 @@ $(function () {
 
 $(document).on('click', '.clear-search', function (e) {
     $('.search-box-side form').removeClass('active').find('[name="s"]').val('');
-    $('#search-results').html("<p>Please enter search query...</p>");
+    var results = $('#search-results');
+    results.html($('<p>').text(results.attr('data-enter-query') || 'Please enter search query...'));
 });
 $(document).on('keyup', '.search-box-side input', function (e) {
     var form = $(this).closest('form');
@@ -56,6 +57,33 @@ Docs.Search = (function (that) {
     };
     that.search = $("#docs-search");
     that.searchResults = $("#search-results");
+
+    // UI strings come from the page (search.html, i18n), so they follow the page language.
+    that.text = function (attr, fallback) {
+        return that.searchResults.attr(attr) || fallback;
+    };
+    that.message = function (attr, fallback) {
+        that.searchResults.removeClass('loading').append($('<p>').text(that.text(attr, fallback)));
+    };
+    that.noResults = function () {
+        that.message('data-no-results', 'No matches found');
+    };
+
+    // Each language publishes its own index.json. The page language is used, unless ?lang= names
+    // another language: a language without its own search page sends its searches here with it.
+    that.indexUrl = function () {
+        var indexes = {};
+        try {
+            indexes = JSON.parse(that.searchResults.attr('data-indexes') || '{}');
+        } catch (e) {
+            indexes = {};
+        }
+        var lang = that.lang.toLowerCase();
+        if (lang && indexes[lang]) {
+            return indexes[lang];
+        }
+        return that.searchResults.attr('data-index') || "{{ .Site.BaseURL }}index.json";
+    };
 
     // Splits a query into quoted phrases and single words:
     // backup "management node" old -> {phrases: ["management node"], words: ["backup", "old"]}
@@ -239,15 +267,11 @@ Docs.Search = (function (that) {
         var parsed = that.parseQuery(that.searchQuery);
 
         if (!parsed.terms.length) {
-            that.searchResults.removeClass('loading').append("<p>No matches found</p>");
+            that.noResults();
             return;
         }
 
-        // Each language publishes its own index.json; search.html passes the
-        // language-local URL in data-index. Site.BaseURL is only a fallback.
-        var indexUrl = that.searchResults.attr('data-index') || "{{ .Site.BaseURL }}index.json";
-
-        $.getJSON(indexUrl, function (data) {
+        $.getJSON(that.indexUrl(), function (data) {
             var pages = data;
             var result = that.literalSearch(pages, parsed);
 
@@ -272,13 +296,13 @@ Docs.Search = (function (that) {
                 }
 
                 if (!that.to_render.length) {
-                    that.searchResults.removeClass('loading').append("<p>No matches found</p>");
+                    that.noResults();
                 } else {
                     that.populateResults(that.to_render);
                 }
 
             } else {
-                that.searchResults.removeClass('loading').append("<p>No matches found</p>");
+                that.noResults();
             }
         });
     };
@@ -379,8 +403,23 @@ Docs.Search = (function (that) {
 
     };
 
+    // Exact parameter name only ("s" must not match the end of "versions="); "+" is a space in a
+    // form-encoded query and is turned into one before decoding, so that "%2B" stays a plus.
     that.param = function (name) {
-        return decodeURIComponent((location.search.split(name + '=')[1] || '').split('&')[0]).replace(/\+/g, ' ');
+        var pairs = location.search.replace(/^\?/, '').split('&');
+        for (var i = 0; i < pairs.length; i++) {
+            var at = pairs[i].indexOf('=');
+            var key = at === -1 ? pairs[i] : pairs[i].substring(0, at);
+            if (key === name) {
+                var value = at === -1 ? '' : pairs[i].substring(at + 1).replace(/\+/g, ' ');
+                try {
+                    return decodeURIComponent(value);
+                } catch (e) {
+                    return value;
+                }
+            }
+        }
+        return '';
     };
 
     that.replaceUrlParam = function (url, paramName, paramValue) {
@@ -421,6 +460,17 @@ Docs.Search = (function (that) {
         });
     };
 
+    that.lang = that.param("lang").trim();
+    // A new search from this page stays in the language of the results.
+    if (that.lang) {
+        $('.search-box-side form').each(function () {
+            var form = $(this);
+            if (!form.find('input[name="lang"]').length) {
+                form.append($('<input type="hidden" name="lang">').val(that.lang));
+            }
+        });
+    }
+
     that.searchQuery = that.param("s").trim();
     if (that.searchQuery) {
         that.search.val(that.searchQuery).closest('form').addClass('active');
@@ -433,7 +483,7 @@ Docs.Search = (function (that) {
         that.searchResults.addClass('loading');
         that.executeSearch();
     } else {
-        that.searchResults.append("<p>Please enter search query...</p>");
+        that.message('data-enter-query', 'Please enter search query...');
     }
 
 }(Docs.Search || {}));

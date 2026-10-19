@@ -2,6 +2,10 @@ search:
   other: "検索"
 search-results:
   other: "検索結果"
+search-no-results:
+  other: "一致する結果が見つかりません"
+search-enter-query:
+  other: "検索キーワードを入力してください..."
 docs-menu:
   other: "ドキュメントメニュー"
 menu:

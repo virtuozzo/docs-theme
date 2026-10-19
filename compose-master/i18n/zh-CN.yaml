@@ -2,6 +2,10 @@ search:
   other: "搜索"
 search-results:
   other: "搜索结果"
+search-no-results:
+  other: "未找到匹配结果"
+search-enter-query:
+  other: "请输入搜索关键词..."
 docs-menu:
   other: "文档菜单"
 menu:
