@@ -96,6 +96,11 @@
 {{- partial "opengraph" . }} 
 {{- $options := (dict "targetPath" "css/styles.css" "outputStyle" "compressed" "enableSourceMap" "true") -}}
 {{- $styles := resources.Get "/sass/main.sass" | resources.ExecuteAsTemplate "main.sass" . | resources.ToCSS $options }}
+{{- /* Open Sans weights used above the fold (300 text, 400, 600), from assets/sass/_fonts.sass: loaded early,
+       they are usually ready by the first paint, and the text does not redraw when they arrive (font-display: swap). */}}
+<link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-300.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" id="footer-css" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/css/blocks/footer.css" media="all">
 <link rel='stylesheet' href='{{ $styles.Permalink }}'>
 

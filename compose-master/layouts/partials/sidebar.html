@@ -85,6 +85,28 @@
                 <div class="aside-menu-wrapp" data-menu="{{ $menu.json }}">
                     {{ partial "sidebar/branch.html" (dict "menu" $menu "ids" $menu.ids "level" 1 "open" $open "current" $current "depth" (int (site.Params.sidebarDepth | default 3))) }}
                 </div>
+                {{- /* Menu scroll, set while the page is parsed so that the first frame already shows it (from
+                       sidebar.js it came after the first paint, and the menu jumped). Moving between pages, the
+                       menu keeps the scroll it had (saved by sidebar.js) when the current item is in view there;
+                       otherwise the open top-level section is scrolled to the top, as before. */}}
+                <script>
+                (function () {
+                    var w = document.querySelector('.aside-menu-wrapp');
+                    if (!w) { return; }
+                    var saved = null;
+                    try {
+                        saved = sessionStorage.getItem('docs-menu-scroll:' + (w.getAttribute('data-menu') || '').replace(/\.[0-9a-f]{32}\.json$/, ''));
+                    } catch (e) {}
+                    var cur = w.querySelector('.current-page > .aside-menu-item');
+                    if (saved !== null && cur) {
+                        w.scrollTop = +saved;
+                        var r = cur.getBoundingClientRect(), box = w.getBoundingClientRect();
+                        if (r.top >= box.top && r.bottom <= box.bottom) { return; }
+                    }
+                    var open = w.querySelector('.menu-level-1 > .expanded');
+                    w.scrollTop = open ? open.offsetTop - w.offsetTop : 0;
+                }());
+                </script>
             {{ end }}
         </div>
     </div>

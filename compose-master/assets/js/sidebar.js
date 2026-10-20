@@ -255,12 +255,13 @@
         wrap.addEventListener('focusin', prefetch);
         wrap.addEventListener('touchstart', prefetch, {passive: true});
 
-        // Scroll the menu to the open top-level section.
-        var expanded = wrap.querySelector('.menu-level-1 > .expanded');
-        if (expanded) {
-            var box = expanded.parentNode.parentNode;
-            box.scrollTop = expanded.offsetTop - box.offsetTop;
-        }
+        // The initial menu scroll is set by an inline script in sidebar.html, before the first paint.
+        // The scroll is kept for the next page of the same menu (language and version).
+        window.addEventListener('pagehide', function () {
+            try {
+                sessionStorage.setItem('docs-menu-scroll:' + (wrap.getAttribute('data-menu') || '').replace(/\.[0-9a-f]{32}\.json$/, ''), String(wrap.scrollTop));
+            } catch (e) {}
+        });
     }
 
     // ---- version and language switchers --------------------------------
