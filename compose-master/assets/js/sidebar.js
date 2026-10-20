@@ -62,6 +62,15 @@
 
     // ---- rendering (same markup as sidebar/item.html and sidebar/branch.html) ----
 
+    function isCurrent(href) {
+        try {
+            var url = new URL(href, window.location.href);
+            return url.origin === window.location.origin && url.pathname === window.location.pathname;
+        } catch (e) {
+            return false;
+        }
+    }
+
     function renderItem(node, id, level) {
         var li = document.createElement('li');
         if (node.c) {
@@ -69,6 +78,10 @@
         }
         if (node.k && node.k.length) {
             li.setAttribute('data-id', id);
+        }
+        // A page listed in the menu more than once is marked in every place, as in the page.
+        if (node.h && isCurrent(node.h)) {
+            li.classList.add('current-page');
         }
 
         var item = document.createElement('span');

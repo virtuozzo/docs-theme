@@ -71,9 +71,11 @@
                 {{- $currentPath := lower (trim (strings.TrimPrefix $langPrefix (urls.Parse .RelPermalink).Path) "/") -}}
                 {{- $current := slice -}}
                 {{- if $currentPath }}{{ $current = index $menu.paths $currentPath | default slice }}{{ end -}}
-                {{- /* the current items and all their ancestors: "3.1.4" -> 3, 3.1, 3.1.4 */ -}}
-                {{- $open := slice -}}
-                {{- range $current -}}
+                {{- /* Opened: the ancestors of the FIRST current item ("3.1.4" -> 3, 3.1), as the old jQuery code
+                       did when a page sits in the menu more than once, and every current item itself (its
+                       children show when it has any). $current is in menu order. */ -}}
+                {{- $open := $current -}}
+                {{- range first 1 $current -}}
                     {{- $id := "" -}}
                     {{- range split . "." -}}
                         {{- $id = cond (eq $id "") . (printf "%s.%s" $id .) -}}
