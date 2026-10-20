@@ -62,6 +62,15 @@
 
     // ---- rendering (same markup as sidebar/item.html and sidebar/branch.html) ----
 
+    function isCurrent(href) {
+        try {
+            var url = new URL(href, window.location.href);
+            return url.origin === window.location.origin && url.pathname === window.location.pathname;
+        } catch (e) {
+            return false;
+        }
+    }
+
     function renderItem(node, id, level) {
         var li = document.createElement('li');
         if (node.c) {
@@ -69,6 +78,10 @@
         }
         if (node.k && node.k.length) {
             li.setAttribute('data-id', id);
+        }
+        // A page listed in the menu more than once is marked in every place, as in the page.
+        if (node.h && isCurrent(node.h)) {
+            li.classList.add('current-page');
         }
 
         var item = document.createElement('span');
@@ -242,12 +255,13 @@
         wrap.addEventListener('focusin', prefetch);
         wrap.addEventListener('touchstart', prefetch, {passive: true});
 
-        // Scroll the menu to the open top-level section.
-        var expanded = wrap.querySelector('.menu-level-1 > .expanded');
-        if (expanded) {
-            var box = expanded.parentNode.parentNode;
-            box.scrollTop = expanded.offsetTop - box.offsetTop;
-        }
+        // The initial menu scroll is set by an inline script in sidebar.html, before the first paint.
+        // The scroll is kept for the next page of the same menu (language and version).
+        window.addEventListener('pagehide', function () {
+            try {
+                sessionStorage.setItem('docs-menu-scroll:' + (wrap.getAttribute('data-menu') || '').replace(/\.[0-9a-f]{32}\.json$/, ''), String(wrap.scrollTop));
+            } catch (e) {}
+        });
     }
 
     // ---- version and language switchers --------------------------------
