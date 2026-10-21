@@ -1,3 +1,4 @@
-<div class="image-left">
-  {{- .Inner | markdownify -}}
-</div>
+{{- /* RenderString (not markdownify) so render-image gets this page and finds its resources, which translations
+       share with the English bundle. Its output is flattened to one line: a % shortcode's output is parsed as
+       Markdown again, and the blank lines and indentation of the <figure> would turn it into a code block. */ -}}
+<div class="image-left">{{ .Inner | .Page.RenderString | replaceRE `\s*\n\s*` " " | safeHTML }}</div>
