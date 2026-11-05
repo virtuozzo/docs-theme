@@ -61,6 +61,7 @@
       {{- partial "document" . }}
       {{- else }}
       {{- block "main" . }}{{ end }}
+      {{- partial "feedback" . }}
       {{- end }}
     </main>
   <div id="footer"></div>

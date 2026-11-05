@@ -319,3 +319,54 @@
     opacity: 0
   to
     opacity: 1
+
+// A code-only tab group (class from initializeTabs() in assets/js/index.js): one toolbar with the
+// language tabs and the copy button, like a single code block (.code-block-toolbar in _syntax.sass)
+.tabs-container.tabs-code
+  .tabs-header
+    align-items: center
+    gap: 4px
+    min-height: 36px
+    padding: 0 .75rem
+    background: #f4f6ff
+    border-bottom: 2px solid rgba(94, 108, 158, 0.15)
+  .tab-button
+    flex: 0 0 auto
+    padding: 8px 10px
+    border-right: none
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+    font-size: 12px
+    letter-spacing: .03em
+    text-transform: uppercase
+    color: #969eac
+    &:hover
+      background: transparent
+      color: #254D90
+    &.active
+      background: transparent
+      color: #254D90
+      font-weight: 600
+      border-bottom: none
+      margin-bottom: 0
+  .tabs-header > .code-copy-btn
+    margin-left: auto
+  .tab-panel
+    padding: 0
+    > .code-block
+      margin: 0
+      border-radius: 0
+      box-shadow: none
+      > .code-block-toolbar
+        display: none
+
+// "Suggest an improvement" link under the article (layouts/partials/feedback.html)
+.page-feedback
+  margin: 40px 0 0
+  padding: 12px 0 0
+  border-top: 1px solid #e2e7f5
+  color: #5e6c9e
+  font-size: 13px
+  line-height: 1.7
+  p
+    margin: 0
+    padding: 0

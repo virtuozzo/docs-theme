@@ -1,0 +1,15 @@
+{{- /*
+  The current page's headings under its item in the sidebar, with params.sidebarHeadings: true
+  (a page turns them off with sidebarHeadings: false in its front matter). Headings h2 to
+  h<params.sidebarHeadingsDepth> (3 by default); an h2 with h3 under it is a branch, closed at first and
+  opened with its chevron like any other item (sidebar.js). Returns the list's <li> items, or "".
+  Args: dict "level" (menu level of the list, for its menu-level-N class).
+*/ -}}
+{{- $enabled := site.Params.sidebarHeadings -}}
+{{- if isset page.Params "sidebarheadings" }}{{ $enabled = page.Params.sidebarheadings }}{{ end -}}
+{{- $items := "" -}}
+{{- if $enabled -}}
+  {{- $depth := int (site.Params.sidebarHeadingsDepth | default 3) -}}
+  {{- $items = partial "sidebar/headings-level.html" (dict "headings" page.Fragments.Headings "level" .level "depth" $depth) -}}
+{{- end -}}
+{{- return (trim $items " \n") -}}

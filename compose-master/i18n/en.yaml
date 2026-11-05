@@ -89,3 +89,7 @@ privacy-and-legal:
 
 get-in-touch:
   other: "Get in touch"
+feedbackText:
+  other: "Found an error or something missing?"
+feedbackLink:
+  other: "Suggest an improvement"

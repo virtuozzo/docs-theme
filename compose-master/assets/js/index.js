@@ -196,7 +196,12 @@ function hasClasses(el) {
             return;
         }
 
-        const block = button.closest('.code-block');
+        // The button of a code-only tab group (initializeTabs) copies the active tab's block.
+        let block = button.closest('.code-block');
+        if (!block) {
+            const tabs = button.closest('.tabs-container');
+            block = tabs && tabs.querySelector('.tab-panel.active > .code-block');
+        }
         if (!block) {
             return;
         }
@@ -596,6 +601,23 @@ function initializeTabs() {
             
             header.appendChild(button);
         });
+
+        // A group whose every tab holds one code block only is shown as one code block with language
+        // tabs (sass: .tabs-code): the titles and one copy button in the header, the blocks' own
+        // toolbars hidden.
+        const codeOnly = panels.length > 0 && Array.prototype.every.call(panels, function (panel) {
+            return panel.children.length === 1 && panel.firstElementChild.classList.contains('code-block');
+        });
+        if (codeOnly) {
+            container.classList.add('tabs-code');
+            const copy = document.createElement('button');
+            copy.type = 'button';
+            copy.className = 'code-copy-btn';
+            copy.setAttribute('aria-label', 'Copy code to clipboard');
+            copy.textContent = 'Copy';
+            copy.dataset.defaultLabel = 'Copy';
+            header.appendChild(copy);
+        }
     });
 }
 
