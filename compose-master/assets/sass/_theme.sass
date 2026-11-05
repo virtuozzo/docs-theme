@@ -1,0 +1,75 @@
+// Color tokens. Every color of the live layout is one of these (brand red, the blue accents and the
+// footer, which is dark already, stay literal where they are the same in both schemes). The light
+// values are below; the dark values are in _theme-dark.sass, included by main.sass with params.darkMode.
+html
+  color-scheme: light
+  --bg: #fff
+  --bg-alt: #F8F9FF
+  --bg-soft: #EDF1FE
+  --bg-toolbar: #f4f6ff
+  --code-bg: #fff
+  --text: #282735
+  --text-strong: #000
+  --text-muted: #5e6c9e
+  --text-faint: #969eac
+  --border: #E2E7F5
+  --border-strong: rgba(94, 108, 158, 0.2)
+  --accent: #254D90
+  --accent-light: #86A2ED
+  --brand: #CB333B
+  --shadow: rgba(94, 108, 158, 0.3) 0 0 10px 0
+  --overlay: #ffffff9c
+  --mark: #CFDAF8
+  --note-bg: #F8F9FF
+  --warning-bg: rgba(254, 164, 37, .1)
+  --code-inline-bg: #eaedff
+  --code-inline-text: #E85858
+  --hl-bg: #fff8e1
+  --table-th: #bbcaf4
+  --table-th-strong: #87a1ec
+  --table-td: #f8f9fe
+  --table-td-first: #edf1fe
+  --rn-new: #e4ffee
+  --rn-changed: #def6ff
+  --rn-fixed: #fef6e6
+  // Chroma (assets/sass/_syntax.sass)
+  --c-ln: #7f7f7f
+  --c-k: #0787fb
+  --c-kt: #2b91af
+  --c-na: #E85858
+  --c-n: #905
+  --c-s: #00BEA7
+  --c-ow: #0000ff
+  --c-c: #b3b3b3
+  // Header logo (a dark monochrome SVG) and the theme switch icon (the scheme the switch leads to)
+  --logo-filter: none
+  --theme-toggle-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z'/%3E%3C/svg%3E")
+
+// Theme switch in the header (layouts/partials/nav.html, params.darkMode)
+.theme-toggle
+  flex: 0 0 auto
+  width: 32px
+  height: 32px
+  margin-left: 12px
+  padding: 0
+  border: 1px solid var(--border)
+  border-radius: 50%
+  background: var(--bg-alt)
+  cursor: pointer
+  vertical-align: middle
+  &:hover
+    border-color: var(--accent-light)
+  &:before
+    content: ''
+    display: block
+    width: 18px
+    height: 18px
+    margin: 0 auto
+    background-color: var(--text-muted)
+    -webkit-mask: var(--theme-toggle-icon) center / contain no-repeat
+    mask: var(--theme-toggle-icon) center / contain no-repeat
+  &:hover:before
+    background-color: var(--accent)
+
+.jelastic-logo img
+  filter: var(--logo-filter)

@@ -93,3 +93,7 @@ feedbackText:
   other: "Found an error or something missing?"
 feedbackLink:
   other: "Suggest an improvement"
+theme-dark:
+  other: "Switch to dark mode"
+theme-light:
+  other: "Switch to light mode"

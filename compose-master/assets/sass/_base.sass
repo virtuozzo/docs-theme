@@ -23,8 +23,8 @@ body
   -webkit-backface-visibility: hidden
   backface-visibility: hidden
   will-change: background-color, color, opacity
-  color: #282735
-  background-color: #fff
+  color: var(--text)
+  background-color: var(--bg)
   // -webkit-font-smoothing: antialiased 
   min-width: auto
   &.menu-open
@@ -32,7 +32,7 @@ body
 
 a
   text-decoration: none
-  color: #CB333B
+  color: var(--brand)
 
 a:hover
   text-decoration: underline
@@ -116,7 +116,7 @@ h1, h2, h3, h4, h5
 
 h1
   font-size: 200%
-  color: #000
+  color: var(--text-strong)
   @media (max-width: 900px)
     padding-top: 50px
 
@@ -212,7 +212,7 @@ table
 
 ::placeholder
   font-size: 1rem
-  color: #b7b7b8
+  color: var(--text-faint)
 
 .container
   max-width: 1280px
@@ -267,7 +267,7 @@ input
   max-width: 70%
   padding-top: 0 !important
   a
-    color: #254d90
+    color: var(--accent)
     font-weight: 400
   iframe
     max-width: 100%
@@ -734,7 +734,7 @@ input
   padding: 15px 15px
   position: relative
   display: flex
-  background: #EDF1FE
+  background: var(--bg-soft)
   flex-direction: column
   align-items: flex-start
 
@@ -758,24 +758,24 @@ input
           width: 1px
           height: 15px
           top: 12px
-          background: #86A2ED
+          background: var(--accent-light)
 
   input
     width: 100%
-    border: 1px solid #E2E7F5
+    border: 1px solid var(--border)
     border-radius: 40px
     outline: none
     height: 40px
     padding-left: 40px
-    background: #fff
+    background: var(--bg)
     margin: auto
     display: block
     padding-right: 50px
-    color: #86A2ED
+    color: var(--accent-light)
     font-size: 12px
     font-weight: 400
     &::placeholder
-      color: #86A2ED
+      color: var(--accent-light)
       font-size: 12px
 
   button
@@ -899,7 +899,7 @@ input
     max-width: 100%
     padding-right: 0
     z-index: 99
-    background: #ffffff9c
+    background: var(--overlay)
 
     .menu-items
       border-radius: 0
@@ -973,12 +973,12 @@ div.menu-item ul li.expandable div::selection
   background: transparent
 
 .menu-item-current
-  color: #86A2ED !important
+  color: var(--accent-light) !important
   text-decoration: underline
 
 
 mark
-  background: #CFDAF8
+  background: var(--mark)
 
 .versions
   display: inline-block
@@ -998,9 +998,9 @@ mark
       display: block
   .versions-list
     width: 100%
-    border: 1px solid #E3E7F4
+    border: 1px solid var(--border)
     margin-top: -1px
-    background: #f8f9ff
+    background: var(--bg-alt)
     display: none
     position: absolute
     z-index: 2
@@ -1012,9 +1012,9 @@ mark
     padding: 5px 35px 5px 15px
     display: block
   span
-    border: 1px solid #E3E7F4
+    border: 1px solid var(--border)
     border-radius: 20px
-    background: #F8F9FF
+    background: var(--bg-alt)
     cursor: pointer
     &:after
       display: block
@@ -1033,10 +1033,10 @@ mark
     padding-top: 5px
     padding-bottom: 5px
     display: block
-    color: #000
+    color: var(--text-strong)
     text-decoration: none
     &:hover
-      background: #EDF1FE
+      background: var(--bg-soft)
 
 .search-wrapper
     display: flex
@@ -1060,7 +1060,7 @@ mark
   .langs-list
     width: max-content
     margin-top: 1px
-    background: #fff
+    background: var(--bg)
     display: none
     position: absolute
     z-index: 2
@@ -1076,18 +1076,18 @@ mark
     font-weight: 400
   span
     font-weight: 600
-    border: 1px solid #E3E7F4
+    border: 1px solid var(--border)
     border-radius: 10px
-    background: #F8F9FF
+    background: var(--bg-alt)
     cursor: pointer
   a
     padding-top: 5px
     padding-bottom: 5px
     display: block
-    color: #000
+    color: var(--text-strong)
     text-decoration: none
     &:hover
-      background: #EFF1FD
+      background: var(--bg-soft)
 
 .logo-part
   .versions
@@ -1104,21 +1104,21 @@ aside
 
 .aside-menu
     /* overflow: hidden */
-    border: 1px solid #E2E7F5
+    border: 1px solid var(--border)
     border-radius: 6px
-    background: #fff
+    background: var(--bg)
     .aside-menu-wrapp 
       max-height: 70vh
       overflow: auto
       a 
-        color: #282735
+        color: var(--text)
         text-decoration: none
         &:hover
-          color: #86A2ED 
+          color: var(--accent-light) 
       .current-page 
         > .aside-menu-item 
           a
-            color: #86A2ED 
+            color: var(--accent-light) 
       li
         padding: 0
         &.external
@@ -1229,11 +1229,11 @@ aside
         padding-left: 50px
         padding-top: 4px
         padding-bottom: 10px
-        background: #fff
+        background: var(--bg)
         li
           padding-top: 10px
           text-decoration: none
-          color: #282735
+          color: var(--text)
           display: block
           font-size: 14px
       .menu-level-1
@@ -1243,13 +1243,13 @@ aside
           padding: 0
           > .aside-menu-item
             display: block
-            border-top: 1px solid #dedee9
+            border-top: 1px solid var(--border)
             padding: 12px 35px 12px 45px
             font-size: 14px
             font-weight: 400
             text-transform: uppercase
             cursor: pointer
-            background: #F8F9FF
+            background: var(--bg-alt)
           img 
             position: absolute
             left: 14px
@@ -1283,9 +1283,9 @@ aside
         li.page-heading
           font-size: 13px
           > .aside-menu-item > a
-            color: #5e6c9e
+            color: var(--text-muted)
             &:hover
-              color: #86A2ED
+              color: var(--accent-light)
     #go-lang-menu 
       img 
         width: 32px
@@ -1346,7 +1346,7 @@ aside
     transition: 0.3s
     width: 30px
     height: 30px
-    background: #fff
+    background: var(--bg)
     line-height: 28px
     text-align: center
     border-radius: 6px

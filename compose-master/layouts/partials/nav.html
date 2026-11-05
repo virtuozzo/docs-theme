@@ -20,6 +20,9 @@
                     <div class="versions-list">{{ partial "versions-list.html" . }}</div>
                 </div>
                 {{ end }}
+                {{ if .Site.Params.darkMode }}
+                <button type="button" class="theme-toggle" data-label-dark="{{ partial "i18n-extended.html" (slice "theme-dark" "Switch to dark mode") }}" data-label-light="{{ partial "i18n-extended.html" (slice "theme-light" "Switch to light mode") }}" aria-label="{{ partial "i18n-extended.html" (slice "theme-dark" "Switch to dark mode") }}"></button>
+                {{ end }}
                 <span class="sidebar-menu">{{ partial "i18n-extended.html" (slice "docs-menu" "Docs Menu") }}</span>
             </div>
             <span class="menu-mobile"><span>{{ partial "i18n-extended.html" (slice "menu" "Menu") }}</span></span>

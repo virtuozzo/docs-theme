@@ -628,3 +628,44 @@ if (document.readyState === 'loading') {
     // DOM is already loaded
     initializeTabs();
 }
+
+// Light/dark switch (layouts/partials/nav.html, params.darkMode). The choice is kept in localStorage
+// and applied before the first paint by head.html; a choice equal to the system preference is
+// dropped again, so the page keeps following the system.
+(function initThemeToggle() {
+    var button = document.querySelector('.theme-toggle');
+    if (!button) {
+        return;
+    }
+    var root = document.documentElement;
+    var media = window.matchMedia('(prefers-color-scheme: dark)');
+    function current() {
+        var set = root.getAttribute('data-theme');
+        return set === 'dark' || set === 'light' ? set : (media.matches ? 'dark' : 'light');
+    }
+    function label() {
+        var next = current() === 'dark' ? 'light' : 'dark';
+        button.setAttribute('aria-label', button.dataset['label' + next.charAt(0).toUpperCase() + next.slice(1)]);
+        button.title = button.getAttribute('aria-label');
+    }
+    button.addEventListener('click', function () {
+        var next = current() === 'dark' ? 'light' : 'dark';
+        var system = media.matches ? 'dark' : 'light';
+        try {
+            if (next === system) {
+                root.removeAttribute('data-theme');
+                localStorage.removeItem('docs-theme');
+            } else {
+                root.setAttribute('data-theme', next);
+                localStorage.setItem('docs-theme', next);
+            }
+        } catch (e) {
+            root.setAttribute('data-theme', next);
+        }
+        label();
+    });
+    if (media.addEventListener) {
+        media.addEventListener('change', label);
+    }
+    label();
+}());

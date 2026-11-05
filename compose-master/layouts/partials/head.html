@@ -102,6 +102,10 @@
 <link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" id="footer-css" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/css/blocks/footer.css" media="all">
+{{- if site.Params.darkMode }}
+{{- /* The visitor's choice from the header switch (assets/js/index.js), before the first paint */}}
+<script>(function(){try{var t=localStorage.getItem('docs-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}}())</script>
+{{- end }}
 <link rel='stylesheet' href='{{ $styles.Permalink }}'>
 
 {{ partial "schema.html" . }}

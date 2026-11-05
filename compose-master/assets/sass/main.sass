@@ -1,5 +1,7 @@
 @import "fonts"
 @import "variables"
+@import "theme"
+{{ if site.Params.darkMode }}@import "theme-dark"{{ end }}
 @import "base"
 @import "nav"
 @import "components"
@@ -106,13 +108,13 @@ footer
       text-align: center
       padding-bottom: 30px
       padding-top: 20px
-      background-color: #fff
+      background-color: var(--bg-alt)
       box-shadow: 0 0 30px 0 rgba(0, 132, 245, .1)
       border-radius: 10px
       transition: .2s
 
       &:hover
-        background: #dde2f9
+        background: var(--bg-soft)
 
       .img-wrap
         height: 80px
@@ -128,7 +130,7 @@ footer
         width: 100%
 
       a
-        color: #333
+        color: var(--text)
         width: 100%
         font-size: 15px
 
@@ -205,12 +207,12 @@ footer
     left: 0
     margin: auto
     top: 12px
-    background: #282735
+    background: var(--text)
 
 .frontbottom-menu-title
   width: 100%
   text-align: left
-  color: #333
+  color: var(--text)
   padding-bottom: 20px
   padding-top: 15px
   margin-top: 0
