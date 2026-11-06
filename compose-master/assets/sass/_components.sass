@@ -371,3 +371,47 @@
   p
     margin: 0
     padding: 0
+
+// "Back to top" button (layouts/_default/baseof.html, assets/js/index.js), as on the blog and the Cloud
+// Union site: shown once the page is scrolled, desktop only
+#to-top
+  position: fixed
+  z-index: 98
+  right: 17px
+  bottom: 17px
+  display: block
+  width: 29px
+  height: 29px
+  padding: 0
+  border: 0
+  border-radius: 2px
+  background-color: var(--to-top-bg)
+  cursor: pointer
+  opacity: 0
+  visibility: hidden
+  transition: opacity .1s linear, visibility .1s linear, background-color .1s linear
+
+  &.active
+    opacity: 1
+    visibility: visible
+
+  &:hover,
+  &:focus-visible
+    background-color: var(--brand)
+
+  i
+    position: absolute
+    left: 0
+    right: 0
+    bottom: 10px
+    display: block
+    width: 3px
+    margin: auto
+    padding: 2px
+    border: solid #fff
+    border-width: 0 1px 1px 0
+    transform: rotate(225deg)
+
+@media (max-width: 1020px)
+  #to-top
+    display: none

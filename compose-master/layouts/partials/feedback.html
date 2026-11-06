@@ -17,6 +17,6 @@
   {{- $text := $cfg.text | default (trim (partial "i18n-extended.html" (slice "feedbackText" "Found an error or something missing?")) " \n") -}}
   {{- $link := $cfg.link | default (trim (partial "i18n-extended.html" (slice "feedbackLink" "Suggest an improvement")) " \n") }}
 <div class="page-feedback">
-  <p>{{ $text }} <a href="{{ $url }}{{ cond (in $url "?") "&" "?" }}{{ $query | safeURL }}" target="_blank" rel="noopener">{{ $link }}</a></p>
+  <p>{{ $text }} <a href="{{ $url }}{{ cond (in $url "?") "&" "?" }}{{ $query | safeURL }}" target="_blank" rel="nofollow noopener">{{ $link }}</a></p>
 </div>
 {{- end -}}

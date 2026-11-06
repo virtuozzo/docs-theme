@@ -97,3 +97,7 @@ theme-dark:
   other: "切换到深色模式"
 theme-light:
   other: "切换到浅色模式"
+back-to-top:
+  other: "返回顶部"
+on-this-page:
+  other: "本页内容"

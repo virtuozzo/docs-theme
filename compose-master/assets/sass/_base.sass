@@ -73,8 +73,11 @@ h1, h2, h3, h4, h5
   padding: 0.33rem 0
   color: inherit
   line-height: 1.35
-  padding-top: 100px
-  margin-top: -85px
+  // The fixed header is kept clear of a heading the page jumps to by scroll-margin-top (it used to be a
+  // 100px padding pulled back by a -85px margin, which did not cover headings with their own padding).
+  padding-top: 15px
+  margin-top: 0
+  scroll-margin-top: 85px
 
   &.link_owner
 
@@ -96,6 +99,9 @@ h1, h2, h3, h4, h5
         margin: 0
         display: inline-block
         width: 30px
+        // Not the light backdrop of content images (main.sass) in the dark scheme
+        background: none
+        border-radius: 0
         margin-right: .2em
       .link_yanked
         position: relative
@@ -117,8 +123,20 @@ h1, h2, h3, h4, h5
 h1
   font-size: 200%
   color: var(--text-strong)
-  @media (max-width: 900px)
-    padding-top: 50px
+
+// The page title starts level with the top of the sidebar (shown from 1025px): no padding above it and
+// the half-leading of its line pulled up. An empty anchor paragraph before it (<p><a id="top"></a></p>
+// in release notes) takes no room.
+@media (min-width: 1025px)
+  main > h1:first-child,
+  main > .content > h1:first-child,
+  main > .content > p:first-child + h1
+    padding-top: 0
+    margin-top: -10px
+
+main > .content > p:first-child:has(> a:only-child:empty)
+  margin: 0
+  padding: 0
 
 h2
   font-size: 175%

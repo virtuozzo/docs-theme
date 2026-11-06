@@ -97,3 +97,7 @@ theme-dark:
   other: "Koyu moda geç"
 theme-light:
   other: "Açık moda geç"
+back-to-top:
+  other: "Başa dön"
+on-this-page:
+  other: "Bu sayfada"

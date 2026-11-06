@@ -514,13 +514,16 @@ $(document).ready(function () {
         wrapper.appendChild(table);
     });
 
+    // After the content has settled (tables wrapped, images sized) the page jumps to the heading
+    // again; scrollIntoView keeps the heading's scroll-margin-top (_base.sass) clear of the header.
     if (window.location.hash) {
-        $('html, body').animate({
-            scrollTop: $(window.location.hash).offset().top
-        }, {
-            duration: 100,
-            easing: "linear"
-        });
+        let target = null;
+        try {
+            target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+        } catch (e) {}
+        if (target) {
+            target.scrollIntoView();
+        }
     }
 
 
@@ -628,6 +631,24 @@ if (document.readyState === 'loading') {
     // DOM is already loaded
     initializeTabs();
 }
+
+// "Back to top" button (layouts/_default/baseof.html): shown once the page is scrolled, a click scrolls
+// smoothly to the top (instantly with prefers-reduced-motion).
+(function initToTop() {
+    var button = document.getElementById('to-top');
+    if (!button) {
+        return;
+    }
+    function update() {
+        button.classList.toggle('active', window.pageYOffset > 0);
+    }
+    window.addEventListener('scroll', update, {passive: true});
+    update();
+    button.addEventListener('click', function () {
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({top: 0, behavior: reduce ? 'auto' : 'smooth'});
+    });
+}());
 
 // Light/dark switch (layouts/partials/nav.html, params.darkMode). The choice is kept in localStorage
 // and applied before the first paint by head.html; a choice equal to the system preference is

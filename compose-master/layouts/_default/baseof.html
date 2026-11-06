@@ -70,6 +70,8 @@
   {{- partial "footer" . }}
   {{- partial "scripts" . }}
 </div>
+{{- /* "Back to top" button, as on the blog and the Cloud Union site (assets/js/index.js, _components.sass) */}}
+<button type="button" id="to-top" aria-label="{{ trim (partial "i18n-extended.html" (slice "back-to-top" "Back to top")) " \n" }}" title="{{ trim (partial "i18n-extended.html" (slice "back-to-top" "Back to top")) " \n" }}"><i></i></button>
 <div id="imgPopupModal" class="modal">
   <span class="close">&times;</span>
   <img class="imgPopupInner">

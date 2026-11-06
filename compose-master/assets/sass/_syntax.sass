@@ -13,7 +13,7 @@ code
 .code-block
   position: relative
   margin: 1.25rem 0
-  border: 1px solid var(--code-border)
+  border: var(--code-border-width) solid var(--code-border)
   border-radius: 10px
   box-shadow: var(--shadow)
   overflow: hidden
@@ -75,7 +75,7 @@ code
 .highlight
   display: grid
   margin: 1.25rem 0
-  border: 1px solid var(--code-border)
+  border: var(--code-border-width) solid var(--code-border)
   border-radius: 10px
   box-shadow: var(--shadow)
   overflow: auto
@@ -206,13 +206,16 @@ code
   .nc
     color: var(--c-kt)
 
-  .no, .nd, .ni, .ne, .nf, .fm, .nl, .nn, .nx, .py, .nt, .nv, .vc, .vg, .vi, .vm, .l, .ld
+  .no, .nd, .ni, .ne, .nf, .fm, .nl, .nn, .nx, .py, .nt, .nv, .vc, .vg, .vi, .vm
     color: var(--c-n)
 
-  .s, .sa, .sb, .sc, .dl, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss
+  .s, .sa, .sb, .sc, .dl, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss, .l, .ld
     color: var(--c-s)
 
-  .m, .mb, .mf, .mh, .mi, .il, .mo, .o
+  .m, .mb, .mf, .mh, .mi, .il, .mo
+    color: var(--c-m)
+
+  .o
 
   .ow
     color: var(--c-ow)

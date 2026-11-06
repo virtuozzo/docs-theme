@@ -97,3 +97,7 @@ theme-dark:
   other: "ダークモードに切り替える"
 theme-light:
   other: "ライトモードに切り替える"
+back-to-top:
+  other: "ページの先頭へ"
+on-this-page:
+  other: "このページの内容"

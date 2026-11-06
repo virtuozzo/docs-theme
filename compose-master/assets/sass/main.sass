@@ -88,7 +88,7 @@ footer
     // a transparent background and dark text; an opaque screenshot covers it and looks as before.
     background-color: var(--image-bg)
     background-clip: content-box
-    border-radius: 4px
+    border-radius: var(--image-radius)
 
 .page-home .main-content-wrapper
   p
@@ -113,13 +113,13 @@ footer
       text-align: center
       padding-bottom: 30px
       padding-top: 20px
-      background-color: var(--bg-alt)
+      background-color: var(--card-bg)
       box-shadow: 0 0 30px 0 rgba(0, 132, 245, .1)
       border-radius: 10px
       transition: .2s
 
       &:hover
-        background: var(--bg-soft)
+        background: var(--card-hover)
 
       .img-wrap
         height: 80px
@@ -263,11 +263,15 @@ div#search-results.loading:after
   100%
     transform: rotate(360deg)
 
+// No extra margin: the logo is centered in the header row by the flex container (_nav.sass)
 header .jelastic-logo .main-logo
-  margin-bottom: 5px
+  margin-bottom: 0
 
 header .jelastic-logo .ops-logo
   width: 300px
+  // logo_ops_docs.svg keeps room for the descender of "Ops" below the wordmark: move it down so
+  // that "Virtuozzo" sits on the center line of the header, with the menu and the theme switch
+  transform: translateY(10%)
   @media (max-width: 1350px)
     width: 250px
 
@@ -410,7 +414,6 @@ footer
     padding-top: 50px
   .banner
     font-size: 14px
-    margin-bottom: 60px
   .subbottom-part
     flex-direction: column
 
@@ -444,10 +447,6 @@ footer
 
 @media (max-width: 620px)
  
-  .main-content-wrapper 
-    > .container 
-      padding-top: 80px
-
   .page-home .main-content-wrapper .logolinks
     padding-bottom: 10px
 

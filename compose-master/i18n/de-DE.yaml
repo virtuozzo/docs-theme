@@ -97,3 +97,7 @@ theme-dark:
   other: "Zum dunklen Modus wechseln"
 theme-light:
   other: "Zum hellen Modus wechseln"
+back-to-top:
+  other: "Nach oben"
+on-this-page:
+  other: "Auf dieser Seite"

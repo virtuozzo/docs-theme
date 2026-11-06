@@ -24,7 +24,7 @@
   {{- if or $open $headings }}{{ $cls = printf "%s expanded" $cls }}{{ end }}
 <li{{ with trim $cls " " }} class="{{ . }}"{{ end }}{{ if $n.kids }} data-id="{{ $n.id }}"{{ end }}>
   {{- $n.html | safeHTML -}}
-  {{- with $headings }}<ul class="menu-level-{{ add $.level 1 }} page-headings" aria-label="On this page">{{ . | safeHTML }}</ul>{{ end -}}
+  {{- with $headings }}<ul class="menu-level-{{ add $.level 1 }} page-headings" aria-label="{{ trim (partial "i18n-extended.html" (slice "on-this-page" "On this page")) " \n" }}">{{ . | safeHTML }}</ul>{{ end -}}
   {{- if $render }}{{ partial "sidebar/branch.html" (dict "menu" $.menu "ids" $n.kids "level" (add $.level 1) "open" $.open "current" $.current "depth" $.depth) }}{{ end -}}
 </li>
 {{- end }}

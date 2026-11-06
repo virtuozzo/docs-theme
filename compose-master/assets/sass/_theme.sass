@@ -18,8 +18,13 @@ html
   --accent-light: #86A2ED
   --brand: #CB333B
   --shadow: rgba(94, 108, 158, 0.3) 0 0 10px 0
-  // Code blocks: the shadow alone is enough on a light page; the dark scheme adds a border like the tabs and the menu
+  // Code blocks: the shadow alone is enough on a light page (no border, so the blocks keep their size);
+  // the dark scheme adds a border like the tabs and the menu
   --code-border: transparent
+  --code-border-width: 0
+  // Home page cards
+  --card-bg: #fff
+  --card-hover: #dde2f9
   --overlay: #ffffff9c
   --mark: #CFDAF8
   --note-bg: #F8F9FF
@@ -35,17 +40,21 @@ html
   --rn-changed: #def6ff
   --rn-fixed: #fef6e6
   // Chroma (assets/sass/_syntax.sass)
-  --c-ln: #7f7f7f
-  --c-k: #0787fb
-  --c-kt: #2b91af
-  --c-na: #E85858
+  --c-ln: #6e7781
+  --c-k: #0565c8
+  --c-kt: #1b6e87
+  --c-na: #c4302b
   --c-n: #905
-  --c-s: #00BEA7
+  --c-s: #067a5e
   --c-ow: #0000ff
-  --c-c: #b3b3b3
+  --c-m: #a04f00
+  --c-c: #6a737d
   // Header logo (a dark monochrome SVG) and the theme switch icon (the scheme the switch leads to)
+  --to-top-bg: rgba(0, 0, 0, .87)
   --logo-filter: none
   --image-bg: transparent
+  // Content images: square as before on a light page, rounded with the light backdrop of the dark scheme
+  --image-radius: 0
   --theme-toggle-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z'/%3E%3C/svg%3E")
 
 // Theme switch in the header (layouts/partials/nav.html, params.darkMode)
