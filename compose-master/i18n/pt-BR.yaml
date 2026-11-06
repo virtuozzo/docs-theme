@@ -89,3 +89,11 @@ privacy-and-legal:
 
 get-in-touch:
   other: "Entre em Contato"
+feedbackText:
+  other: "Encontrou um erro ou falta algo?"
+feedbackLink:
+  other: "Sugerir uma melhoria"
+theme-dark:
+  other: "Mudar para o modo escuro"
+theme-light:
+  other: "Mudar para o modo claro"

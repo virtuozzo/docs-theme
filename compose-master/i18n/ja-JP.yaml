@@ -89,3 +89,11 @@ privacy-and-legal:
 
 get-in-touch:
   other: "お問い合わせ"
+feedbackText:
+  other: "誤りや不足している情報がありますか？"
+feedbackLink:
+  other: "改善を提案する"
+theme-dark:
+  other: "ダークモードに切り替える"
+theme-light:
+  other: "ライトモードに切り替える"

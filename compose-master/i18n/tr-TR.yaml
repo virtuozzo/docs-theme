@@ -89,3 +89,11 @@ privacy-and-legal:
 
 get-in-touch:
   other: "İletişime Geçin"
+feedbackText:
+  other: "Bir hata mı buldunuz veya eksik bir şey mi var?"
+feedbackLink:
+  other: "İyileştirme önerin"
+theme-dark:
+  other: "Koyu moda geç"
+theme-light:
+  other: "Açık moda geç"

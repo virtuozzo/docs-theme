@@ -89,3 +89,11 @@ privacy-and-legal:
 
 get-in-touch:
   other: "Kontakt aufnehmen"
+feedbackText:
+  other: "Fehler gefunden oder fehlt etwas?"
+feedbackLink:
+  other: "Verbesserung vorschlagen"
+theme-dark:
+  other: "Zum dunklen Modus wechseln"
+theme-light:
+  other: "Zum hellen Modus wechseln"
