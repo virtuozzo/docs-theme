@@ -84,6 +84,11 @@ footer
     display: block
     margin: 0 auto
     padding: 15px 0
+    // A light backdrop behind the image itself (not its padding) in the dark scheme, for diagrams with
+    // a transparent background and dark text; an opaque screenshot covers it and looks as before.
+    background-color: var(--image-bg)
+    background-clip: content-box
+    border-radius: 4px
 
 .page-home .main-content-wrapper
   p
