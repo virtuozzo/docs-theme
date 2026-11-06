@@ -1,0 +1,11 @@
+{{- /* One level of sidebar/headings.html. Args: dict "headings" (page.Fragments.Headings or a heading's
+       .Headings) "level" (menu level) "depth" (deepest heading level shown). */ -}}
+{{- range .headings -}}
+  {{- if lt .Level 2 -}}
+    {{- partial "sidebar/headings-level.html" (dict "headings" .Headings "level" $.level "depth" $.depth) -}}
+  {{- else if le .Level $.depth -}}
+    {{- $kids := "" -}}
+    {{- if lt .Level $.depth }}{{ $kids = trim (partial "sidebar/headings-level.html" (dict "headings" .Headings "level" (add $.level 1) "depth" $.depth)) " \n" }}{{ end }}
+<li class="page-heading{{ if $kids }} has-children{{ end }}"><span class="aside-menu-item"><a href="#{{ .ID }}">{{ .Title | plainify | htmlUnescape }}</a></span>{{ with $kids }}<ul class="menu-level-{{ add $.level 1 }}">{{ . | safeHTML }}</ul>{{ end }}</li>
+  {{- end -}}
+{{- end -}}

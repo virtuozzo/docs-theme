@@ -54,7 +54,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href='{{ absURL (printf "%sfavicon-32x32.png" $iconsPath) }}'>
 <link rel="icon" type="image/png" sizes="16x16" href='{{ absURL (printf "%sfavicon-16x16.png" $iconsPath) }}'>
 <link rel="manifest" href='{{ absURL (printf "%ssite.webmanifest" $iconsPath) }}'>
-<link rel="mask-icon" href='{{ absURL (printf "%ssafari-pinned-tab.svg" $iconsPath) }}' color="#004750">
+<link rel="mask-icon" href='{{ absURL (printf "%ssafari-pinned-tab.svg" $iconsPath) }}' color="#CB333B">
 <link rel="shortcut icon" href='{{ absURL (printf "%sfavicon.ico" $iconsPath) }}'>
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-config" content='{{ absURL (printf "%sbrowserconfig.xml" $iconsPath) }}'>
@@ -102,6 +102,10 @@
 <link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" id="footer-css" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/css/blocks/footer.css" media="all">
+{{- if site.Params.darkMode }}
+{{- /* The visitor's choice from the header switch (assets/js/index.js), before the first paint */}}
+<script>(function(){try{var t=localStorage.getItem('docs-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}}())</script>
+{{- end }}
 <link rel='stylesheet' href='{{ $styles.Permalink }}'>
 
 {{ partial "schema.html" . }}

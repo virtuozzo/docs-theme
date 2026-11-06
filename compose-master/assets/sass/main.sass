@@ -1,5 +1,7 @@
 @import "fonts"
 @import "variables"
+@import "theme"
+{{ if site.Params.darkMode }}@import "theme-dark"{{ end }}
 @import "base"
 @import "nav"
 @import "components"
@@ -82,6 +84,11 @@ footer
     display: block
     margin: 0 auto
     padding: 15px 0
+    // A light backdrop behind the image itself (not its padding) in the dark scheme, for diagrams with
+    // a transparent background and dark text; an opaque screenshot covers it and looks as before.
+    background-color: var(--image-bg)
+    background-clip: content-box
+    border-radius: var(--image-radius)
 
 .page-home .main-content-wrapper
   p
@@ -106,13 +113,13 @@ footer
       text-align: center
       padding-bottom: 30px
       padding-top: 20px
-      background-color: #fff
+      background-color: var(--card-bg)
       box-shadow: 0 0 30px 0 rgba(0, 132, 245, .1)
       border-radius: 10px
       transition: .2s
 
       &:hover
-        background: #dde2f9
+        background: var(--card-hover)
 
       .img-wrap
         height: 80px
@@ -128,7 +135,7 @@ footer
         width: 100%
 
       a
-        color: #333
+        color: var(--text)
         width: 100%
         font-size: 15px
 
@@ -205,12 +212,12 @@ footer
     left: 0
     margin: auto
     top: 12px
-    background: #282735
+    background: var(--text)
 
 .frontbottom-menu-title
   width: 100%
   text-align: left
-  color: #333
+  color: var(--text)
   padding-bottom: 20px
   padding-top: 15px
   margin-top: 0
@@ -256,11 +263,15 @@ div#search-results.loading:after
   100%
     transform: rotate(360deg)
 
+// No extra margin: the logo is centered in the header row by the flex container (_nav.sass)
 header .jelastic-logo .main-logo
-  margin-bottom: 5px
+  margin-bottom: 0
 
 header .jelastic-logo .ops-logo
   width: 300px
+  // logo_ops_docs.svg keeps room for the descender of "Ops" below the wordmark: move it down so
+  // that "Virtuozzo" sits on the center line of the header, with the menu and the theme switch
+  transform: translateY(10%)
   @media (max-width: 1350px)
     width: 250px
 
@@ -403,7 +414,6 @@ footer
     padding-top: 50px
   .banner
     font-size: 14px
-    margin-bottom: 60px
   .subbottom-part
     flex-direction: column
 
@@ -437,10 +447,6 @@ footer
 
 @media (max-width: 620px)
  
-  .main-content-wrapper 
-    > .container 
-      padding-top: 80px
-
   .page-home .main-content-wrapper .logolinks
     padding-bottom: 10px
 

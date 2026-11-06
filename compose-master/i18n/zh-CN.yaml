@@ -89,3 +89,15 @@ privacy-and-legal:
 
 get-in-touch:
   other: "保持联系"
+feedbackText:
+  other: "发现错误或缺少内容？"
+feedbackLink:
+  other: "提出改进建议"
+theme-dark:
+  other: "切换到深色模式"
+theme-light:
+  other: "切换到浅色模式"
+back-to-top:
+  other: "返回顶部"
+on-this-page:
+  other: "本页内容"

@@ -6,19 +6,21 @@ code
   margin: 0
   font-size: 85%
   white-space: break-spaces
-  background: #eaedff
-  color: #E85858
+  background: var(--code-inline-bg)
+  color: var(--code-inline-text)
   border-radius: 6px
 
 .code-block
   position: relative
   margin: 1.25rem 0
+  border: var(--code-border-width) solid var(--code-border)
   border-radius: 10px
-  box-shadow: rgba(94, 108, 158, 0.3) 0 0 10px 0
+  box-shadow: var(--shadow)
   overflow: hidden
 
   .highlight
     margin: 0
+    border: 0
     border-radius: 0
     box-shadow: none
 
@@ -29,8 +31,8 @@ code
   gap: .75rem
   min-height: 36px
   padding: .35rem .75rem
-  background: #f4f6ff
-  border-bottom: 1px solid rgba(94, 108, 158, 0.15)
+  background: var(--bg-toolbar)
+  border-bottom: 1px solid var(--border-strong)
 
   &:has(.code-block-label)
     justify-content: space-between
@@ -41,7 +43,7 @@ code
   font-weight: 500
   text-transform: uppercase
   letter-spacing: .03em
-  color: #5e6c9e
+  color: var(--text-muted)
   overflow: hidden
   text-overflow: ellipsis
   white-space: nowrap
@@ -55,15 +57,15 @@ code
   font-size: 12px
   font-weight: 500
   line-height: 1.4
-  color: #254D90
-  background: #fff
-  border: 1px solid rgba(94, 108, 158, 0.25)
+  color: var(--accent)
+  background: var(--bg)
+  border: 1px solid var(--border-strong)
   border-radius: 6px
   cursor: pointer
   transition: background .15s ease, border-color .15s ease, color .15s ease
 
   &:hover
-    background: #eaedff
+    background: var(--bg-soft)
     border-color: #86A2ED
 
   &.copied
@@ -73,8 +75,9 @@ code
 .highlight
   display: grid
   margin: 1.25rem 0
+  border: var(--code-border-width) solid var(--code-border)
   border-radius: 10px
-  box-shadow: rgba(94, 108, 158, 0.3) 0 0 10px 0
+  box-shadow: var(--shadow)
   overflow: auto
 
   @media (max-width: 899.98px)
@@ -95,7 +98,7 @@ code
   & > pre,
   .lntd:last-child pre
     padding: 1em 1.25em
-    background: #fff
+    background: var(--code-bg)
 
   .line
     display: block
@@ -107,7 +110,7 @@ code
     display: block
     width: 100%
     margin: 0 0 0 -1.25em
-    background: #fff8e1
+    background: var(--hl-bg)
     border-left: 3px solid #f0c040
     padding: 0 1.25em
 
@@ -161,11 +164,11 @@ code
     &:last-child
       width: 100%
       padding-left: 0
-      background: #fff
+      background: var(--code-bg)
       border-radius: 0
       pre
         padding: 0 1.25em
-        background: #fff
+        background: var(--code-bg)
 
 .chroma
 
@@ -189,38 +192,41 @@ code
   .ln
     margin-right: 0.4em
     padding: 0 0.4em 0 0.4em
-    color: #7f7f7f
+    color: var(--c-ln)
 
   .k, .kc, .kd, .kn, .kp, .kr
-    color: #0787fb
+    color: var(--c-k)
 
   .kt
-    color: #2b91af
+    color: var(--c-kt)
 
   .na, .nb, .bp
-    color: #E85858
+    color: var(--c-na)
 
   .nc
-    color: #2b91af
+    color: var(--c-kt)
 
-  .no, .nd, .ni, .ne, .nf, .fm, .nl, .nn, .nx, .py, .nt, .nv, .vc, .vg, .vi, .vm, .l, .ld
-    color: #905
+  .no, .nd, .ni, .ne, .nf, .fm, .nl, .nn, .nx, .py, .nt, .nv, .vc, .vg, .vi, .vm
+    color: var(--c-n)
 
-  .s, .sa, .sb, .sc, .dl, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss
-    color: #00BEA7
+  .s, .sa, .sb, .sc, .dl, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss, .l, .ld
+    color: var(--c-s)
 
-  .m, .mb, .mf, .mh, .mi, .il, .mo, .o
+  .m, .mb, .mf, .mh, .mi, .il, .mo
+    color: var(--c-m)
+
+  .o
 
   .ow
-    color: #0000ff
+    color: var(--c-ow)
 
   .p
 
   .c, .ch, .cm, .c1, .cs
-    color: #b3b3b3
+    color: var(--c-c)
 
   .cp, .cpf
-    color: #0000ff
+    color: var(--c-ow)
 
   .g, .gd
 

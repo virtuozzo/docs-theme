@@ -196,7 +196,12 @@ function hasClasses(el) {
             return;
         }
 
-        const block = button.closest('.code-block');
+        // The button of a code-only tab group (initializeTabs) copies the active tab's block.
+        let block = button.closest('.code-block');
+        if (!block) {
+            const tabs = button.closest('.tabs-container');
+            block = tabs && tabs.querySelector('.tab-panel.active > .code-block');
+        }
         if (!block) {
             return;
         }
@@ -509,13 +514,16 @@ $(document).ready(function () {
         wrapper.appendChild(table);
     });
 
+    // After the content has settled (tables wrapped, images sized) the page jumps to the heading
+    // again; scrollIntoView keeps the heading's scroll-margin-top (_base.sass) clear of the header.
     if (window.location.hash) {
-        $('html, body').animate({
-            scrollTop: $(window.location.hash).offset().top
-        }, {
-            duration: 100,
-            easing: "linear"
-        });
+        let target = null;
+        try {
+            target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+        } catch (e) {}
+        if (target) {
+            target.scrollIntoView();
+        }
     }
 
 
@@ -596,6 +604,23 @@ function initializeTabs() {
             
             header.appendChild(button);
         });
+
+        // A group whose every tab holds one code block only is shown as one code block with language
+        // tabs (sass: .tabs-code): the titles and one copy button in the header, the blocks' own
+        // toolbars hidden.
+        const codeOnly = panels.length > 0 && Array.prototype.every.call(panels, function (panel) {
+            return panel.children.length === 1 && panel.firstElementChild.classList.contains('code-block');
+        });
+        if (codeOnly) {
+            container.classList.add('tabs-code');
+            const copy = document.createElement('button');
+            copy.type = 'button';
+            copy.className = 'code-copy-btn';
+            copy.setAttribute('aria-label', 'Copy code to clipboard');
+            copy.textContent = 'Copy';
+            copy.dataset.defaultLabel = 'Copy';
+            header.appendChild(copy);
+        }
     });
 }
 
@@ -606,3 +631,62 @@ if (document.readyState === 'loading') {
     // DOM is already loaded
     initializeTabs();
 }
+
+// "Back to top" button (layouts/_default/baseof.html): shown once the page is scrolled, a click scrolls
+// smoothly to the top (instantly with prefers-reduced-motion).
+(function initToTop() {
+    var button = document.getElementById('to-top');
+    if (!button) {
+        return;
+    }
+    function update() {
+        button.classList.toggle('active', window.pageYOffset > 0);
+    }
+    window.addEventListener('scroll', update, {passive: true});
+    update();
+    button.addEventListener('click', function () {
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({top: 0, behavior: reduce ? 'auto' : 'smooth'});
+    });
+}());
+
+// Light/dark switch (layouts/partials/nav.html, params.darkMode). The choice is kept in localStorage
+// and applied before the first paint by head.html; a choice equal to the system preference is
+// dropped again, so the page keeps following the system.
+(function initThemeToggle() {
+    var button = document.querySelector('.theme-toggle');
+    if (!button) {
+        return;
+    }
+    var root = document.documentElement;
+    var media = window.matchMedia('(prefers-color-scheme: dark)');
+    function current() {
+        var set = root.getAttribute('data-theme');
+        return set === 'dark' || set === 'light' ? set : (media.matches ? 'dark' : 'light');
+    }
+    function label() {
+        var next = current() === 'dark' ? 'light' : 'dark';
+        button.setAttribute('aria-label', button.dataset['label' + next.charAt(0).toUpperCase() + next.slice(1)]);
+        button.title = button.getAttribute('aria-label');
+    }
+    button.addEventListener('click', function () {
+        var next = current() === 'dark' ? 'light' : 'dark';
+        var system = media.matches ? 'dark' : 'light';
+        try {
+            if (next === system) {
+                root.removeAttribute('data-theme');
+                localStorage.removeItem('docs-theme');
+            } else {
+                root.setAttribute('data-theme', next);
+                localStorage.setItem('docs-theme', next);
+            }
+        } catch (e) {
+            root.setAttribute('data-theme', next);
+        }
+        label();
+    });
+    if (media.addEventListener) {
+        media.addEventListener('change', label);
+    }
+    label();
+}());

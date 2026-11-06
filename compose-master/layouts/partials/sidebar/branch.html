@@ -2,6 +2,7 @@
   One level of the menu in the page. Args: dict "menu" (sidebar/menu.html) "ids" "level"
   "open" (ids opened on this page: the current page's ancestors and the current page)
   "current" (ids of the current page's items) "depth" (levels always in the page).
+  The current page's item also holds its headings when params.sidebarHeadings is set (sidebar/headings.html).
 
   In the page: the first "depth" levels of the whole menu (params.sidebarDepth, 3 by default), collapsed
   unless open, so that every page links to the top of the docs in a couple of clicks, as the full menu
@@ -15,10 +16,15 @@
   {{- $open := and $n.kids (in $.open .) -}}
   {{- $render := and $n.kids (or $open (lt $.level $.depth)) -}}
   {{- $cls := $n.cls -}}
-  {{- if in $.current . }}{{ $cls = printf "%s current-page" $cls }}{{ end -}}
-  {{- if $open }}{{ $cls = printf "%s expanded" $cls }}{{ end }}
+  {{- /* The current page's headings (sidebar/headings.html, params.sidebarHeadings) under its item,
+         expanded so that they show. A page with child pages in the menu shows the child pages only:
+         listing its headings beside them, at the same depth, read as more pages. */ -}}
+  {{- $headings := "" -}}
+  {{- if in $.current . }}{{ $cls = printf "%s current-page" $cls }}{{ if not $n.kids }}{{ $headings = partial "sidebar/headings.html" (dict "level" (add $.level 1)) }}{{ end }}{{ end -}}
+  {{- if or $open $headings }}{{ $cls = printf "%s expanded" $cls }}{{ end }}
 <li{{ with trim $cls " " }} class="{{ . }}"{{ end }}{{ if $n.kids }} data-id="{{ $n.id }}"{{ end }}>
   {{- $n.html | safeHTML -}}
+  {{- with $headings }}<ul class="menu-level-{{ add $.level 1 }} page-headings" aria-label="{{ trim (partial "i18n-extended.html" (slice "on-this-page" "On this page")) " \n" }}">{{ . | safeHTML }}</ul>{{ end -}}
   {{- if $render }}{{ partial "sidebar/branch.html" (dict "menu" $.menu "ids" $n.kids "level" (add $.level 1) "open" $.open "current" $.current "depth" $.depth) }}{{ end -}}
 </li>
 {{- end }}

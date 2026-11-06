@@ -12,8 +12,8 @@
   border-radius: 4px
   padding: 10px
   margin: 1rem 0
-  color: #222
-  background: #F8F9FF
+  color: var(--text)
+  background: var(--note-bg)
 
   .code-block, .highlight
     margin-top: .5em
@@ -44,8 +44,8 @@
     display: table-cell
 
 .warning-block
-  border: 1px solid #CB333B
-  background: rgba(254, 164, 37, .1)
+  border: 1px solid var(--brand)
+  background: var(--warning-bg)
 
   &:before
     background: center/contain repeat-x url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 24.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 50 44.4' style='enable-background:new 0 0 50 44.4;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:%23CB333B;%7D%0A%3C/style%3E%3Cg%3E%3Cg%3E%3Cpath class='st0' d='M49.2,37.9L28.7,2.5C27.7,0.9,26.4,0,25,0c-1.5,0-2.8,0.9-3.7,2.5L0.8,37.9c-0.9,1.6-1.1,3.2-0.3,4.5 c0.7,1.2,2.2,1.9,4.1,1.9h40.9c1.8,0,3.3-0.7,4.1-1.9C50.2,41.2,50.1,39.5,49.2,37.9z M47.3,41.2c-0.3,0.5-0.9,0.7-1.9,0.7H4.5 c-0.9,0-1.7-0.3-1.9-0.7c-0.3-0.5-0.2-1.2,0.3-2L23.4,3.8c0.4-0.8,1-1.3,1.6-1.3s1.1,0.5,1.6,1.3L47,39.2 C47.5,40,47.6,40.7,47.3,41.2z'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Cpath class='st0' d='M25,11.6c-0.7,0-1.2,0.5-1.2,1.2v16.4c0,0.7,0.5,1.2,1.2,1.2s1.2-0.5,1.2-1.2V12.9 C26.2,12.2,25.7,11.6,25,11.6z'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Ccircle class='st0' cx='25' cy='35.5' r='2.2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A")
@@ -57,7 +57,7 @@
   padding-top: 30px
   padding-bottom: 10px
   padding-left: 120px
-  border-top: 1px solid #ddd
+  border-top: 1px solid var(--border)
 
   &:first-child
     padding-top: 0
@@ -81,7 +81,7 @@
     overflow: auto
     margin-bottom: 10px
     padding: 14px 20px
-    color: #282828
+    color: var(--text)
     border-radius: 3px
 
     &:after
@@ -108,7 +108,7 @@
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAeCAYAAABaKIzgAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozOEQ2OURDQjJDNDUxMUU4OEFDM0Q0OUYzRjVDQTUwMiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozOEQ2OURDQzJDNDUxMUU4OEFDM0Q0OUYzRjVDQTUwMiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjM4RDY5REM5MkM0NTExRTg4QUMzRDQ5RjNGNUNBNTAyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjM4RDY5RENBMkM0NTExRTg4QUMzRDQ5RjNGNUNBNTAyIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+NUw/0AAAAnNJREFUeNrMmE1oE0EYhjdLIz1IBDG1JdRqEdGCYPojqQgeWjA5xDYHpWBKPYhQaE+lLZTeTBHEq/bkpTUIIil6Mf6c0lLxUigShd6CBrTWHtQWD9L0/ei3MAzJmp2dDXnhgQy7M/Nmfr75Zn3Gq0eGBvnAGRAHN8A5cBj8Ae/AM/AG/JQrlqKjVXXQoMHkZfAcHC/zjMwOMqQX4DbYctqJ6cLgIbAEliuYLKcB8AMMOe1MdUQbwTpPt4qegtMg5eWIUp0VFyYt3QXDXhqdAl2GHi34svPNOozSbm4FvaAbnAf3DL16ArOu1miEd2mT4a36AI3qN5URTYL3NTBpaVBl6lvAolFbDasYnTVqr0tYp0G7tVrO6B2PzPwFWZvnm+A7zCaA+T+jPk3HqqwtXu8xGj2b9+idDPgMs012Rkv8z3RqF5wFv7mcr6IOHSZFmD1ZyWiIzerSPzYpZk3jDo73jzDbKBuluPnVQYJRjcLgi7S7Uw7qU/b1+GBNHuSjJ0BB85RfATmh3A/eKrYVNHkD5RQqU6d+cARsSM+uS22GXZgkXSOjPaBNofJ9XoO/QKewCcc4kbbUDtZczk7S5IxbRSPC7x2+ftBh8VAKN3kNy6iLjCZU/yWYEMrbYE4oBygecpLtVgEyesxFAw/AzQo3gE/gqKaNWTSl8KGUT3KqZsnPmVdIYwTJkNHXGhqiK/Ekx0naOBc0h7o0xdEIj0C9atuKox80TL+Xipeio3smn+2xOjVJsXpVPOvz/HGgnkSXyGnrk4+YlLwEHR6c+U61ybfeGfG7lJwkU4A+BS6CW+Aql71WgT8PpSlq0JqUX9gXYACycXnWqP0g9wAAAABJRU5ErkJggg==)
 
     > div
-      background-color: #e4ffee
+      background-color: var(--rn-new)
 
   &.changes-container--changed
     &:before
@@ -116,7 +116,7 @@
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAeCAYAAABaKIzgAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo0QzNGRThBNjJDNDUxMUU4QTcyREYwOUUwQ0JFM0M4QiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo0QzNGRThBNzJDNDUxMUU4QTcyREYwOUUwQ0JFM0M4QiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjRDM0ZFOEE0MkM0NTExRThBNzJERjA5RTBDQkUzQzhCIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjRDM0ZFOEE1MkM0NTExRThBNzJERjA5RTBDQkUzQzhCIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+c2zvogAAAidJREFUeNrUmM0rBVEYxueOmywuWfj+VlIkFje6ZEeJ8rURRVnIn0DJjlL+BxuSkogiiQ0iCwpJ3boLX/nOggXJx/PqvTVNXWbeOXO7nvot7rlnznnmzHnnfc94tOUPTYE8oBg0gw5QAnzgBayDWbAGHs0XfjXpFidwbrQWzIF0C30XQR94sGtUd2AwHiyALYsmSa3gHnTancwrNJkADvlxSzQDisCo1QskK0rXbDswGdYI6HHT6ADwa2o06Vn5zFARTBTNOcw7eANHmlptgPq/guq3PRrgKE3T3FUdoFW9kTz6brAbBZNhtUn2aCaY0qKrHonRYS36qkFQpQJbRvsdTBgCWUzI5rV34BZm24H+l1GPgyQQBGXgminjNjuimJgHpzCb9pvRL74zickK8Gpoe+W2oGA8SiZXMFsQyWg2m7WjfVBuMmk0W859JOn9GGYTzEbpvXlpo8AIm6zmRBBJb9xHYpZKxQljZsoDZ4KBErnmtDrps3D/p+ocQJvCAXwu9TWrhYxWgnzhABTdT+A8Qo3Zyf89cV+pur1ccTtRMuOLsIq5ChKCn1a0XYt9JZHRlH9g9IqMXigaLM5im0TzZHRV0WBdpveyzm0qNE3v0QDXnrEqOlqn013vKXz8bqgVx5Sfcopye2OMmhwHO8Zcf8IfB2JJY2AwfOgzbv4lUCrM+Sp1x0XMkPFkai6ST0EhqAK9oIF/u60z/jw0DQ5oT5o7fAswAKxgepYzbixFAAAAAElFTkSuQmCC)
 
     > div
-      background-color: #def6ff
+      background-color: var(--rn-changed)
 
   &.changes-container--fixed
     &:before
@@ -124,7 +124,7 @@
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAeCAYAAABaKIzgAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpEM0FFMDgwQzJDNDUxMUU4Qjk2NUQ1RjM3QjZEQTIwQyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpEM0FFMDgwRDJDNDUxMUU4Qjk2NUQ1RjM3QjZEQTIwQyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkQzQUUwODBBMkM0NTExRThCOTY1RDVGMzdCNkRBMjBDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkQzQUUwODBCMkM0NTExRThCOTY1RDVGMzdCNkRBMjBDIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+p2cxQAAAAm5JREFUeNrMmN1LFFEYxmeHTfdChWRdM+xDEiG7XJQtRCKFKNDdINTCBS+68E5CUBDxpiDqIugP6MaPShHDuihCbyoUb4K09NpsQfy4KQ1M3fV5l3dgmMbdmXPObPvAD+brnHnmPfOe8874Uq98mgJRJzWgBbSBi6AI7IAZMAE+gO1/WrYnHd3Ar8BkA5gE5TbnyGyMIU2De2DL7U10CYMF4DX4dIxJO0XBJuhwezPRiAbAVx5uEb0E1eChlxGlNp8lTBp6AOJeGu0DYU2NhrVx/ZSjbM2S9XSyktkHe2BRU6tZ0Jwt+zO9oxHO0pDmrZoARXVdZOg7wXwOTBqKibyjFWBEwc0PwDL45eDauIjRQUmDf8BVUAgugUYHba4gqcqAq2Tal1yxKPESvE1Gv7louwG607nRnkxmiqhP0uRjk8kClyY1zokpsILohjIZTfFTiWrUtP0XzFleiTN8PJtq0g88rp8/zuhpcChhdNeyfwe8ZZMXwE+uqJwu70swG7AajfCwVUgYDVj2f4BWUMzz5AlQ6qI/qr6em42e5XlTRjfT75a9jMS4LdDvXUQ1qHMCfVRg8l2Wa+rAC8H+W/3cwTkPTF4Dv8FJ0MPXiarTzxW3apODXMapUpiG/pbE+mxnckixSVIJRTQouExO2xx/Cu57ULQkKKJrAg39nIS5MEmaIqPvBT/senlepOLjmYcmSWNUlEQUzKFeij6tyymiC4LDnytFqZLSuRC5kacmnxiFjbGEfuefA/mkR6Df+OgzFyVvQC1Y/c8Gqcy8DAbMX6bWIpmKiipQD7rAdd73Wqv8e2gMfLFW96QjAQYAvVZ8VxrR76cAAAAASUVORK5CYII=)
 
     > div
-      background-color: #fef6e6
+      background-color: var(--rn-fixed)
 
 @media (max-width: 576px)
 
@@ -167,7 +167,7 @@
         display: block
         height: 1px
         content: ""
-        background-color: #dedede
+        background-color: var(--border)
 
       > div
         padding: 0
@@ -183,19 +183,19 @@
       background: -webkit-gradient(linear, left top, left bottom, from(#e4ffee), to(transparent))
       background: -webkit-linear-gradient(top, #e4ffee, transparent)
       background: -o-linear-gradient(top, #e4ffee, transparent)
-      background: linear-gradient(180deg, #e4ffee, transparent)
+      background: linear-gradient(180deg, var(--rn-new), transparent)
 
     &.changes-container--changed
       background: -webkit-gradient(linear, left top, left bottom, from(#def6ff), to(transparent))
       background: -webkit-linear-gradient(top, #def6ff, transparent)
       background: -o-linear-gradient(top, #def6ff, transparent)
-      background: linear-gradient(180deg, #def6ff, transparent)
+      background: linear-gradient(180deg, var(--rn-changed), transparent)
 
     &.changes-container--fixed
       background: -webkit-gradient(linear, left top, left bottom, from(#fef6e6), to(transparent))
       background: -webkit-linear-gradient(top, #fef6e6, transparent)
       background: -o-linear-gradient(top, #fef6e6, transparent)
-      background: linear-gradient(180deg, #fef6e6, transparent)
+      background: linear-gradient(180deg, var(--rn-fixed), transparent)
 
 
 // image left
@@ -257,15 +257,15 @@
 // Custom tabs component
 .tabs-container
   margin: 1rem 0
-  border: 1px solid #e0e0e0
+  border: 1px solid var(--border)
   border-radius: 10px
-  box-shadow: rgba(94, 108, 158, 0.3) 0 0 10px 0;
+  box-shadow: var(--shadow);
   overflow: hidden
 
 .tabs-header
   display: flex
-  background: #f5f5f5
-  border-bottom: 2px solid #e0e0e0
+  background: var(--bg-alt)
+  border-bottom: 2px solid var(--border)
   margin: 0
   padding: 0
 
@@ -274,11 +274,11 @@
   padding: 12px 20px
   background: transparent
   border: none
-  border-right: 1px solid #e0e0e0
+  border-right: 1px solid var(--border)
   cursor: pointer
   font-size: 14px
   font-weight: 500
-  color: #666
+  color: var(--text-muted)
   transition: all 0.3s ease
   outline: none
 
@@ -286,19 +286,19 @@
     border-right: none
 
   &:hover
-    background: #ebebeb
-    color: #333
+    background: var(--bg-soft)
+    color: var(--text)
 
   &.active
-    background: #f4f6ff
-    color: #254D90
-    border-bottom: 2px solid #254D90
+    background: var(--bg-toolbar)
+    color: var(--accent)
+    border-bottom: 2px solid var(--accent)
     margin-bottom: -2px
     position: relative
 
 .tabs-content
   padding: 0
-  background: #FFF;
+  background: var(--bg);
 
 .tab-panel
   display: none
@@ -319,3 +319,99 @@
     opacity: 0
   to
     opacity: 1
+
+// A code-only tab group (class from initializeTabs() in assets/js/index.js): one toolbar with the
+// language tabs and the copy button, like a single code block (.code-block-toolbar in _syntax.sass)
+.tabs-container.tabs-code
+  .tabs-header
+    align-items: center
+    gap: 4px
+    min-height: 36px
+    padding: 0 .75rem
+    background: var(--bg-toolbar)
+    border-bottom: 2px solid var(--border-strong)
+  .tab-button
+    flex: 0 0 auto
+    padding: 8px 10px
+    border-right: none
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+    font-size: 12px
+    letter-spacing: .03em
+    text-transform: uppercase
+    color: var(--text-faint)
+    &:hover
+      background: transparent
+      color: var(--accent)
+    &.active
+      background: transparent
+      color: var(--accent)
+      font-weight: 600
+      border-bottom: none
+      margin-bottom: 0
+  .tabs-header > .code-copy-btn
+    margin-left: auto
+  .tab-panel
+    padding: 0
+    > .code-block
+      margin: 0
+      border: 0
+      border-radius: 0
+      box-shadow: none
+      > .code-block-toolbar
+        display: none
+
+// "Suggest an improvement" link under the article (layouts/partials/feedback.html)
+.page-feedback
+  margin: 40px 0 0
+  padding: 12px 0 0
+  border-top: 1px solid var(--border)
+  color: var(--text-muted)
+  font-size: 13px
+  line-height: 1.7
+  p
+    margin: 0
+    padding: 0
+
+// "Back to top" button (layouts/_default/baseof.html, assets/js/index.js), as on the blog and the Cloud
+// Union site: shown once the page is scrolled, desktop only
+#to-top
+  position: fixed
+  z-index: 98
+  right: 17px
+  bottom: 17px
+  display: block
+  width: 29px
+  height: 29px
+  padding: 0
+  border: 0
+  border-radius: 2px
+  background-color: var(--to-top-bg)
+  cursor: pointer
+  opacity: 0
+  visibility: hidden
+  transition: opacity .1s linear, visibility .1s linear, background-color .1s linear
+
+  &.active
+    opacity: 1
+    visibility: visible
+
+  &:hover,
+  &:focus-visible
+    background-color: var(--brand)
+
+  i
+    position: absolute
+    left: 0
+    right: 0
+    bottom: 10px
+    display: block
+    width: 3px
+    margin: auto
+    padding: 2px
+    border: solid #fff
+    border-width: 0 1px 1px 0
+    transform: rotate(225deg)
+
+@media (max-width: 1020px)
+  #to-top
+    display: none

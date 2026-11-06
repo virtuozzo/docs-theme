@@ -25,13 +25,13 @@
   font-size: 16px
   line-height: 22px
   color: #FFF
-  border: 1px solid #FFF
+  border: 1px solid var(--bg)
   vertical-align: middle
   text-align: center
-  background: #bbcaf4
+  background: var(--table-th)
 
 .content table:not(.lntable) tbody th:first-child
-  background: #87a1ec
+  background: var(--table-th-strong)
   font-size: 16px
 
 .content table:not(.lntable) td
@@ -39,17 +39,17 @@
   vertical-align: middle
   font-size: 14px
   line-height: 22px
-  color: #333
-  background: #f8f9fe
-  border: 1px solid #FFF
+  color: var(--text)
+  background: var(--table-td)
+  border: 1px solid var(--bg)
   word-break: break-word
   min-width: 96px
 
 .content > table:not(.lntable) > thead > tr > th:first-child, .content .table-default table:not(.lntable) > thead > tr > th:first-child
-  background: #87a1ec
+  background: var(--table-th-strong)
 
 .content table:not(.lntable) td:first-child
-  background: #edf1fe
+  background: var(--table-td-first)
 
 .content table.title th
   padding: 18px 25px
@@ -69,9 +69,9 @@
   vertical-align: middle
   font-size: 14px
   line-height: 22px
-  color: #333
-  background: #eceffd94
-  border: 1px solid #FFF
+  color: var(--text)
+  background: var(--table-td-first)
+  border: 1px solid var(--bg)
   word-break: break-word
   min-width: 136px
 
@@ -80,11 +80,11 @@
   margin-top: 0
 
 .content table:not(.lntable) tr:nth-child(2) th table tr th
-  background: #bbcaf4
+  background: var(--table-th)
   padding: 18px 25px
 
 .content table:not(.lntable) tr:nth-child(2) th table tr th:first-child
-  background: #bbcaf4
+  background: var(--table-th)
 
 .content table:not(.lntable) tr:nth-child(2) th table tr td
   padding: 18px 25px
