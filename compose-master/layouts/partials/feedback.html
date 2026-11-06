@@ -2,12 +2,14 @@
   "Suggest an improvement" link under the article, enabled by params.feedback.url: the "new issue" URL
   of the docs repository (https://github.com/<org>/<repo>/issues/new). The issue title and body are
   prefilled with the page title, its URL and params.version. params.feedback.text and .link replace the
-  default wording (i18n keys feedbackText and feedbackLink). Not shown on the search page, on 404 and
-  other pages with searchExclude, and on a page with `feedback: false` in its front matter.
+  default wording (i18n keys feedbackText and feedbackLink). Not shown on the search and 404 pages
+  (content/search.md and content/404/, or layout search/404), nor on a page with `feedback: false` in
+  its front matter.
 */ -}}
 {{- $cfg := site.Params.feedback | default dict -}}
 {{- $url := print ($cfg.url | default "") -}}
-{{- if and $url (or .IsHome .IsPage) (ne .Layout "search") (not .Params.searchExclude) (ne .Params.feedback false) -}}
+{{- $special := or (in (slice "search" "404") .Layout) (in (slice "search" "404") (path.Base (strings.TrimSuffix "/" (urls.Parse .RelPermalink).Path))) -}}
+{{- if and $url (or .IsHome .IsPage) (not $special) (ne .Params.feedback false) -}}
   {{- $body := printf "Page: %s\n" .Permalink -}}
   {{- with site.Params.version }}{{ $body = printf "%sVersion: %s\n" $body . }}{{ end -}}
   {{- $body = printf "%s\nDescribe the problem or the missing information:\n" $body -}}
