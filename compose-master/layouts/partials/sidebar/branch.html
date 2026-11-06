@@ -16,10 +16,11 @@
   {{- $open := and $n.kids (in $.open .) -}}
   {{- $render := and $n.kids (or $open (lt $.level $.depth)) -}}
   {{- $cls := $n.cls -}}
-  {{- /* The current page's headings (sidebar/headings.html, params.sidebarHeadings) come first in its
-         item, before its child pages; the item is expanded so that they show. */ -}}
+  {{- /* The current page's headings (sidebar/headings.html, params.sidebarHeadings) under its item,
+         expanded so that they show. A page with child pages in the menu shows the child pages only:
+         listing its headings beside them, at the same depth, read as more pages. */ -}}
   {{- $headings := "" -}}
-  {{- if in $.current . }}{{ $cls = printf "%s current-page" $cls }}{{ $headings = partial "sidebar/headings.html" (dict "level" (add $.level 1)) }}{{ end -}}
+  {{- if in $.current . }}{{ $cls = printf "%s current-page" $cls }}{{ if not $n.kids }}{{ $headings = partial "sidebar/headings.html" (dict "level" (add $.level 1)) }}{{ end }}{{ end -}}
   {{- if or $open $headings }}{{ $cls = printf "%s expanded" $cls }}{{ end }}
 <li{{ with trim $cls " " }} class="{{ . }}"{{ end }}{{ if $n.kids }} data-id="{{ $n.id }}"{{ end }}>
   {{- $n.html | safeHTML -}}
