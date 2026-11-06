@@ -995,8 +995,12 @@ div.menu-item ul li.expandable div::selection
   text-decoration: underline
 
 
+// Search result highlights (mark.js in assets/js/search.js). The browser's default mark color is
+// black, which is unreadable on the dark scheme's --mark; inherit keeps the text color of the
+// snippet and the link color of the result title under both schemes.
 mark
   background: var(--mark)
+  color: inherit
 
 .versions
   display: inline-block
