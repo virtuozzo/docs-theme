@@ -98,6 +98,13 @@
 {{- $styles := resources.Get "/sass/main.sass" | resources.ExecuteAsTemplate "main.sass" . | resources.ToCSS $options }}
 {{- /* Open Sans weights used above the fold (300 text, 400, 600), from assets/sass/_fonts.sass: loaded early,
        they are usually ready by the first paint, and the text does not redraw when they arrive (font-display: swap). */}}
+{{- if and (in .Site.BaseURL "virtuozzo.com") (not site.IsServer) }}
+{{- /* As on the main site, blog and cloud: CookiePro banner scripts load without CORS and its config (JSON) with CORS, hence two preconnects to the same host. */}}
+<link rel="preconnect" href="https://cookie-cdn.cookiepro.com">
+<link rel="preconnect" href="https://cookie-cdn.cookiepro.com" crossorigin>
+<link rel="dns-prefetch" href="https://geolocation.onetrust.com">
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+{{- end }}
 <link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-300.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-600.woff2" as="font" type="font/woff2" crossorigin>
@@ -118,16 +125,18 @@
             // Блокуємо ВСЕ за замовчуванням
             gtag('consent', 'default', {
                 'ad_storage':              'denied',
+                'ad_user_data':            'denied',
+                'ad_personalization':      'denied',
                 'analytics_storage':       'denied',
                 'functionality_storage':   'denied',
                 'personalization_storage': 'denied',
                 'security_storage':        'granted',
-                'wait_for_update':         500
+                'wait_for_update':         2000
             });
         </script>
 
         <!-- CookiePro — має йти ДО GTM -->
-        <script data-no-optimize="1"
+        <script data-no-optimize="1" async
                 src="https://cookie-cdn.cookiepro.com/consent/d6997970-8f28-46d2-9fe5-77c66428e76c/otSDKStub.js"
                 data-domain-script="d6997970-8f28-46d2-9fe5-77c66428e76c"></script>
 
@@ -140,6 +149,8 @@
                     'functionality_storage':   activeGroups.indexOf('C3') > -1 ? 'granted' : 'denied',
                     'personalization_storage': activeGroups.indexOf('C3') > -1 ? 'granted' : 'denied',
                     'ad_storage':              activeGroups.indexOf('C4') > -1 ? 'granted' : 'denied',
+                    'ad_user_data':            activeGroups.indexOf('C4') > -1 ? 'granted' : 'denied',
+                    'ad_personalization':      activeGroups.indexOf('C4') > -1 ? 'granted' : 'denied',
                 });
             }
         </script>
