@@ -74,6 +74,9 @@
 {{- /* Any version other than params.defaultVersion (passed by the deploy workflow as HUGO_PARAMS_DEFAULTVERSION) is noindex */ -}}
 {{- $notDefault := false -}}
 {{- with site.Params.defaultVersion }}{{ if ne (print .) (print site.Params.version) }}{{ $notDefault = true }}{{ end }}{{ end -}}
+{{- /* Versions listed in params.indexedVersions (main config, passed by the deploy workflow as HUGO_PARAMS_INDEXEDVERSIONS "9.0,") stay indexable:
+       their content is not a duplicate of the default version. Exact match: "9.0" does not match "19.0". */ -}}
+{{- with site.Params.indexedVersions }}{{ $iv := cond (reflect.IsSlice .) . (split (print .) ",") }}{{ if in $iv (print site.Params.version) }}{{ $notDefault = false }}{{ end }}{{ end -}}
 {{- if or site.Params.archived $notDefault -}}
 {{- $robots = "noindex, follow" -}}
 {{- else if or .Params.canonical (eq .Layout "search") -}}
