@@ -9,6 +9,10 @@ body, html
   font-kerning: normal
   -webkit-text-size-adjust: 100%
 
+// params.smoothScroll: false (class set in layouts/_default/baseof.html): anchors jump at once
+html.no-smooth-scroll, html.no-smooth-scroll body
+  scroll-behavior: auto
+
 body
   position: relative
   width: 100%
