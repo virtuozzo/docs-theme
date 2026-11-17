@@ -88,7 +88,8 @@
                 {{- /* Menu scroll, set while the page is parsed so that the first frame already shows it (from
                        sidebar.js it came after the first paint, and the menu jumped). Moving between pages, the
                        menu keeps the scroll it had (saved by sidebar.js) when the current item is in view there;
-                       otherwise the open top-level section is scrolled to the top, as before. */}}
+                       otherwise the current page's top-level section is scrolled to the top, as before (a
+                       section that is always open, params.expanded on its menu entry, may come before it). */}}
                 <script>
                 (function () {
                     var w = document.querySelector('.aside-menu-wrapp');
@@ -104,7 +105,7 @@
                             var r = cur.getBoundingClientRect(), box = w.getBoundingClientRect();
                             if (r.top >= box.top && r.bottom <= box.bottom) { return; }
                         }
-                        var open = w.querySelector('.menu-level-1 > .expanded');
+                        var open = (cur && cur.closest('.menu-level-1 > li')) || w.querySelector('.menu-level-1 > .expanded');
                         w.scrollTop = open ? open.offsetTop - w.offsetTop : 0;
                     }
                     place();

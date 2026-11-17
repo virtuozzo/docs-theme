@@ -110,7 +110,7 @@
       {{- end -}}
     {{- end -}}
 
-    {{- $nodes = merge $nodes (dict $id (dict "id" $id "level" $level "cls" (delimit $cls " ") "html" $node.html "kids" $kids)) -}}
+    {{- $nodes = merge $nodes (dict $id (dict "id" $id "level" $level "cls" (delimit $cls " ") "html" $node.html "kids" $kids "expanded" (and .Params.expanded true))) -}}
     {{- $ids = $ids | append $id -}}
     {{- $tree = $tree | append $json -}}
     {{- /* lower: merge treats map keys case-insensitively */ -}}

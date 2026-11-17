@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="{{ .Site.Language.Lang }}">
+{{/* params.smoothScroll: false turns off the smooth scroll to anchors (class used in _base.sass);
+       print: HUGO_PARAMS_SMOOTHSCROLL=false arrives as a string */ -}}
+<html lang="{{ .Site.Language.Lang }}"{{ if eq (print site.Params.smoothScroll) "false" }} class="no-smooth-scroll"{{ end }}>
 <head>
   {{- partial "head" . }}
 </head>

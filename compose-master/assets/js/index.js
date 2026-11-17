@@ -633,7 +633,7 @@ if (document.readyState === 'loading') {
 }
 
 // "Back to top" button (layouts/_default/baseof.html): shown once the page is scrolled, a click scrolls
-// smoothly to the top (instantly with prefers-reduced-motion).
+// smoothly to the top (instantly with prefers-reduced-motion or params.smoothScroll: false).
 (function initToTop() {
     var button = document.getElementById('to-top');
     if (!button) {
@@ -645,7 +645,8 @@ if (document.readyState === 'loading') {
     window.addEventListener('scroll', update, {passive: true});
     update();
     button.addEventListener('click', function () {
-        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+            document.documentElement.classList.contains('no-smooth-scroll');
         window.scrollTo({top: 0, behavior: reduce ? 'auto' : 'smooth'});
     });
 }());

@@ -13,7 +13,8 @@
 <ul class="menu-level-{{ .level }}">
 {{- range .ids -}}
   {{- $n := index $.menu.nodes . -}}
-  {{- $open := and $n.kids (in $.open .) -}}
+  {{- /* params.expanded on the menu entry (menu.docs.params.expanded: true): open on every page */ -}}
+  {{- $open := and $n.kids (or (in $.open .) $n.expanded) -}}
   {{- $render := and $n.kids (or $open (lt $.level $.depth)) -}}
   {{- $cls := $n.cls -}}
   {{- /* The current page's headings (sidebar/headings.html, params.sidebarHeadings) under its item,
