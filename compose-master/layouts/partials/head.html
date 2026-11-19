@@ -98,7 +98,8 @@
 <link rel="canonical" href="{{ with .Params.canonical }}{{ . }}{{ else }}{{ .Permalink }}{{ end }}">
 {{- partial "opengraph" . }} 
 {{- $options := (dict "targetPath" "css/styles.css" "outputStyle" "compressed" "enableSourceMap" "true") -}}
-{{- $styles := resources.Get "/sass/main.sass" | resources.ExecuteAsTemplate "main.sass" . | resources.ToCSS $options }}
+{{- /* Fingerprinted file name (as js/bundle.*.js): browsers cache CSS for a week, so a new hash makes them fetch the new styles right after a deploy */}}
+{{- $styles := resources.Get "/sass/main.sass" | resources.ExecuteAsTemplate "main.sass" . | resources.ToCSS $options | resources.Fingerprint "sha256" }}
 {{- /* Open Sans weights used above the fold (300 text, 400, 600), from assets/sass/_fonts.sass: loaded early,
        they are usually ready by the first paint, and the text does not redraw when they arrive (font-display: swap). */}}
 {{- if and (in .Site.BaseURL "virtuozzo.com") (not site.IsServer) }}
