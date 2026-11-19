@@ -74,9 +74,10 @@
 </div>
 {{- /* "Back to top" button, as on the blog and the Cloud Union site (assets/js/index.js, _components.sass) */}}
 <button type="button" id="to-top" aria-label="{{ trim (partial "i18n-extended.html" (slice "back-to-top" "Back to top")) " \n" }}" title="{{ trim (partial "i18n-extended.html" (slice "back-to-top" "Back to top")) " \n" }}"><i></i></button>
-<div id="imgPopupModal" class="modal">
-  <span class="close">&times;</span>
-  <img class="imgPopupInner">
+{{- /* Image zoom (assets/js/index.js): JS makes .imagePopup keyboard-operable buttons, copies the thumbnail alt, Esc closes, focus returns */}}
+<div id="imgPopupModal" class="modal" role="dialog" aria-modal="true" aria-label="{{ trim (partial "i18n-extended.html" (slice "image-preview" "Image preview")) " \n" }}" data-enlarge-label="{{ trim (partial "i18n-extended.html" (slice "image-enlarge" "Enlarge image")) " \n" }}">
+  <button type="button" class="close" aria-label="{{ trim (partial "i18n-extended.html" (slice "close" "Close")) " \n" }}">&times;</button>
+  <img class="imgPopupInner" alt="">
 </div>
 </body>
 </html>

@@ -99,5 +99,11 @@ theme-light:
   other: "Cambiar al modo claro"
 back-to-top:
   other: "Volver arriba"
+image-preview:
+  other: "Vista previa de la imagen"
+image-enlarge:
+  other: "Ampliar imagen"
+close:
+  other: "Cerrar"
 on-this-page:
   other: "En esta página"

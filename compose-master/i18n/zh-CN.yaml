@@ -99,5 +99,11 @@ theme-light:
   other: "切换到浅色模式"
 back-to-top:
   other: "返回顶部"
+image-preview:
+  other: "图片预览"
+image-enlarge:
+  other: "放大图片"
+close:
+  other: "关闭"
 on-this-page:
   other: "本页内容"

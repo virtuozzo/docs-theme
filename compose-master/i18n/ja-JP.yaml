@@ -99,5 +99,11 @@ theme-light:
   other: "ライトモードに切り替える"
 back-to-top:
   other: "ページの先頭へ"
+image-preview:
+  other: "画像のプレビュー"
+image-enlarge:
+  other: "画像を拡大"
+close:
+  other: "閉じる"
 on-this-page:
   other: "このページの内容"

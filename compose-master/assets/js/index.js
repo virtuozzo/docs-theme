@@ -531,18 +531,58 @@ $(document).ready(function () {
     var modal = document.getElementById("imgPopupModal");
     var modalImg = modal.querySelector(".imgPopupInner");
     var modalClose = modal.querySelector(".close");
-    $('.imagePopup').on('click', function(event){
-        modalImg.src = $(this).attr('data-image');
+    var enlargeLabel = modal.getAttribute("data-enlarge-label") || "Enlarge image";
+    var popupTrigger = null;
+    // Thumbnails are <span>s: make them buttons for keyboard and screen reader users
+    $('.imagePopup').each(function(){
+        var alt = $(this).find('img').attr('alt');
+        if (!this.hasAttribute('role')) this.setAttribute('role', 'button');
+        if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '0');
+        if (!this.hasAttribute('aria-haspopup')) this.setAttribute('aria-haspopup', 'dialog');
+        if (!this.hasAttribute('aria-label')) this.setAttribute('aria-label', alt ? enlargeLabel + ': ' + alt : enlargeLabel);
+    });
+    function openImagePopup(el) {
+        modalImg.src = $(el).attr('data-image');
+        modalImg.alt = $(el).find('img').attr('alt') || '';
+        popupTrigger = el;
         modal.style.display = "block";
+        modalClose.focus();
+    }
+    function closeImagePopup() {
+        if (modal.style.display !== "block") return;
+        modal.style.display = "none";
+        if (popupTrigger) {
+            popupTrigger.focus();
+            popupTrigger = null;
+        }
+    }
+    $('.imagePopup').on('click', function(event){
+        openImagePopup(this);
         return false;
+    });
+    $('.imagePopup').on('keydown', function(event){
+        if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+            event.preventDefault();
+            openImagePopup(this);
+        }
     });
     $(modal).on('click', function(event){
         if(event.target == this) {
-            modal.style.display = "none";
+            closeImagePopup();
         }
     });
     $(modalClose).on('click', function(event){
-            modal.style.display = "none";
+        closeImagePopup();
+    });
+    $(document).on('keydown', function(event){
+        if (modal.style.display !== "block") return;
+        if (event.key === 'Escape' || event.key === 'Esc') {
+            closeImagePopup();
+        } else if (event.key === 'Tab') {
+            // the close button is the only control in the dialog: keep focus inside
+            event.preventDefault();
+            modalClose.focus();
+        }
     });
     // ImagePopup END
 });
