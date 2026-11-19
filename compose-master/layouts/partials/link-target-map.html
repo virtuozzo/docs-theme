@@ -1,0 +1,4 @@
+{{- /* RelPermalink → page for the current language; used by _markup/render-link.html. Call via partialCached with the language as variant. */ -}}
+{{- $s := newScratch -}}
+{{- range site.Pages -}}{{- $s.SetInMap "m" .RelPermalink . -}}{{- end -}}
+{{- return ($s.Get "m") | default dict -}}

@@ -1,4 +1,6 @@
 {{ $_hugo_config := `{ "version": 1 }` }}
 <div>
-    {{ replaceRE "id=\"[^\"].*\"" "" .Inner | markdownify }}<a class="changes-more" href="{{safeHTML .Params.url }}">Learn more</a>
+    {{ replaceRE "id=\"[^\"].*\"" "" .Inner | markdownify }}{{- /* hidden continuation for screen readers / SEO audits: the item's heading, e.g. "Learn more: Bug Fixes" */ -}}
+    {{- $title := "" -}}{{- with findRESubmatch `(?s)<h[1-6][^>]*>(.*?)</h[1-6]>|(?m)^#{1,6}\s+(.+?)\s*$` .Inner 1 -}}{{- $m := index . 0 -}}{{- $title = or (index $m 1) (index $m 2) | markdownify | plainify | htmlUnescape -}}{{- end -}}
+    <a class="changes-more" href="{{safeHTML .Params.url }}">Learn more{{ with $title }}<span class="sr-only">: {{ . }}</span>{{ end }}</a>
 </div>
