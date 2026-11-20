@@ -110,4 +110,4 @@ on-this-page:
 
 # Link texts that say nothing on their own (lowercase, "|"-separated) — render-link.html adds a hidden continuation.
 generic-link-texts:
-  other: "here|click here|this|this link|link|more|more info|more information|learn more|read more|see more|details|download"
+  other: "here|click here|this|this link|link|page|this page|more|more info|more information|learn more|read more|see more|details|download"
