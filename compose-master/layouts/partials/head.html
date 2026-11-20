@@ -112,7 +112,8 @@
 {{- /* The notice banner (baseof.html) is the LCP element; its background comes from CSS, so the browser
        finds it only after styles.css is parsed. Preload it on pages that show the banner. */}}
 {{- if .Params.bannerText | default .Site.Params.notice }}
-<link rel="preload" href='{{ "images/banner.webp" | relURL }}' as="image" type="image/webp" fetchpriority="high">
+{{- /* Desktop only: on phones (<=768px, main.sass) the banner is a CSS gradient and the image is not used */}}
+<link rel="preload" href='{{ "images/banner.webp" | relURL }}' as="image" type="image/webp" fetchpriority="high" media="(min-width: 769px)">
 {{- end }}
 <link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-300.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="https://www.virtuozzo.com/wp-content/themes/virtuozzo/assets/fonts/open-sans-v15-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
