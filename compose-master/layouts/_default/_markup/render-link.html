@@ -18,7 +18,8 @@
 {{- $sr := "" -}}
 {{- $norm := $plain | lower | replaceRE `\s+` " " | replaceRE `[\s.:!?»›>→\-–—]+$` "" | replaceRE `^\s+|\s+$` "" -}}
 {{- if and (not $isAuto) (ne $norm "") -}}
-  {{- $generic := split (partial "i18n-extended.html" (slice "generic-link-texts" "")) "|" -}}
+  {{- /* i18n-extended.html output starts with a newline: trim it, or the first word ("here") never matches */ -}}
+  {{- $generic := split (partial "i18n-extended.html" (slice "generic-link-texts" "") | replaceRE `^\s+|\s+$` "") "|" -}}
   {{- if in $generic $norm -}}
     {{- if and $isRemote (not $isDocs) -}}
       {{- /* other sites: URL prefix → label; site.Params.linkLabels adds to / overrides the defaults */ -}}
